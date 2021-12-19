@@ -21,8 +21,9 @@ public class TweeterSystem {
         os = new ObserverService(database);
     }
 
-    public JSONObject requestGetter(JSONObject request){
-        String method = request.getString("methode");
+    public String requestGetter(String request){
+        JSONObject jo = new JSONObject(request);
+        String method = jo.getString("methode");
         switch (method){
 
         }
