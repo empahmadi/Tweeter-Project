@@ -1,12 +1,13 @@
 package main.java.org.ce.ap.server.system;
 
 import main.java.org.ce.ap.server.database.EMPDatabase;
-import main.java.org.ce.ap.server.modules.Tweet;
 import main.java.org.ce.ap.server.modules.User;
 import main.java.org.ce.ap.server.services.AuthenticationService;
 import main.java.org.ce.ap.server.services.ObserverService;
 import main.java.org.ce.ap.server.services.TweetingService;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class TweeterSystem {
     private User user;
@@ -23,13 +24,14 @@ public class TweeterSystem {
         os = new ObserverService(database);
         error = new Error();
         rm = new ResponseMaker();
+        isLogin = false;
     }
 
     public String requestGetter(String request){
         JSONObject jo = new JSONObject(request);
         String method = jo.getString("methode");
         if (!isLogin){
-
+            return firstRequest(jo.getJSONObject("ParameterValues"));
         }
         switch (method){
 
@@ -50,25 +52,25 @@ public class TweeterSystem {
     }
 
     private String login(JSONObject information){
-        String response = au.login(information);
-        if (au.isNumeric(response)){
-            return rm.getStatus(error.errorMaker(Integer.parseInt(response)),null);
-        }else{
-            return rm.getStatus(null,rm.responseCode(180));
+        String username = information.getString("username");
+        int value = au.login(information);
+        if (value == 30){
+            user = au.findUser(username);
+            isLogin = true;
         }
+        return error.error(value);
     }
     private String signup(JSONObject request){
-        String response = au.signup(request);
-        if(au.changeInformation(request) != 0){
-            return rm.getStatus(error.errorMaker(au.changeInformation(request)),null);
+        ArrayList<String> errors = au.checkInformation(request);
+        if (errors.size() != 0){
+            return this.error.signupError(errors);
         }
-        if (au.isNumeric(response)){
-            return rm.getStatus(error.errorMaker(Integer.parseInt(response)),null);
-        }else{
-            return rm.getStatus(null,rm.responseCode(6));
+        String username = request.getString("username");
+        int value = au.signup(request);
+        if (value == 31){
+            user = au.findUser(username);
+            isLogin = true;
         }
+        return error.error(value);
     }
-
-
-
 }

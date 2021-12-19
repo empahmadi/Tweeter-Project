@@ -23,19 +23,19 @@ public class AuthenticationService {
      * @param information information about login.
      * @return code.
      */
-    public String login(JSONObject information) {
+    public int login(JSONObject information) {
         User user = findUser(information.getString("username"));
         if (user == null) {
-            return "11";
+            return 1;
         }
         byte[] hash = getSHA(information.get("password").toString());
         if (hash == null) {
-            return "11";
+            return 3;
         }
         if (Arrays.equals(hash, user.getPassword())) {
-            return user.getUsername();
+            return 30;
         }
-        return "23";
+        return 1;
     }
 
     /**
@@ -44,15 +44,15 @@ public class AuthenticationService {
      * @param in information about signup.
      * @return code.
      */
-    public String signup(JSONObject in) {
+    public int signup(JSONObject in) {
         byte[] hash = getSHA(in.getString("password"));
         if (hash == null) {
-            return "11";
+            return 1;
         }
         User user = new User(in.getString("username"), hash,
                 in.getString("name"), in.getString("dateOfBirth"));
         addUser(user);
-        return user.getUsername();
+        return 31;
     }
 
     /**
@@ -85,7 +85,7 @@ public class AuthenticationService {
      *
      * @param user .
      */
-    public void addUser(User user) {
+    private void addUser(User user) {
         database.users.add(user);
         database.tweets.put(user, new ArrayList<>());
         database.follows.put(user, new ArrayList<>());
@@ -183,21 +183,8 @@ public class AuthenticationService {
      * @param user .
      * @return the profile information of user.
      */
-    public String getProfile(User user) {
+    public JSONObject getProfile(User user) {
         System.out.print("folk");
         return null;
-    }
-
-    /**
-     * @param str .
-     * @return true if str is a number else false.
-     */
-    public boolean isNumeric(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 }
