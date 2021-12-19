@@ -2,6 +2,7 @@ package main.java.org.ce.ap.server.services;
 
 import main.java.org.ce.ap.server.database.EMPDatabase;
 import main.java.org.ce.ap.server.modules.User;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
@@ -123,39 +124,39 @@ public class AuthenticationService {
      * @param in information.
      * @return errors.
      */
-    public ArrayList<String> checkInformation(JSONObject in) {
-        ArrayList<String> errors = new ArrayList<>();
+    public JSONArray checkInformation(JSONObject in) {
+        JSONArray errors = new JSONArray();
         // username:
         if (in.getString("username").length() <= 1) {
-            errors.add("Username must include at least 2 characters.");
+            errors.put("Username must include at least 2 characters.");
         }
         if (in.getString("username").length() >= 81) {
-            errors.add("Username must include maximum 80 characters.");
+            errors.put("Username must include maximum 80 characters.");
         }
         for (User i : database.users) {
             if (i.getUsername().equals(in.getString("username"))) {
-                errors.add("Username already exist pleas identify a new username.");
+                errors.put("Username already exist pleas identify a new username.");
             }
         }
         //name,password.
         if (in.getString("name").length() == 0) {
-            errors.add("Name must include at least one character.");
+            errors.put("Name must include at least one character.");
         }
         if (in.getString("password").length() == 4) {
-            errors.add("Password must include at least 4 character.");
+            errors.put("Password must include at least 4 character.");
         }
         //date of birth.
         if (in.getJSONArray("dateOfBirth").getInt(0) >= 2020) {
-            errors.add("You are so young for using this app");
+            errors.put("You are so young for using this app");
         }
         if (in.getJSONArray("dateOfBirth").getInt(0) <= 1900) {
-            errors.add("You entered an invalid year(the year must be greater than 1900).");
+            errors.put("You entered an invalid year(the year must be greater than 1900).");
         }
         if (in.getJSONArray("dateOfBirth").getInt(1) > 12) {
-            errors.add("You entered an invalid month.");
+            errors.put("You entered an invalid month.");
         }
         if (in.getJSONArray("dateOfBirth").getInt(2) > 31) {
-            errors.add("you are so young for using this app");
+            errors.put("you are so young for using this app");
         }
         //unnecessary.
         return errors;
