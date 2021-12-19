@@ -3,6 +3,8 @@ package main.java.org.ce.ap.server.services;
 import main.java.org.ce.ap.server.database.EMPDatabase;
 import main.java.org.ce.ap.server.modules.Tweet;
 import main.java.org.ce.ap.server.modules.User;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,9 +22,12 @@ import java.util.ArrayList;
 public class TweetingService {
     private final EMPDatabase database;
     private final AuthenticationService au;
-    private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-
+    /**
+     * this constructor gives some features and make usable them for this class.
+     * @param database
+     */
     public TweetingService(EMPDatabase database) {
         this.database = database;
         au = new AuthenticationService(database);
@@ -128,37 +133,40 @@ public class TweetingService {
      * @param tweet .
      * @return users that likes the tweet.
      */
-    public ArrayList<User> getLikes(Tweet tweet) {
-        return database.likes.get(tweet);
+    private JSONArray getLikes(Tweet tweet) {
+        JSONArray likes = new JSONArray();
+        for (User i: database.likes.get(tweet)){
+            likes.put(i.getUsername());
+        }
+        return likes;
     }
 
     /**
      * @param tweet .
      * @return users that retweeted this tweet.
      */
-    public ArrayList<User> getRetweets(Tweet tweet) {
-        return database.retweets.get(tweet);
+    private JSONArray getRetweets(Tweet tweet) {
+        JSONArray retweets = new JSONArray();
+        for (User i: database.retweets.get(tweet)){
+            retweets.put(i.getUsername());
+        }
+        return retweets;
     }
 
     /**
-     * @param tweet .
-     * @return tweet with its information.
+     * give a tweet and change its information to JSON format.
+     * @param tweet tweet.
+     * @return information of tweet.
      */
-    public String show(Tweet tweet) {
-
-        return "|" + tweet.getUser().getUsername() + "   " +
-                dateFormat.format(tweet.getAddingDate()) + "\n" +
-                "|" + tweet.getContent() + "\n" +
-                "Likes: " + database.likes.get(tweet).size() +
-                "       " + "Retweets:" + database.retweets.get(tweet).size();
-    }
-
-    /**
-     * @param tweet .
-     * @return tweet for a list.
-     */
-    public String list(Tweet tweet) {
-        return null;
+    public JSONObject getTweet(Tweet tweet){
+        JSONObject jTweet = new JSONObject();
+        jTweet.put("tweetId",tweet.getId());
+        jTweet.put("content",tweet.getContent());
+        jTweet.put("username",tweet.getUser().getUsername());
+        jTweet.put("creationDate",dateFormat.format(tweet.getAddingDate()));
+        jTweet.put("Likes",getLikes(tweet));
+        jTweet.put("retweets",getRetweets(tweet));
+        return jTweet;
     }
 
     /**
