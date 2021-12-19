@@ -1,7 +1,6 @@
 package main.java.org.ce.ap.server.services;
 
 import main.java.org.ce.ap.server.database.EMPDatabase;
-import main.java.org.ce.ap.server.impl.AuthenticationSer;
 import main.java.org.ce.ap.server.modules.User;
 import org.json.JSONObject;
 
@@ -11,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AuthenticationService implements AuthenticationSer {
+public class AuthenticationService {
     private final EMPDatabase database;
 
     public AuthenticationService(EMPDatabase database) {
@@ -24,21 +23,19 @@ public class AuthenticationService implements AuthenticationSer {
      * @param information information about login.
      * @return code.
      */
-    @Override
-    public int login(JSONObject information) {
-        for (User i : database.users) {
-            if (i.getUsername().equals(information.get("username"))) {
-                byte[] hash = getSHA(information.get("password").toString());
-                if (hash == null) {
-                    return 11;
-                } else if (Arrays.equals(hash, i.getPassword())) {
-                    return 0;
-                } else {
-                    return 22;
-                }
-            }
+    public String login(JSONObject information) {
+        User user = findUser(information.getString("username"));
+        if (user == null) {
+            return "11";
         }
-        return 23;
+        byte[] hash = getSHA(information.get("password").toString());
+        if (hash == null) {
+            return "11";
+        }
+        if (Arrays.equals(hash, user.getPassword())) {
+            return user.getUsername();
+        }
+        return "23";
     }
 
     /**
@@ -47,7 +44,6 @@ public class AuthenticationService implements AuthenticationSer {
      * @param in information about signup.
      * @return code.
      */
-    @Override
     public int signup(JSONObject in) {
         byte[] hash = getSHA(in.getString("password"));
         if (hash == null) {
@@ -65,7 +61,6 @@ public class AuthenticationService implements AuthenticationSer {
      * @param user user.
      * @return code.
      */
-    @Override
     public int removeUser(User user) {
         if (user == null)
             return 1;
@@ -90,7 +85,6 @@ public class AuthenticationService implements AuthenticationSer {
      *
      * @param user .
      */
-    @Override
     public void addUser(User user) {
         database.users.add(user);
         database.tweets.put(user, new ArrayList<>());
@@ -103,7 +97,6 @@ public class AuthenticationService implements AuthenticationSer {
      * @param username .
      * @return a user with given username.
      */
-    @Override
     public User findUser(String username) {
         for (User i : database.users) {
             if (username.equals(i.getUsername())) {
@@ -120,7 +113,6 @@ public class AuthenticationService implements AuthenticationSer {
      * @param in information.
      * @return code.
      */
-    @Override
     public int changeInformation(JSONObject in) {
         return 0;
     }
@@ -131,7 +123,6 @@ public class AuthenticationService implements AuthenticationSer {
      * @param in information.
      * @return errors.
      */
-    @Override
     public ArrayList<String> checkInformation(JSONObject in) {
         ArrayList<String> errors = new ArrayList<>();
         // username:
@@ -195,5 +186,18 @@ public class AuthenticationService implements AuthenticationSer {
     public String getProfile(User user) {
         System.out.print("folk");
         return null;
+    }
+
+    /**
+     * @param str .
+     * @return true if str is a number else false.
+     */
+    public boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

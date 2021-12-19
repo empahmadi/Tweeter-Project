@@ -44,4 +44,17 @@ public class EMPDatabase {
         id++;
         return id;
     }
+
+    /**
+     * @param str .
+     * @return true if str is a number else false.
+     */
+    public boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }
