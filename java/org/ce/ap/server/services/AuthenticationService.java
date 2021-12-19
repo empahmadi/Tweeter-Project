@@ -44,15 +44,15 @@ public class AuthenticationService {
      * @param in information about signup.
      * @return code.
      */
-    public int signup(JSONObject in) {
+    public String signup(JSONObject in) {
         byte[] hash = getSHA(in.getString("password"));
         if (hash == null) {
-            return 1;
+            return "11";
         }
         User user = new User(in.getString("username"), hash,
                 in.getString("name"), in.getString("dateOfBirth"));
         addUser(user);
-        return 0;
+        return user.getUsername();
     }
 
     /**

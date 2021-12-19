@@ -43,6 +43,9 @@ public class TweeterSystem {
         if (method.equals("login")){
             return login(request.getJSONObject("information"));
         }
+        if (method.equals("signup")){
+            return signup(request.getJSONObject("information"));
+        }
         return null;
     }
 
@@ -52,6 +55,17 @@ public class TweeterSystem {
             return rm.getStatus(error.errorMaker(Integer.parseInt(response)),null);
         }else{
             return rm.getStatus(null,rm.responseCode(180));
+        }
+    }
+    private String signup(JSONObject request){
+        String response = au.signup(request);
+        if(au.changeInformation(request) != 0){
+            return rm.getStatus(error.errorMaker(au.changeInformation(request)),null);
+        }
+        if (au.isNumeric(response)){
+            return rm.getStatus(error.errorMaker(Integer.parseInt(response)),null);
+        }else{
+            return rm.getStatus(null,rm.responseCode(6));
         }
     }
 
