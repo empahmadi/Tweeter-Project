@@ -2,6 +2,7 @@ package main.java.org.ce.ap.server.services;
 
 import main.java.org.ce.ap.server.database.EMPDatabase;
 import main.java.org.ce.ap.server.modules.User;
+import main.java.org.ce.ap.server.system.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,11 +12,25 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * this class is for operation that related to user account like:
+ * signup, sign in, delete account, change information, get profile etc.
+ *
+ * @author Eid Mohammad Ahmadi
+ * @version 2.0
+ */
 public class AuthenticationService {
     private final EMPDatabase database;
+    private final Response response;
 
+    /**
+     * this constructor connects this class to database.
+     * and initialize some variables.
+     * @param database .
+     */
     public AuthenticationService(EMPDatabase database) {
         this.database = database;
+        response = new Response();
     }
 
     /**
@@ -94,8 +109,8 @@ public class AuthenticationService {
         database.follows.put(user, new ArrayList<>());
         database.followers.put(user, new ArrayList<>());
         database.notifications.put(user, new ArrayList<>());
-        database.retweet.put(user,new ArrayList<>());
-        database.like.put(user,new ArrayList<>());
+        database.retweet.put(user, new ArrayList<>());
+        database.like.put(user, new ArrayList<>());
     }
 
     /**
@@ -183,13 +198,34 @@ public class AuthenticationService {
     }
 
     /**
-     * is in working...
-     *
-     * @param user .
+     * @param username .
      * @return the profile information of user.
      */
-    public JSONObject getProfile(User user) {
-        System.out.print("folk");
-        return null;
+    public String getProfile(String username) {
+        int check = 0;
+        User user = findUser(username);
+        if (user == null) {
+            return response.error(5, "showing-profile", null);
+        }
+        JSONArray result = new JSONArray();
+        JSONObject profile = new JSONObject();
+        profile.put("username", user.getUsername());
+        profile.put("name", user.getName());
+        profile.put("date-of-birth", user.getDateOfBirth());
+        if (user.getLastname().length() != 0) {
+            profile.put("lastname", user.getLastname());
+        } else {
+            profile.put("lastname", "no set yet!!!");
+            check++;
+        }
+        if (user.getBiography().length() != 0) {
+            profile.put("lastname", user.getBiography());
+        } else {
+            profile.put("lastname", "no-set-yet!!!");
+            check++;
+        }
+        profile.put("profile-is-complete", check == 0);
+        result.put(profile);
+        return response.response(1, result);
     }
 }
