@@ -3,6 +3,7 @@ package main.java.org.ce.ap.server.services;
 import main.java.org.ce.ap.server.database.EMPDatabase;
 import main.java.org.ce.ap.server.modules.Tweet;
 import main.java.org.ce.ap.server.modules.User;
+import main.java.org.ce.ap.server.system.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,15 +23,17 @@ import java.util.ArrayList;
 public class TweetingService {
     private final EMPDatabase database;
     private final AuthenticationService au;
+    private final Response response;
     private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
      * this constructor gives some features and make usable them for this class.
      * @param database .
      */
-    public TweetingService(EMPDatabase database) {
+    public TweetingService(EMPDatabase database, AuthenticationService au) {
         this.database = database;
-        au = new AuthenticationService(database);
+        this.au = au;
+        response = new Response();
     }
 
     /**
@@ -95,10 +98,11 @@ public class TweetingService {
      * @param user  .
      * @param tweet .
      */
-    private void retweet(User user, Tweet tweet) {
+    private int retweet(User user, Tweet tweet) {
         database.retweets.get(tweet).add(user);
         database.tweets.get(user).add(tweet);
         database.retweet.get(user).add(tweet);
+        return 0;
     }
 
     /**
@@ -183,37 +187,33 @@ public class TweetingService {
     /**
      * get information and perform some action on it.
      *
-     * @param username .
+     * @param information more information about action.
      * @param method   .
      * @param user     .
-     * @param id       id of tweet.
      * @return errors or response.
      */
-    public ArrayList<String> run(User user, String method, String username, int id) {
-        int errorCode;
+    public String run(User user, String method, JSONObject information) {
         if (method.equals("Send-Tweet")) {
-            errorCode = sendTweet(user, username);
+            return response.responseCode(sendTweet(user,information.getString("content")),"sending-tweet");
         }
-        User user1 = au.findUser(username);
-        if (user1 == null) {
-            return null;
-        }
-        Tweet tweet = findTweet(id);
+        Tweet tweet = findTweet(information.getInt("tweet-id"));
         if (tweet == null) {
-            return null;
+            return response.error(11,"finding-tweet",null);
         }
-        switch (method) {
-            case "Delete-Tweet":
-                errorCode = deleteTweet(tweet, user);
-            case "Like":
-                errorCode = like(user, tweet);
-            case "Unlike":
-                errorCode = unlike(user, tweet);
-            case "retweet":
-                retweet(user, tweet);
-            default:
-                return null;
+        if (method.equals("like")){
+            return response.responseCode(like(user,tweet),"liking-tweet");
         }
+        if (method.equals("unlike")){
+            return response.responseCode(unlike(user,tweet),"unliking-tweet");
+        }
+        if (!tweet.getUser().equals(user)){
+            return response.error(95,"not-permission",null);
+        }
+        return switch (method) {
+            case "Delete-Tweet" -> response.responseCode(deleteTweet(tweet, user), "deleting-tweet");
+            case "retweet" -> response.responseCode(retweet(user, tweet), "retweeting");
+            default -> null;
+        };
     }
 
     /**

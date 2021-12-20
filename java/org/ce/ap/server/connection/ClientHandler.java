@@ -1,6 +1,10 @@
 package main.java.org.ce.ap.server.connection;
 
 import main.java.org.ce.ap.server.database.EMPDatabase;
+import main.java.org.ce.ap.server.services.AuthenticationService;
+import main.java.org.ce.ap.server.services.ObserverService;
+import main.java.org.ce.ap.server.services.TimeLineService;
+import main.java.org.ce.ap.server.services.TweetingService;
 import main.java.org.ce.ap.server.system.TweeterSystem;
 
 import java.io.*;
@@ -13,7 +17,11 @@ import java.net.Socket;
  * @version 2.0
  */
 public class ClientHandler implements Runnable {
-    private EMPDatabase database;
+    private final EMPDatabase database;
+    private final AuthenticationService au;
+    private final TweetingService ts;
+    private final ObserverService os;
+    private final TimeLineService tls;
     private Socket client;
 
     /**
@@ -22,9 +30,14 @@ public class ClientHandler implements Runnable {
      * @param socket   client.
      * @param database database.
      */
-    public ClientHandler(Socket socket, EMPDatabase database) {
+    public ClientHandler(Socket socket, EMPDatabase database, AuthenticationService au,
+                         TweetingService ts, ObserverService os, TimeLineService tls) {
         client = socket;
         this.database = database;
+        this.au = au;
+        this.tls = tls;
+        this.os = os;
+        this.ts = ts;
     }
 
     /**
@@ -32,7 +45,7 @@ public class ClientHandler implements Runnable {
      */
     @Override
     public void run() {
-        TweeterSystem system = new TweeterSystem(database);
+        TweeterSystem system = new TweeterSystem(au, tls, ts, os);
         String request;
         try (DataOutputStream out = new DataOutputStream(client.getOutputStream());
              DataInputStream in = new DataInputStream(client.getInputStream())) {
