@@ -23,10 +23,10 @@ public class TimeLineService {
      * this constructor is for initialize some variables.
      * @param database .
      */
-    public TimeLineService(EMPDatabase database) {
+    public TimeLineService(EMPDatabase database, AuthenticationService au) {
         this.database = database;
         response = new Response();
-        ts = new TweetingService(database);
+        ts = new TweetingService(database,au);
     }
 
     /**
