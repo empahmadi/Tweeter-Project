@@ -44,4 +44,31 @@ public class Response {
         return jResponse.toString();
     }
 
+    /**
+     * this method handle a code that is not clear that it is an error or not.
+     *
+     * @param code .
+     * @param type .
+     * @return response.
+     */
+    public String responseCode(int code, String type) {
+        if (!(code >= 30 && code <= 40)) {
+            return error(code, type, null);
+        }
+        JSONObject jResponse = new JSONObject();
+        jResponse.put("count", 1);
+        jResponse.put("result", successCode(code));
+        return jResponse.toString();
+    }
+
+    /**
+     * it gives a code and return its string value in json array.
+     *
+     * @param code .
+     * @return string value of a success code.
+     */
+    private JSONArray successCode(int code) {
+        return null;
+    }
+
 }

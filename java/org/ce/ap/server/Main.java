@@ -2,6 +2,9 @@ package main.java.org.ce.ap.server;
 
 import main.java.org.ce.ap.server.connection.ClientHandler;
 import main.java.org.ce.ap.server.database.EMPDatabase;
+import main.java.org.ce.ap.server.services.AuthenticationService;
+import main.java.org.ce.ap.server.services.TimeLineService;
+import main.java.org.ce.ap.server.services.TweetingService;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -14,6 +17,9 @@ public class Main {
         int count = 0;
         ExecutorService thread = Executors.newCachedThreadPool();
         EMPDatabase database = EMPDatabase.getInstance();
+        AuthenticationService au = new AuthenticationService(database);
+        TweetingService ts = new TweetingService(database);
+        TimeLineService tls = new TimeLineService(database);
         try (ServerSocket server = new ServerSocket(9321);) {
             server.setReuseAddress(true);
             while(count < 30) {

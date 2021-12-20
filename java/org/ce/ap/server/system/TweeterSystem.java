@@ -21,7 +21,7 @@ public class TweeterSystem {
     public TweeterSystem(EMPDatabase database){
         au = new AuthenticationService(database);
         ts = new TweetingService(database);
-        os = new ObserverService(database);
+        os = new ObserverService(database,au);
         response = new Response();
         isLogin = false;
         update = new TimeLineService(database);
@@ -37,6 +37,10 @@ public class TweeterSystem {
         switch (method){
             case "timeline":
                 return update.run(this.user);
+            case "follow":
+            case "unfollow":
+                return os.run(method,parameter,user);
+
             default:
                 return response.error(56,"request not understanding",null);
         }
