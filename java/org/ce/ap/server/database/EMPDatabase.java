@@ -18,7 +18,9 @@ public class EMPDatabase {
     public HashMap<User,ArrayList<User>> follows;
     public HashMap<Tweet,ArrayList<User>> likes;
     public HashMap<Tweet,ArrayList<User>> retweets;
+    public HashMap<User, ArrayList<Tweet>> retweet;
     public HashMap<User,ArrayList<String>> notifications;
+    public HashMap<User, ArrayList<Tweet>> like;
     private int id;
 
     private EMPDatabase(){
@@ -30,6 +32,8 @@ public class EMPDatabase {
         retweets = new HashMap<>();
         notifications = new HashMap<>();
         allTweet = new ArrayList<>();
+        retweet = new HashMap<>();
+        like = new HashMap<>();
         id = 0;
     }
 

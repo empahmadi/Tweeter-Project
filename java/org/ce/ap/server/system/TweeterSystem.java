@@ -35,10 +35,11 @@ public class TweeterSystem {
             return firstRequest(parameter);
         }
         switch (method){
-            case "main":
-                return update.run(parameter,this.user);
+            case "timeline":
+                return update.run(this.user);
+            default:
+                return response.error(56,"request not understanding",null);
         }
-        return null;
 
     }
 

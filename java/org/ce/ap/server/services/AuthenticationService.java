@@ -78,6 +78,8 @@ public class AuthenticationService {
         database.users.remove(user);
         database.tweets.remove(user);
         database.notifications.remove(user);
+        database.retweet.remove(user);
+        database.like.remove(user);
         return 0;
     }
 
@@ -92,6 +94,8 @@ public class AuthenticationService {
         database.follows.put(user, new ArrayList<>());
         database.followers.put(user, new ArrayList<>());
         database.notifications.put(user, new ArrayList<>());
+        database.retweet.put(user,new ArrayList<>());
+        database.like.put(user,new ArrayList<>());
     }
 
     /**

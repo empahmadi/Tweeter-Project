@@ -26,7 +26,7 @@ public class TweetingService {
 
     /**
      * this constructor gives some features and make usable them for this class.
-     * @param database
+     * @param database .
      */
     public TweetingService(EMPDatabase database) {
         this.database = database;
@@ -47,6 +47,7 @@ public class TweetingService {
             }
         }
         database.likes.get(tweet).add(user);
+        database.like.get(user).add(tweet);
         return 0;
     }
 
@@ -61,6 +62,7 @@ public class TweetingService {
         for (User i : database.likes.get(tweet)) {
             if (user.equals(i)) {
                 database.likes.get(tweet).remove(user);
+                database.like.get(user).remove(tweet);
                 return 0;
             }
         }
@@ -96,6 +98,7 @@ public class TweetingService {
     private void retweet(User user, Tweet tweet) {
         database.retweets.get(tweet).add(user);
         database.tweets.get(user).add(tweet);
+        database.retweet.get(user).add(tweet);
     }
 
     /**

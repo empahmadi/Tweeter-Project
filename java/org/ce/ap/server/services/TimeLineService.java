@@ -3,6 +3,8 @@ package main.java.org.ce.ap.server.services;
 import main.java.org.ce.ap.server.database.EMPDatabase;
 import main.java.org.ce.ap.server.modules.Tweet;
 import main.java.org.ce.ap.server.modules.User;
+import main.java.org.ce.ap.server.system.Response;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -14,6 +16,8 @@ import java.util.ArrayList;
  */
 public class TimeLineService {
     private final EMPDatabase database;
+    private final Response response;
+    private final TweetingService ts;
 
     /**
      * this constructor is for initialize some variables.
@@ -21,60 +25,32 @@ public class TimeLineService {
      */
     public TimeLineService(EMPDatabase database) {
         this.database = database;
+        response = new Response();
+        ts = new TweetingService(database);
     }
 
     /**
-     * @param user user.
-     * @return update(by adding time) tweets for user.
+     * this timeline shows all activity of users that user follow them.
+     * @param user .
+     * @return tweets in given format.
      */
-    public ArrayList<Tweet> byAddingTime(User user) {
-        ArrayList<Tweet> tweets = getTweets(user);
-        Tweet temp;
-        int k, j;
-        for (k = 0; k < tweets.size(); k++) {
-            for (j = k; j < tweets.size(); j++) {
-                if (tweets.get(k).getAddingDate().compareTo(tweets.get(j).getAddingDate()) < 0) {
-                    temp = tweets.get(j);
-                    tweets.set(j, tweets.get(k));
-                    tweets.set(k, temp);
-                }
-            }
-        }
-        delRepeated(tweets);
-        return tweets;
-    }
-
-    /**
-     * @param user user.
-     * @return update(by any update) tweets for user.
-     */
-    public ArrayList<Tweet> latestUpdate(User user) {
-        ArrayList<Tweet> tweets = getTweets(user);
-        Tweet temp;
-        int k, j;
-        for (k = 0; k < tweets.size(); k++) {
-            for (j = k; j < tweets.size(); j++) {
-                if (tweets.get(k).getLatestUpdate().compareTo(tweets.get(j).getLatestUpdate()) < 0) {
-                    temp = tweets.get(j);
-                    tweets.set(j, tweets.get(k));
-                    tweets.set(k, temp);
-                }
-            }
-        }
-        delRepeated(tweets);
-        return tweets;
-    }
-
-    private ArrayList<Tweet> getTweets(User user) {
+    public JSONArray timeline(User user){
         ArrayList<Tweet> tweets = new ArrayList<>();
-        for (User i : database.followers.get(user)) {
+        JSONArray timeline = new JSONArray();
+        for (User i: database.follows.get(user)){
             tweets.addAll(database.tweets.get(i));
         }
-        for (User i : database.follows.get(user)) {
-            tweets.addAll(database.tweets.get(i));
+        for (User i: database.follows.get(user)){
+            tweets.addAll(database.retweet.get(i));
         }
-        tweets.addAll(database.tweets.get(user));
-        return tweets;
+        for (User i: database.follows.get(user)){
+            tweets.addAll(database.like.get(i));
+        }
+        delRepeated(tweets);
+        for (Tweet i: tweets){
+            timeline.put(ts.getTweet(i));
+        }
+        return timeline;
     }
 
     /**
@@ -100,16 +76,11 @@ public class TimeLineService {
     }
 
     /**
-     * @param method methode.
-     * @param user   user
-     * @return related tweets.
+     * @param user ..
+     * @return related tweets to user.
      */
-    public ArrayList<Tweet> run(String method, User user) {
-        return switch (method) {
-            case "by-latest-update" -> latestUpdate(user);
-            case "by-adding-time" -> byAddingTime(user);
-            default -> null;
-        };
+    public String run(User user) {
+        return response.response(timeline(user).length(),timeline(user));
     }
 
 }
