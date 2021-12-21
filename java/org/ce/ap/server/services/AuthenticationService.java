@@ -65,8 +65,10 @@ public class AuthenticationService {
         if (hash == null) {
             return 1;
         }
+        String date = in.getJSONArray("date-of-birth").get(0)+"-"+in.getJSONArray("date-of-birth").get(1)+
+                "-"+in.getJSONArray("date-of-birth").get(2);
         User user = new User(in.getString("username"), hash,
-                in.getString("name"), in.getString("dateOfBirth"));
+                in.getString("name"), date);
         addUser(user);
         return 31;
     }
@@ -165,16 +167,16 @@ public class AuthenticationService {
             errors.put("Password must include at least 4 character.");
         }
         //date of birth.
-        if (in.getJSONArray("dateOfBirth").getInt(0) >= 2020) {
+        if (in.getJSONArray("date-of-birth").getInt(0) >= 2020) {
             errors.put("You are so young for using this app");
         }
-        if (in.getJSONArray("dateOfBirth").getInt(0) <= 1900) {
+        if (in.getJSONArray("date-of-birth").getInt(0) <= 1900) {
             errors.put("You entered an invalid year(the year must be greater than 1900).");
         }
-        if (in.getJSONArray("dateOfBirth").getInt(1) > 12) {
+        if (in.getJSONArray("date-of-birth").getInt(1) > 12) {
             errors.put("You entered an invalid month.");
         }
-        if (in.getJSONArray("dateOfBirth").getInt(2) > 31) {
+        if (in.getJSONArray("date-of-birth").getInt(2) > 31) {
             errors.put("you are so young for using this app");
         }
         //unnecessary.
@@ -212,16 +214,16 @@ public class AuthenticationService {
         profile.put("username", user.getUsername());
         profile.put("name", user.getName());
         profile.put("date-of-birth", user.getDateOfBirth());
-        if (user.getLastname().length() != 0) {
+        if (user.getLastname() != null) {
             profile.put("lastname", user.getLastname());
         } else {
             profile.put("lastname", "no set yet!!!");
             check++;
         }
-        if (user.getBiography().length() != 0) {
-            profile.put("lastname", user.getBiography());
+        if (user.getBiography() != null) {
+            profile.put("biography", user.getBiography());
         } else {
-            profile.put("lastname", "no-set-yet!!!");
+            profile.put("biography", "no-set-yet!!!");
             check++;
         }
         profile.put("profile-is-complete", check == 0);

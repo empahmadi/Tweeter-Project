@@ -49,10 +49,10 @@ public class TweeterSystem {
      */
     public String requestGetter(String request) {
         JSONObject jo = new JSONObject(request);
-        JSONObject parameter = jo.getJSONObject("ParameterValues");
-        String method = jo.getString("methode");
+        JSONObject parameter = jo.getJSONObject("parameters");
+        String method = jo.getString("method");
         if (!isLogin) {
-            return firstRequest(parameter);
+            return firstRequest(jo);
         }
         switch (method) {
             case "timeline":
@@ -82,12 +82,12 @@ public class TweeterSystem {
      * @return response of server.
      */
     private String firstRequest(JSONObject request) {
-        String method = request.getString("methode");
+        String method = request.getString("method");
         if (method.equals("login")) {
-            return login(request.getJSONObject("information"));
+            return login(request.getJSONObject("parameters"));
         }
         if (method.equals("signup")) {
-            return signup(request.getJSONObject("information"));
+            return signup(request.getJSONObject("parameters"));
         }
         return null;
     }
