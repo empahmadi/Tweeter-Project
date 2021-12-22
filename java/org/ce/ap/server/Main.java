@@ -20,7 +20,7 @@ public class Main {
         EMPDatabase database = EMPDatabase.getInstance();
         TweetingService ts = new TweetingService(database);
         AuthenticationService au = new AuthenticationService(database,ts);
-        TimeLineService tls = new TimeLineService(database,au);
+        TimeLineService tls = new TimeLineService(database);
         ObserverService os = new ObserverService(database, au);
         try (ServerSocket server = new ServerSocket(9321);) {
             server.setReuseAddress(true);
