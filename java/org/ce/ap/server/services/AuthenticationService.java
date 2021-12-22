@@ -1,6 +1,7 @@
 package main.java.org.ce.ap.server.services;
 
 import main.java.org.ce.ap.server.database.EMPDatabase;
+import main.java.org.ce.ap.server.modules.Tweet;
 import main.java.org.ce.ap.server.modules.User;
 import main.java.org.ce.ap.server.system.Response;
 import org.json.JSONArray;
@@ -22,15 +23,18 @@ import java.util.Arrays;
 public class AuthenticationService {
     private final EMPDatabase database;
     private final Response response;
+    private final TweetingService ts;
 
     /**
      * this constructor connects this class to database.
      * and initialize some variables.
+     *
      * @param database .
      */
-    public AuthenticationService(EMPDatabase database) {
+    public AuthenticationService(EMPDatabase database, TweetingService ts) {
         this.database = database;
         response = new Response();
+        this.ts = ts;
     }
 
     /**
@@ -65,8 +69,8 @@ public class AuthenticationService {
         if (hash == null) {
             return 1;
         }
-        String date = in.getJSONArray("date-of-birth").get(0)+"-"+in.getJSONArray("date-of-birth").get(1)+
-                "-"+in.getJSONArray("date-of-birth").get(2);
+        String date = in.getJSONArray("date-of-birth").get(0) + "-" + in.getJSONArray("date-of-birth").get(1) +
+                "-" + in.getJSONArray("date-of-birth").get(2);
         User user = new User(in.getString("username"), hash,
                 in.getString("name"), date);
         addUser(user);
@@ -228,6 +232,11 @@ public class AuthenticationService {
         }
         profile.put("profile-is-complete", check == 0);
         result.put(profile);
+        if (database.tweets.get(user).size() != 0) {
+            for (Tweet i : database.tweets.get(user)) {
+                result.put(ts.getTweet(i));
+            }
+        }
         return response.response(1, result);
     }
 }

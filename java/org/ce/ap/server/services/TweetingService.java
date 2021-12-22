@@ -22,7 +22,6 @@ import java.util.ArrayList;
  */
 public class TweetingService {
     private final EMPDatabase database;
-    private final AuthenticationService au;
     private final Response response;
     private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -30,9 +29,8 @@ public class TweetingService {
      * this constructor gives some features and make usable them for this class.
      * @param database .
      */
-    public TweetingService(EMPDatabase database, AuthenticationService au) {
+    public TweetingService(EMPDatabase database) {
         this.database = database;
-        this.au = au;
         response = new Response();
     }
 

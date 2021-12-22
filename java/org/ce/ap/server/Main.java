@@ -18,8 +18,8 @@ public class Main {
         int count = 0;
         ExecutorService thread = Executors.newCachedThreadPool();
         EMPDatabase database = EMPDatabase.getInstance();
-        AuthenticationService au = new AuthenticationService(database);
-        TweetingService ts = new TweetingService(database, au);
+        TweetingService ts = new TweetingService(database);
+        AuthenticationService au = new AuthenticationService(database,ts);
         TimeLineService tls = new TimeLineService(database,au);
         ObserverService os = new ObserverService(database, au);
         try (ServerSocket server = new ServerSocket(9321);) {
