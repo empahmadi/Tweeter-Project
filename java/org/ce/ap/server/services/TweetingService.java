@@ -191,7 +191,7 @@ public class TweetingService {
      * @return errors or response.
      */
     public String run(User user, String method, JSONObject information) {
-        if (method.equals("Send-Tweet")) {
+        if (method.equals("send-tweet")) {
             return response.responseCode(sendTweet(user,information.getString("content")),"sending-tweet");
         }
         Tweet tweet = findTweet(information.getInt("tweet-id"));

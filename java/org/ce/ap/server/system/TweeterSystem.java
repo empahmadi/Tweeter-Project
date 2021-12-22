@@ -65,7 +65,7 @@ public class TweeterSystem {
             case "send-tweet":
             case "delete-tweet":
             case "retweet":
-                ts.run(this.user, method, parameter);
+                return ts.run(this.user, method, parameter);
             case "profile":
                 return au.getProfile(parameter.getString("username"));
             default:

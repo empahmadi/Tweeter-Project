@@ -237,6 +237,6 @@ public class AuthenticationService {
                 result.put(ts.getTweet(i));
             }
         }
-        return response.response(1, result);
+        return response.response(result.length(), result);
     }
 }
