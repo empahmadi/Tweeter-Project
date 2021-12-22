@@ -215,6 +215,14 @@ public class AuthenticationService {
         }
         JSONArray result = new JSONArray();
         JSONObject profile = new JSONObject();
+        JSONArray followers = new JSONArray();
+        JSONArray follows = new JSONArray();
+        for (User i: database.followers.get(user)){
+            followers.put(i.getUsername());
+        }
+        for (User i: database.follows.get(user)){
+            follows.put(i.getUsername());
+        }
         profile.put("username", user.getUsername());
         profile.put("name", user.getName());
         profile.put("date-of-birth", user.getDateOfBirth());
@@ -231,6 +239,8 @@ public class AuthenticationService {
             check++;
         }
         profile.put("profile-is-complete", check == 0);
+        profile.put("followers",followers);
+        profile.put("follows",follows);
         result.put(profile);
         if (database.tweets.get(user).size() != 0) {
             for (Tweet i : database.tweets.get(user)) {
