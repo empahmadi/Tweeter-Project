@@ -115,11 +115,11 @@ public class TweetingService {
             if (tweet.equals(i)) {
                 database.tweets.get(user).remove(tweet);
                 database.likes.remove(tweet);
-                database.retweets.remove(tweet);
-                database.allTweet.remove(tweet);
                 for (User j : database.retweets.get(tweet)) {
                     database.tweets.get(j).remove(tweet);
                 }
+                database.retweets.remove(tweet);
+                database.allTweet.remove(tweet);
                 return 34;
             }
         }
@@ -208,7 +208,7 @@ public class TweetingService {
             return response.error(95,"not-permission",null);
         }
         return switch (method) {
-            case "Delete-Tweet" -> response.responseCode(deleteTweet(tweet, user), "deleting-tweet");
+            case "delete-tweet" -> response.responseCode(deleteTweet(tweet, user), "deleting-tweet");
             case "retweet" -> response.responseCode(retweet(user, tweet), "retweeting");
             default -> null;
         };
