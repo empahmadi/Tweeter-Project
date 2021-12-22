@@ -47,7 +47,7 @@ public class ObserverService {
         database.followers.get(destination).add(user);
         database.follows.get(user).add(destination);
         database.notifications.get(user).add("user @" + user.getUsername() + " follow you in " + dateFormat.format(LocalDateTime.now()) + ".");
-        return 0;
+        return 35;
     }
 
     /**
@@ -63,7 +63,7 @@ public class ObserverService {
                 database.followers.get(destination).remove(user);
                 database.follows.get(user).remove(destination);
                 database.notifications.get(user).add("user @" + user.getUsername() + " unfollow you in " + dateFormat.format(LocalDateTime.now()) + ".");
-                return 0;
+                return 39;
             }
         }
         return 29;

@@ -68,6 +68,31 @@ public class Response {
      * @return string value of a success code.
      */
     private JSONArray successCode(int code) {
+        JSONObject message = new JSONObject();
+        switch (code){
+            case 30:
+                message.put("response","Welcome to your account :)");
+            case 31:
+                message.put("response","Tweet sent :)");
+            case 32:
+                message.put("response","Liked :)");
+            case 33:
+                message.put("response","Unliked :)");
+            case 34:
+                message.put("response","Tweet Deleted :)");
+            case 35:
+                message.put("response","Followed :)");
+            case 36:
+                message.put("response","sent :)");
+            case 37:
+                message.put("response","Changed :)");
+            case 38:
+                message.put("response","Retweeted :)");
+            case 39:
+                message.put("response","Unfollowed :)");
+            case 40:
+                message.put("response","no set yet :(");
+        }
         return null;
     }
 

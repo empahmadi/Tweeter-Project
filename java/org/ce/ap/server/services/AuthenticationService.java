@@ -70,7 +70,7 @@ public class AuthenticationService {
         User user = new User(in.getString("username"), hash,
                 in.getString("name"), date);
         addUser(user);
-        return 31;
+        return 30;
     }
 
     /**
@@ -136,7 +136,7 @@ public class AuthenticationService {
      * @return code.
      */
     public int changeInformation(JSONObject in) {
-        return 0;
+        return 37;
     }
 
     /**

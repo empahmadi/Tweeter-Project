@@ -51,7 +51,7 @@ public class TweetingService {
         }
         database.likes.get(tweet).add(user);
         database.like.get(user).add(tweet);
-        return 0;
+        return 32;
     }
 
     /**
@@ -66,7 +66,7 @@ public class TweetingService {
             if (user.equals(i)) {
                 database.likes.get(tweet).remove(user);
                 database.like.get(user).remove(tweet);
-                return 0;
+                return 33;
             }
         }
         return 1;
@@ -89,7 +89,7 @@ public class TweetingService {
         database.tweets.get(user).add(tweet);
         database.likes.put(tweet, new ArrayList<>());
         database.allTweet.add(tweet);
-        return 0;
+        return 31;
     }
 
     /**
@@ -102,7 +102,7 @@ public class TweetingService {
         database.retweets.get(tweet).add(user);
         database.tweets.get(user).add(tweet);
         database.retweet.get(user).add(tweet);
-        return 0;
+        return 38;
     }
 
     /**
@@ -122,7 +122,7 @@ public class TweetingService {
                 for (User j : database.retweets.get(tweet)) {
                     database.tweets.get(j).remove(tweet);
                 }
-                return 0;
+                return 34;
             }
         }
         return 1;
