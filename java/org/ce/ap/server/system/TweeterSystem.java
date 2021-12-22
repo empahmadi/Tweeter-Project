@@ -89,7 +89,7 @@ public class TweeterSystem {
         if (method.equals("signup")) {
             return signup(request.getJSONObject("parameters"));
         }
-        return null;
+        return response.error(8,"Authentication",null);
     }
 
     /**
@@ -122,7 +122,7 @@ public class TweeterSystem {
         }
         String username = request.getString("username");
         int value = au.signup(request);
-        if (value == 31) {
+        if (value == 30) {
             user = au.findUser(username);
             isLogin = true;
             return response.responseCode(value,"signup");
