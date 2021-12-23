@@ -1,4 +1,4 @@
-package main.java.org.ce.ap.client.connector;
+package main.java.org.ce.ap.client.services;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -10,17 +10,18 @@ import java.io.IOException;
  * @author Eid Mohammad Ahmadi
  * @version 1.0
  */
-public class Connection {
+public class ConnectionService {
 
     private final DataInputStream input;
     private final DataOutputStream output;
 
     /**
      * this constructor is for initialize something.
-     * @param in input.
+     *
+     * @param in  input.
      * @param out output.
      */
-    public Connection(DataInputStream in,DataOutputStream out){
+    public ConnectionService(DataInputStream in, DataOutputStream out) {
         input = in;
         output = out;
     }
@@ -36,6 +37,7 @@ public class Connection {
     /**
      * this method connects client to server.
      * this method send request to and get response from server.
+     *
      * @param request .
      * @return response.
      */
@@ -44,7 +46,7 @@ public class Connection {
             output.writeUTF(request);
             output.flush();
             return input.readUTF();
-        }catch (IOException ioe){
+        } catch (IOException ioe) {
             System.out.println(ioe.toString());
             return ioe.toString();
         }
