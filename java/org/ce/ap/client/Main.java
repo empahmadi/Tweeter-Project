@@ -8,6 +8,12 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class Main {
+    /**
+     * This application is based on server which means every time that user wants to use
+     * from this application must connect to server.
+     * after connecting to server application will run.
+     * @param args .
+     */
     public static void main(String[] args) {
         try (Socket socket = new Socket("localhost", 9321);
              DataOutputStream out = new DataOutputStream(socket.getOutputStream());
