@@ -22,7 +22,7 @@ public class Main {
         AuthenticationService au = new AuthenticationService(database,ts);
         TimeLineService tls = new TimeLineService(database);
         ObserverService os = new ObserverService(database, au);
-        try (ServerSocket server = new ServerSocket(9321);) {
+        try (ServerSocket server = new ServerSocket(9321)) {
             server.setReuseAddress(true);
             while (count < 30) {
                 Socket client = server.accept();
