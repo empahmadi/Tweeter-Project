@@ -19,7 +19,7 @@ public class Main {
         ExecutorService thread = Executors.newCachedThreadPool();
         EMPDatabase database = EMPDatabase.getInstance();
         TweetingService ts = new TweetingService(database);
-        AuthenticationService au = new AuthenticationService(database,ts);
+        AuthenticationService au = new AuthenticationService(database, ts);
         TimeLineService tls = new TimeLineService(database);
         ObserverService os = new ObserverService(database, au);
         try (ServerSocket server = new ServerSocket(9321)) {
@@ -28,7 +28,7 @@ public class Main {
                 Socket client = server.accept();
                 System.out.println("new client connected " + client.getInetAddress().getHostAddress());
                 count++;
-                thread.execute(new ClientHandler(client, database, au, ts, os, tls));
+                thread.execute(new ClientHandler(client, au, ts, os, tls));
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();

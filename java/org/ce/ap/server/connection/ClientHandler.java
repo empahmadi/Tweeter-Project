@@ -17,7 +17,6 @@ import java.net.Socket;
  * @version 2.0
  */
 public class ClientHandler implements Runnable {
-    private final EMPDatabase database;
     private final AuthenticationService au;
     private final TweetingService ts;
     private final ObserverService os;
@@ -28,12 +27,14 @@ public class ClientHandler implements Runnable {
      * initialize some variables.
      *
      * @param socket   client.
-     * @param database database.
+     * @param au Authentication service.
+     * @param os observer service.
+     * @param tls timeline service.
+     * @param ts tweeting service.
      */
-    public ClientHandler(Socket socket, EMPDatabase database, AuthenticationService au,
+    public ClientHandler(Socket socket, AuthenticationService au,
                          TweetingService ts, ObserverService os, TimeLineService tls) {
         client = socket;
-        this.database = database;
         this.au = au;
         this.tls = tls;
         this.os = os;
