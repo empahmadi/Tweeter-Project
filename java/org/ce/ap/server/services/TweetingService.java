@@ -1,39 +1,19 @@
 package main.java.org.ce.ap.server.services;
 
-import main.java.org.ce.ap.server.database.EMPDatabase;
 import main.java.org.ce.ap.server.modules.Tweet;
 import main.java.org.ce.ap.server.modules.User;
-import main.java.org.ce.ap.server.system.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
- * this is a service that works on tweets and mange it.
- * this class implements TweetingSer interface because
- * that interface is a framework for tweeting service.
- * methods: send tweet, delete tweet, retweet a tweet, like, unlike, find a tweet by its id,
- * check that a string is numeric or no, run, checks that a tweet is a retweet or no, id maker.
+ * this interface is a framework for tweeting service.
  *
  * @author Eid Mohammad Ahmadi
- * @version 2.0
+ * @version 1.1
  */
-public class TweetingService {
-    private final EMPDatabase database;
-    private final Response response;
-    private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-    /**
-     * this constructor gives some features and make usable them for this class.
-     * @param database .
-     */
-    public TweetingService(EMPDatabase database) {
-        this.database = database;
-        response = new Response();
-    }
-
+public interface TweetingService {
     /**
      * likes a tweet.
      *
@@ -41,16 +21,7 @@ public class TweetingService {
      * @param tweet .
      * @return error code.
      */
-    private int like(User user, Tweet tweet) {
-        for (User i : database.likes.get(tweet)) {
-            if (i.equals(user)) {
-                return 1;
-            }
-        }
-        database.likes.get(tweet).add(user);
-        database.like.get(user).add(tweet);
-        return 32;
-    }
+    int like(User user, Tweet tweet);
 
     /**
      * unlike a tweet.
@@ -59,16 +30,7 @@ public class TweetingService {
      * @param tweet .
      * @return error code.
      */
-    private int unlike(User user, Tweet tweet) {
-        for (User i : database.likes.get(tweet)) {
-            if (user.equals(i)) {
-                database.likes.get(tweet).remove(user);
-                database.like.get(user).remove(tweet);
-                return 33;
-            }
-        }
-        return 1;
-    }
+    int unlike(User user, Tweet tweet);
 
     /**
      * send a tweet.
@@ -77,18 +39,7 @@ public class TweetingService {
      * @param content the content of tweet.
      * @return code.
      */
-    private int sendTweet(User user, String content) {
-        if (content.length() > 256)
-            return 3;
-        if (content.length() == 0)
-            return 4;
-        Tweet tweet = new Tweet(content, user, idMaker());
-        database.retweets.put(tweet, new ArrayList<>());
-        database.tweets.get(user).add(tweet);
-        database.likes.put(tweet, new ArrayList<>());
-        database.allTweet.add(tweet);
-        return 31;
-    }
+    int sendTweet(User user, String content);
 
     /**
      * retweet a tweet.
@@ -96,12 +47,7 @@ public class TweetingService {
      * @param user  .
      * @param tweet .
      */
-    private int retweet(User user, Tweet tweet) {
-        database.retweets.get(tweet).add(user);
-        database.tweets.get(user).add(tweet);
-        database.retweet.get(user).add(tweet);
-        return 38;
-    }
+    int retweet(User user, Tweet tweet);
 
     /**
      * delete a tweet.
@@ -110,137 +56,47 @@ public class TweetingService {
      * @param user  .
      * @return error code.
      */
-    private int deleteTweet(Tweet tweet, User user) {
-        for (Tweet i : database.tweets.get(user)) {
-            if (tweet.equals(i)) {
-                database.tweets.get(user).remove(tweet);
-                database.likes.remove(tweet);
-                for (User j : database.retweets.get(tweet)) {
-                    database.tweets.get(j).remove(tweet);
-                }
-                database.retweets.remove(tweet);
-                database.allTweet.remove(tweet);
-                return 34;
-            }
-        }
-        return 1;
-    }
+    int deleteTweet(Tweet tweet, User user);
 
     /**
      * @param user .
      * @return tweets that a user tweeted.
      */
-    public ArrayList<Tweet> getTweets(User user) {
-        return database.tweets.get(user);
-    }
+    ArrayList<Tweet> getTweets(User user);
 
     /**
      * @param tweet .
      * @return users that likes the tweet.
      */
-    private JSONArray getLikes(Tweet tweet) {
-        JSONArray likes = new JSONArray();
-        for (User i: database.likes.get(tweet)){
-            likes.put(i.getUsername());
-        }
-        return likes;
-    }
+    JSONArray getLikes(Tweet tweet);
 
     /**
      * @param tweet .
      * @return users that retweeted this tweet.
      */
-    private JSONArray getRetweets(Tweet tweet) {
-        JSONArray retweets = new JSONArray();
-        for (User i: database.retweets.get(tweet)){
-            retweets.put(i.getUsername());
-        }
-        return retweets;
-    }
+    JSONArray getRetweets(Tweet tweet);
 
     /**
      * give a tweet and change its information to JSON format.
+     *
      * @param tweet tweet.
      * @return information of tweet.
      */
-    public JSONObject getTweet(Tweet tweet){
-        JSONObject jTweet = new JSONObject();
-        jTweet.put("tweetId",tweet.getId());
-        jTweet.put("content",tweet.getContent());
-        jTweet.put("username",tweet.getUser().getUsername());
-        jTweet.put("creationDate",dateFormat.format(tweet.getAddingDate()));
-        jTweet.put("Likes",getLikes(tweet));
-        jTweet.put("retweets",getRetweets(tweet));
-        return jTweet;
-    }
-
-    /**
-     * @param tweet .
-     * @return true if tweet is a retweet else false.
-     */
-    public boolean isRetweet(Tweet tweet) {
-        return false;
-    }
+    JSONObject getTweet(Tweet tweet);
 
     /**
      * get information and perform some action on it.
      *
      * @param information more information about action.
-     * @param method   .
-     * @param user     .
+     * @param method      .
+     * @param user        .
      * @return errors or response.
      */
-    public String run(User user, String method, JSONObject information) {
-        if (method.equals("send-tweet")) {
-            return response.responseCode(sendTweet(user,information.getString("content")),"sending-tweet");
-        }
-        Tweet tweet = findTweet(information.getInt("tweet-id"));
-        if (tweet == null) {
-            return response.error(11,"finding-tweet",null);
-        }
-        if (method.equals("like")){
-            return response.responseCode(like(user,tweet),"liking-tweet");
-        }
-        if (method.equals("unlike")){
-            return response.responseCode(unlike(user,tweet),"unliking-tweet");
-        }
-        if (!tweet.getUser().equals(user)){
-            return response.error(95,"not-permission",null);
-        }
-        return switch (method) {
-            case "delete-tweet" -> response.responseCode(deleteTweet(tweet, user), "deleting-tweet");
-            case "retweet" -> response.responseCode(retweet(user, tweet), "retweeting");
-            default -> null;
-        };
-    }
+    String run(User user, String method, JSONObject information);
 
     /**
      * @param id .
      * @return a tweet from database.
      */
-    public Tweet findTweet(int id) {
-        for (Tweet i : database.allTweet) {
-            if (i.getId() == id) {
-                return i;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @param str .
-     * @return true if str is a number else false.
-     */
-    private boolean isNumeric(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-    private int idMaker() {
-        return database.getId();
-    }
+    Tweet findTweet(int id);
 }

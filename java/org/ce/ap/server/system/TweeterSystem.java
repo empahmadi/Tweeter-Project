@@ -1,10 +1,10 @@
 package main.java.org.ce.ap.server.system;
 
+import main.java.org.ce.ap.server.impl.AuthenticationServiceImpl;
 import main.java.org.ce.ap.server.modules.User;
-import main.java.org.ce.ap.server.services.AuthenticationService;
-import main.java.org.ce.ap.server.services.ObserverService;
-import main.java.org.ce.ap.server.services.TimeLineService;
-import main.java.org.ce.ap.server.services.TweetingService;
+import main.java.org.ce.ap.server.impl.ObserverServiceImpl;
+import main.java.org.ce.ap.server.impl.TimeLineServiceImpl;
+import main.java.org.ce.ap.server.impl.TweetingServiceImpl;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,10 +16,10 @@ import org.json.JSONObject;
  */
 public class TweeterSystem {
     private User user;
-    private final AuthenticationService au;
-    private final TweetingService ts;
-    private final ObserverService os;
-    private final TimeLineService update;
+    private final AuthenticationServiceImpl au;
+    private final TweetingServiceImpl ts;
+    private final ObserverServiceImpl os;
+    private final TimeLineServiceImpl update;
     private Response response;
     private boolean isLogin;
 
@@ -31,8 +31,8 @@ public class TweeterSystem {
      * @param ts  tweeting service.
      * @param os  observer service.
      */
-    public TweeterSystem(AuthenticationService au, TimeLineService tls,
-                         TweetingService ts, ObserverService os) {
+    public TweeterSystem(AuthenticationServiceImpl au, TimeLineServiceImpl tls,
+                         TweetingServiceImpl ts, ObserverServiceImpl os) {
         this.au = au;
         this.ts = ts;
         this.os = os;

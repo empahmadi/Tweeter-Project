@@ -1,10 +1,9 @@
 package main.java.org.ce.ap.server.connection;
 
-import main.java.org.ce.ap.server.database.EMPDatabase;
-import main.java.org.ce.ap.server.services.AuthenticationService;
-import main.java.org.ce.ap.server.services.ObserverService;
-import main.java.org.ce.ap.server.services.TimeLineService;
-import main.java.org.ce.ap.server.services.TweetingService;
+import main.java.org.ce.ap.server.impl.AuthenticationServiceImpl;
+import main.java.org.ce.ap.server.impl.ObserverServiceImpl;
+import main.java.org.ce.ap.server.impl.TimeLineServiceImpl;
+import main.java.org.ce.ap.server.impl.TweetingServiceImpl;
 import main.java.org.ce.ap.server.system.TweeterSystem;
 
 import java.io.*;
@@ -17,10 +16,10 @@ import java.net.Socket;
  * @version 2.0
  */
 public class ClientHandler implements Runnable {
-    private final AuthenticationService au;
-    private final TweetingService ts;
-    private final ObserverService os;
-    private final TimeLineService tls;
+    private final AuthenticationServiceImpl au;
+    private final TweetingServiceImpl ts;
+    private final ObserverServiceImpl os;
+    private final TimeLineServiceImpl tls;
     private Socket client;
 
     /**
@@ -32,8 +31,8 @@ public class ClientHandler implements Runnable {
      * @param tls timeline service.
      * @param ts tweeting service.
      */
-    public ClientHandler(Socket socket, AuthenticationService au,
-                         TweetingService ts, ObserverService os, TimeLineService tls) {
+    public ClientHandler(Socket socket, AuthenticationServiceImpl au,
+                         TweetingServiceImpl ts, ObserverServiceImpl os, TimeLineServiceImpl tls) {
         client = socket;
         this.au = au;
         this.tls = tls;

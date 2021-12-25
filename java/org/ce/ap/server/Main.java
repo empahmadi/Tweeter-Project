@@ -2,10 +2,10 @@ package main.java.org.ce.ap.server;
 
 import main.java.org.ce.ap.server.connection.ClientHandler;
 import main.java.org.ce.ap.server.database.EMPDatabase;
-import main.java.org.ce.ap.server.services.AuthenticationService;
-import main.java.org.ce.ap.server.services.ObserverService;
-import main.java.org.ce.ap.server.services.TimeLineService;
-import main.java.org.ce.ap.server.services.TweetingService;
+import main.java.org.ce.ap.server.impl.AuthenticationServiceImpl;
+import main.java.org.ce.ap.server.impl.ObserverServiceImpl;
+import main.java.org.ce.ap.server.impl.TimeLineServiceImpl;
+import main.java.org.ce.ap.server.impl.TweetingServiceImpl;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -18,10 +18,10 @@ public class Main {
         int count = 0;
         ExecutorService thread = Executors.newCachedThreadPool();
         EMPDatabase database = EMPDatabase.getInstance();
-        TweetingService ts = new TweetingService(database);
-        AuthenticationService au = new AuthenticationService(database, ts);
-        TimeLineService tls = new TimeLineService(database);
-        ObserverService os = new ObserverService(database, au);
+        TweetingServiceImpl ts = new TweetingServiceImpl(database);
+        AuthenticationServiceImpl au = new AuthenticationServiceImpl(database, ts);
+        TimeLineServiceImpl tls = new TimeLineServiceImpl(database);
+        ObserverServiceImpl os = new ObserverServiceImpl(database, au);
         try (ServerSocket server = new ServerSocket(9321)) {
             server.setReuseAddress(true);
             while (count < 30) {

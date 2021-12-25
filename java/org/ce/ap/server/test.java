@@ -1,10 +1,10 @@
 package main.java.org.ce.ap.server;
 
 import main.java.org.ce.ap.server.database.EMPDatabase;
-import main.java.org.ce.ap.server.services.AuthenticationService;
-import main.java.org.ce.ap.server.services.ObserverService;
-import main.java.org.ce.ap.server.services.TimeLineService;
-import main.java.org.ce.ap.server.services.TweetingService;
+import main.java.org.ce.ap.server.impl.AuthenticationServiceImpl;
+import main.java.org.ce.ap.server.impl.ObserverServiceImpl;
+import main.java.org.ce.ap.server.impl.TimeLineServiceImpl;
+import main.java.org.ce.ap.server.impl.TweetingServiceImpl;
 import main.java.org.ce.ap.server.system.TweeterSystem;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,10 +44,10 @@ public class test {
             d.put("dateOfBirth", "2004");
         }
         EMPDatabase database = EMPDatabase.getInstance();
-        TweetingService ts = new TweetingService(database);
-        AuthenticationService as = new AuthenticationService(database,ts);
-        ObserverService os = new ObserverService(database,as);
-        TimeLineService tls = new TimeLineService(database);
+        TweetingServiceImpl ts = new TweetingServiceImpl(database);
+        AuthenticationServiceImpl as = new AuthenticationServiceImpl(database,ts);
+        ObserverServiceImpl os = new ObserverServiceImpl(database,as);
+        TimeLineServiceImpl tls = new TimeLineServiceImpl(database);
         TweeterSystem system = new TweeterSystem(as, tls, ts,os);
         TweeterSystem sys2 = new TweeterSystem(as,tls,ts,os);
         //////////////////////////////////////////////////////////////////
