@@ -1,6 +1,7 @@
 package main.java.org.ce.ap.client;
 
-import main.java.org.ce.ap.client.connector.Connection;
+
+import main.java.org.ce.ap.client.impl.ConnectionServiceImpl;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -19,7 +20,7 @@ public class Main {
              DataOutputStream out = new DataOutputStream(socket.getOutputStream());
              DataInputStream in = new DataInputStream(socket.getInputStream())) {
             System.out.println("Connection Established :)");
-            Connection connector = new Connection(in, out);
+            ConnectionServiceImpl connector = new ConnectionServiceImpl(in, out);
             connector.run();
         } catch (IOException ioe) {
             System.out.println(ioe.toString());
