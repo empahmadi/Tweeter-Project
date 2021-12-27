@@ -85,7 +85,7 @@ public class TimeLineServiceImpl implements TimelineService {
      * @return related tweets to user.
      */
     @Override
-    public String run(User user) {
+    public synchronized String run(User user) {
         return response.response(timeline(user).length(), timeline(user));
     }
 

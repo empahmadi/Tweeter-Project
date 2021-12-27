@@ -77,7 +77,7 @@ public class ObserverServiceImpl implements ObserverService {
      * @return users that follow this user.
      */
     @Override
-    public ArrayList<User> getFollowers(User user) {
+    public synchronized ArrayList<User> getFollowers(User user) {
         return database.followers.get(user);
     }
 
@@ -86,7 +86,7 @@ public class ObserverServiceImpl implements ObserverService {
      * @return users that this user follow them.
      */
     @Override
-    public ArrayList<User> getFollows(User user) {
+    public synchronized ArrayList<User> getFollows(User user) {
         return database.follows.get(user);
     }
 
@@ -99,7 +99,7 @@ public class ObserverServiceImpl implements ObserverService {
      * @return response of server in JSON format.
      */
     @Override
-    public String run(String method, JSONObject parameter, User user) {
+    public synchronized String run(String method, JSONObject parameter, User user) {
         User destination = au.findUser(parameter.getString("username"));
         if (destination == null) {
             return response.error(1, "following/unfollowing", null);

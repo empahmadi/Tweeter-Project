@@ -45,7 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @return code.
      */
     @Override
-    public int login(JSONObject information) {
+    public synchronized int login(JSONObject information) {
         User user = findUser(information.getString("username"));
         if (user == null) {
             return 1;
@@ -67,7 +67,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @return code.
      */
     @Override
-    public int signup(JSONObject in) {
+    public synchronized int signup(JSONObject in) {
         byte[] hash = getSHA(in.getString("password"));
         if (hash == null) {
             return 1;
@@ -87,7 +87,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @return code.
      */
     @Override
-    public int removeUser(User user) {
+    public synchronized int removeUser(User user) {
         if (user == null)
             return 1;
         if (!database.users.contains(user))
@@ -114,7 +114,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @param user .
      */
     @Override
-    public void addUser(User user) {
+    public synchronized void addUser(User user) {
         database.users.add(user);
         database.tweets.put(user, new ArrayList<>());
         database.follows.put(user, new ArrayList<>());
@@ -129,7 +129,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @return a user with given username.
      */
     @Override
-    public User findUser(String username) {
+    public synchronized User findUser(String username) {
         for (User i : database.users) {
             if (username.equals(i.getUsername())) {
                 return i;
@@ -146,7 +146,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @return code.
      */
     @Override
-    public int changeInformation(JSONObject in) {
+    public synchronized int changeInformation(JSONObject in) {
         return 37;
     }
 
@@ -157,7 +157,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @return errors.
      */
     @Override
-    public JSONArray checkInformation(JSONObject in) {
+    public synchronized JSONArray checkInformation(JSONObject in) {
         JSONArray errors = new JSONArray();
         // username:
         if (in.getString("username").length() <= 1) {
@@ -217,7 +217,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @return the profile information of user.
      */
     @Override
-    public String getProfile(String username) {
+    public synchronized String getProfile(String username) {
         int check = 0;
         User user = findUser(username);
         if (user == null) {
