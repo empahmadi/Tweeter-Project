@@ -16,6 +16,8 @@ public class ConnectionServiceImpl implements ConnectionService {
 
     private final DataInputStream input;
     private final DataOutputStream output;
+    private final CommandParserServiceImpl cps;
+    private final ConsoleViewServiceImpl cvs;
 
     /**
      * this constructor is for initialize something.
@@ -26,6 +28,8 @@ public class ConnectionServiceImpl implements ConnectionService {
     public ConnectionServiceImpl(DataInputStream in, DataOutputStream out) {
         input = in;
         output = out;
+        cps = new CommandParserServiceImpl(this);
+        cvs = new ConsoleViewServiceImpl(cps);
     }
 
     /**
@@ -33,8 +37,10 @@ public class ConnectionServiceImpl implements ConnectionService {
      */
     @Override
     public void run() {
-        // something to do with console or gui to get request.
-        // passing request to connection and get it response.
+        int value = 0;
+        while (value == 0)
+            value = cvs.loginPage();
+        System.out.println("reach");
     }
 
     /**
