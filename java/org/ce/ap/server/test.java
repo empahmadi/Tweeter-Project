@@ -75,6 +75,7 @@ public class test {
         System.out.println(system.requestGetter(main.profile("emp")));
         //////////////////////////////////////////////////////////////////
         System.out.println(sys2.requestGetter(main.timeline()));
+        backup(database);
     }
 
     public String profile(String username){
@@ -159,4 +160,7 @@ public class test {
         return request.toString();
     }
 
+    public static void backup(EMPDatabase database){
+        database.backup();
+    }
 }

@@ -33,7 +33,7 @@ public class FileIO {
             return "Error in finding file directory";
         }
         for (User i : users) {
-            try (FileOutputStream file = new FileOutputStream(path + i.getUsername());
+            try (FileOutputStream file = new FileOutputStream(path + i.getUsername() + ".user");
                  ObjectOutputStream writer = new ObjectOutputStream(file)) {
                 writer.writeObject(i);
             } catch (IOException ioe) {
@@ -55,7 +55,7 @@ public class FileIO {
             return "Error in finding file directory";
         }
         for (Tweet i : tweets) {
-            try (FileOutputStream file = new FileOutputStream(path + i.getId() + ".emp");
+            try (FileOutputStream file = new FileOutputStream(path + i.getId() + ".tweet");
                  ObjectOutputStream writer = new ObjectOutputStream(file)) {
                 writer.writeObject(i);
             } catch (IOException ioe) {
@@ -67,106 +67,115 @@ public class FileIO {
 
     /**
      * backup from maps that is from tweet to user.
-     * @param tu tweet to user.
+     *
+     * @param tu   tweet to user.
      * @param type type of this map.
      * @return response.
      */
-    public String setTUMap(HashMap<Tweet,ArrayList<User>> tu, String type){
+    public String setTUMap(HashMap<Tweet, ArrayList<User>> tu, String type) {
         String path = giveAddress("server.maps.file");
-        if (path == null){
+        if (path == null) {
             return "Error in finding file directory";
         }
         JSONObject map = new JSONObject();
         JSONArray parameters;
-        for (Tweet i:tu.keySet()){
+        for (Tweet i : tu.keySet()) {
             parameters = new JSONArray();
-            for (User j: tu.get(i)){
+            for (User j : tu.get(i)) {
                 parameters.put(j.getUsername());
             }
-            map.put(i.getId()+"",parameters);
+            map.put(i.getId() + "", parameters);
         }
-        try(FileWriter file = new FileWriter(path+type+".json")){
+        try (FileWriter file = new FileWriter(path + type + ".json")) {
             file.write(map.toString());
-        }catch (IOException ioe){
+        } catch (IOException ioe) {
             return ioe.toString();
         }
         return "successful";
     }
+
     /**
      * backup from maps that is from user to user.
-     * @param uu user to user.
+     *
+     * @param uu   user to user.
      * @param type type of this map.
      * @return response.
      */
-    public String setUUMap(HashMap<User,ArrayList<User>> uu, String type){
+    public String setUUMap(HashMap<User, ArrayList<User>> uu, String type) {
         String path = giveAddress("server.maps.file");
-        if (path == null){
+        if (path == null) {
             return "Error in finding file directory";
         }
         JSONObject map = new JSONObject();
         JSONArray parameters;
-        for (User i:uu.keySet()){
+        for (User i : uu.keySet()) {
             parameters = new JSONArray();
-            for (User j: uu.get(i)){
+            for (User j : uu.get(i)) {
                 parameters.put(j.getUsername());
             }
-            map.put(i.getUsername(),parameters);
+            map.put(i.getUsername(), parameters);
         }
-        try(FileWriter file = new FileWriter(path+type+".json")){
+        try (FileWriter file = new FileWriter(path + type + ".json")) {
             file.write(map.toString());
-        }catch (IOException ioe){
+        } catch (IOException ioe) {
             return ioe.toString();
         }
         return "successful";
-    }    /**
+    }
+
+    /**
      * backup from maps that is from user to tweet.
-     * @param ut user to user.
+     *
+     * @param ut   user to user.
      * @param type type of this map.
      * @return response.
      */
-    public String setUTMap(HashMap<User,ArrayList<Tweet>> ut, String type){
+    public String setUTMap(HashMap<User, ArrayList<Tweet>> ut, String type) {
         String path = giveAddress("server.maps.file");
-        if (path == null){
+        if (path == null) {
             return "Error in finding file directory";
         }
         JSONObject map = new JSONObject();
         JSONArray parameters;
-        for (User i:ut.keySet()){
+        for (User i : ut.keySet()) {
             parameters = new JSONArray();
-            for (Tweet j: ut.get(i)){
+            for (Tweet j : ut.get(i)) {
                 parameters.put(j.getId());
             }
-            map.put(i.getUsername(),parameters);
+            map.put(i.getUsername(), parameters);
         }
-        try(FileWriter file = new FileWriter(path+type+".json")){
+        try (FileWriter file = new FileWriter(path + type + ".json")) {
             file.write(map.toString());
-        }catch (IOException ioe){
+        } catch (IOException ioe) {
             return ioe.toString();
         }
         return "successful";
-    }    /**
+    }
+
+    /**
      * backup from maps that is from user to String.
-     * @param us user to String.
+     *
+     * @param us   user to String.
      * @param type type of this map.
      * @return response.
      */
-    public String setUSMap(HashMap<User,ArrayList<String>> us, String type){
+    public String setUSMap(HashMap<User, ArrayList<String>> us, String type) {
         String path = giveAddress("server.maps.file");
-        if (path == null){
+        if (path == null) {
             return "Error in finding file directory";
         }
         JSONObject map = new JSONObject();
         JSONArray parameters;
-        for (User i:us.keySet()){
+        for (User i : us.keySet()) {
             parameters = new JSONArray();
-            for (String j: us.get(i)){
+            for (String j : us.get(i)) {
                 parameters.put(j);
             }
-            map.put(i.getUsername()+"",parameters);
+            map.put(i.getUsername() + "", parameters);
         }
-        try(FileWriter file = new FileWriter(path+type+".json")){
+        try (FileWriter file = new FileWriter(path + type + ".json")) {
             file.write(map.toString());
-        }catch (IOException ioe){
+        } catch (IOException ioe) {
             return ioe.toString();
         }
         return "successful";
@@ -247,7 +256,7 @@ public class FileIO {
             System.out.println(type + "is invalid!!!");
             return null;
         }
-        try (BufferedReader reader = new BufferedReader(new FileReader(path+type+".emp"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(path + type + ".json"))) {
             String line;
             StringBuilder json = new StringBuilder();
             while ((line = reader.readLine()) != null) {
@@ -262,10 +271,10 @@ public class FileIO {
     }
 
     /**
-     * update the addresses of files.
+     * get files addresses.
      */
     private String giveAddress(String name) {
-        try (FileInputStream file = new FileInputStream("../resources/server-application.properties")) {
+        try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/server-application.properties")) {
             Properties config = new Properties();
             config.load(file);
             return config.get(name).toString();

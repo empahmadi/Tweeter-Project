@@ -45,7 +45,7 @@ public class TimeLineServiceImpl implements TimelineService {
             tweets.addAll(database.userTweets.get(i));
         }
         for (User i : database.follows.get(user)) {
-            tweets.addAll(database.UserRetweets.get(i));
+            tweets.addAll(database.userRetweets.get(i));
         }
         for (User i : database.follows.get(user)) {
             tweets.addAll(database.userLikes.get(i));
