@@ -50,6 +50,7 @@ public class EMPDatabase {
         userLikes = new HashMap<>();
         id = 0;
         file = new FileIO();
+        initialize();
     }
 
     /**
@@ -80,14 +81,14 @@ public class EMPDatabase {
     public void initialize() {
         users = file.getUsers();
         tweets = file.getTweets();
-        System.out.print(setFollowers(new JSONObject(file.getMap("followers"))));
-        System.out.print(setFollows(new JSONObject(file.getMap("follows"))));
-        System.out.print(setNotifications(new JSONObject(file.getMap("notifications"))));
-        System.out.print(setUserTweets(new JSONObject(file.getMap("user-tweets"))));
-        System.out.print(setUserRetweets(new JSONObject(file.getMap("user-retweets"))));
-        System.out.print(setUserLikes(new JSONObject(file.getMap("user-likes"))));
-        System.out.print(setTweetLikes(new JSONObject(file.getMap("tweet-likes"))));
-        System.out.print(setTweetRetweets(new JSONObject(file.getMap("tweet-retweets"))));
+        System.out.println(setFollowers(new JSONObject(file.getMap("followers"))));
+        System.out.println(setFollows(new JSONObject(file.getMap("follows"))));
+        System.out.println(setNotifications(new JSONObject(file.getMap("notifications"))));
+        System.out.println(setUserTweets(new JSONObject(file.getMap("user-tweets"))));
+        System.out.println(setUserRetweets(new JSONObject(file.getMap("user-retweets"))));
+        System.out.println(setUserLikes(new JSONObject(file.getMap("user-likes"))));
+        System.out.println(setTweetLikes(new JSONObject(file.getMap("tweet-likes"))));
+        System.out.println(setTweetRetweets(new JSONObject(file.getMap("tweet-retweets"))));
     }
 
     /**
