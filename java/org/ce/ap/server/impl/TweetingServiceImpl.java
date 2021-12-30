@@ -45,13 +45,13 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized int like(User user, Tweet tweet) {
-        for (User i : database.likes.get(tweet)) {
+        for (User i : database.tweetLikes.get(tweet)) {
             if (i.equals(user)) {
                 return 1;
             }
         }
-        database.likes.get(tweet).add(user);
-        database.like.get(user).add(tweet);
+        database.tweetLikes.get(tweet).add(user);
+        database.userLikes.get(user).add(tweet);
         return 32;
     }
 
@@ -64,10 +64,10 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized int unlike(User user, Tweet tweet) {
-        for (User i : database.likes.get(tweet)) {
+        for (User i : database.tweetLikes.get(tweet)) {
             if (user.equals(i)) {
-                database.likes.get(tweet).remove(user);
-                database.like.get(user).remove(tweet);
+                database.tweetLikes.get(tweet).remove(user);
+                database.userLikes.get(user).remove(tweet);
                 return 33;
             }
         }
@@ -87,11 +87,11 @@ public class TweetingServiceImpl implements TweetingService {
             return 3;
         if (content.length() == 0)
             return 4;
-        Tweet tweet = new Tweet(content, user, idMaker());
-        database.retweets.put(tweet, new ArrayList<>());
-        database.tweets.get(user).add(tweet);
-        database.likes.put(tweet, new ArrayList<>());
-        database.allTweet.add(tweet);
+        Tweet tweet = new Tweet(content, idMaker());
+        database.tweetRetweets.put(tweet, new ArrayList<>());
+        database.userTweets.get(user).add(tweet);
+        database.tweetLikes.put(tweet, new ArrayList<>());
+        database.tweets.add(tweet);
         return 31;
     }
 
@@ -103,9 +103,9 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized int retweet(User user, Tweet tweet) {
-        database.retweets.get(tweet).add(user);
-        database.tweets.get(user).add(tweet);
-        database.retweet.get(user).add(tweet);
+        database.tweetRetweets.get(tweet).add(user);
+        database.userTweets.get(user).add(tweet);
+        database.userRetweets.get(user).add(tweet);
         return 38;
     }
 
@@ -118,15 +118,15 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized int deleteTweet(Tweet tweet, User user) {
-        for (Tweet i : database.tweets.get(user)) {
+        for (Tweet i : database.userTweets.get(user)) {
             if (tweet.equals(i)) {
-                database.tweets.get(user).remove(tweet);
-                database.likes.remove(tweet);
-                for (User j : database.retweets.get(tweet)) {
-                    database.tweets.get(j).remove(tweet);
+                database.userTweets.get(user).remove(tweet);
+                database.tweetLikes.remove(tweet);
+                for (User j : database.tweetRetweets.get(tweet)) {
+                    database.userTweets.get(j).remove(tweet);
                 }
-                database.retweets.remove(tweet);
-                database.allTweet.remove(tweet);
+                database.tweetRetweets.remove(tweet);
+                database.tweets.remove(tweet);
                 return 34;
             }
         }
@@ -139,7 +139,7 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized ArrayList<Tweet> getTweets(User user) {
-        return database.tweets.get(user);
+        return database.userTweets.get(user);
     }
 
     /**
@@ -149,7 +149,7 @@ public class TweetingServiceImpl implements TweetingService {
     @Override
     public synchronized JSONArray getLikes(Tweet tweet) {
         JSONArray likes = new JSONArray();
-        for (User i : database.likes.get(tweet)) {
+        for (User i : database.tweetLikes.get(tweet)) {
             likes.put(i.getUsername());
         }
         return likes;
@@ -162,7 +162,7 @@ public class TweetingServiceImpl implements TweetingService {
     @Override
     public synchronized JSONArray getRetweets(Tweet tweet) {
         JSONArray retweets = new JSONArray();
-        for (User i : database.retweets.get(tweet)) {
+        for (User i : database.tweetRetweets.get(tweet)) {
             retweets.put(i.getUsername());
         }
         return retweets;
@@ -177,9 +177,9 @@ public class TweetingServiceImpl implements TweetingService {
     @Override
     public synchronized JSONObject getTweet(Tweet tweet) {
         JSONObject jTweet = new JSONObject();
+
         jTweet.put("tweetId", tweet.getId());
         jTweet.put("content", tweet.getContent());
-        jTweet.put("username", tweet.getUser().getUsername());
         jTweet.put("creationDate", dateFormat.format(tweet.getAddingDate()));
         jTweet.put("Likes", getLikes(tweet));
         jTweet.put("retweets", getRetweets(tweet));
@@ -209,9 +209,6 @@ public class TweetingServiceImpl implements TweetingService {
         if (method.equals("unlike")) {
             return response.responseCode(unlike(user, tweet), "unliking-tweet");
         }
-        if (!tweet.getUser().equals(user)) {
-            return response.error(95, "not-permission", null);
-        }
         return switch (method) {
             case "delete-tweet" -> response.responseCode(deleteTweet(tweet, user), "deleting-tweet");
             case "retweet" -> response.responseCode(retweet(user, tweet), "retweeting");
@@ -225,7 +222,7 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized Tweet findTweet(int id) {
-        for (Tweet i : database.allTweet) {
+        for (Tweet i : database.tweets) {
             if (i.getId() == id) {
                 return i;
             }

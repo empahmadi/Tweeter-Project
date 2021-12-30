@@ -42,13 +42,13 @@ public class TimeLineServiceImpl implements TimelineService {
         ArrayList<Tweet> tweets = new ArrayList<>();
         JSONArray timeline = new JSONArray();
         for (User i : database.follows.get(user)) {
-            tweets.addAll(database.tweets.get(i));
+            tweets.addAll(database.userTweets.get(i));
         }
         for (User i : database.follows.get(user)) {
-            tweets.addAll(database.retweet.get(i));
+            tweets.addAll(database.UserRetweets.get(i));
         }
         for (User i : database.follows.get(user)) {
-            tweets.addAll(database.like.get(i));
+            tweets.addAll(database.userLikes.get(i));
         }
         delRepeated(tweets);
         for (Tweet i : tweets) {

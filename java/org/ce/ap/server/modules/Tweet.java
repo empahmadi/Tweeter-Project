@@ -16,7 +16,6 @@ public class Tweet implements Serializable {
     private final LocalDateTime addingDate;
     private LocalDateTime latestUpdate;
     private final int id;
-    private final User user;
     //constructor:
 
     /**
@@ -24,9 +23,8 @@ public class Tweet implements Serializable {
      *
      * @param content the content of tweet.
      */
-    public Tweet(String content, User user, int id) {
+    public Tweet(String content, int id) {
         this.id = id;
-        this.user = user;
         this.content = content;
         addingDate = LocalDateTime.now();
         latestUpdate = LocalDateTime.now();
@@ -38,13 +36,6 @@ public class Tweet implements Serializable {
      */
     public String getContent() {
         return content;
-    }
-
-    /**
-     * @return user that is the own of tweet.
-     */
-    public User getUser() {
-        return user;
     }
 
     /**

@@ -101,10 +101,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         database.follows.remove(user);
         database.users.remove(user);
-        database.tweets.remove(user);
+        database.userTweets.remove(user);
         database.notifications.remove(user);
-        database.retweet.remove(user);
-        database.like.remove(user);
+        database.userRetweets.remove(user);
+        database.userLikes.remove(user);
         return 0;
     }
 
@@ -116,12 +116,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public synchronized void addUser(User user) {
         database.users.add(user);
-        database.tweets.put(user, new ArrayList<>());
+        database.userTweets.put(user, new ArrayList<>());
         database.follows.put(user, new ArrayList<>());
         database.followers.put(user, new ArrayList<>());
         database.notifications.put(user, new ArrayList<>());
-        database.retweet.put(user, new ArrayList<>());
-        database.like.put(user, new ArrayList<>());
+        database.userRetweets.put(user, new ArrayList<>());
+        database.userLikes.put(user, new ArrayList<>());
     }
 
     /**
@@ -252,8 +252,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         profile.put("followers",followers);
         profile.put("follows",follows);
         result.put(profile);
-        if (database.tweets.get(user).size() != 0) {
-            for (Tweet i : database.tweets.get(user)) {
+        if (database.userTweets.get(user).size() != 0) {
+            for (Tweet i : database.userTweets.get(user)) {
                 result.put(ts.getTweet(i));
             }
         }
