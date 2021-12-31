@@ -58,7 +58,7 @@ public class TweetingServiceImpl implements TweetingService {
                 database.tweetLikes.get(tweet).add(user);
                 database.userLikes.get(user).add(tweet);
                 code = 32;
-            }else
+            } else
                 code = 1;
         }
         return response.responseCode(code, "liking tweet");
@@ -116,33 +116,33 @@ public class TweetingServiceImpl implements TweetingService {
     /**
      * retweet a tweet.
      *
-     * @param user  .
-     * @param id .
+     * @param user .
+     * @param id   .
      */
     @Override
     public synchronized String retweet(User user, int id) {
         Tweet tweet = findTweet(id);
-        if (tweet == null){
-            return response.error(1,"retweeting",null);
+        if (tweet == null) {
+            return response.error(1, "retweeting", null);
         }
         database.tweetRetweets.get(tweet).add(user);
         database.userTweets.get(user).add(tweet);
         database.userRetweets.get(user).add(tweet);
-        return response.responseCode(38,"retweeting");
+        return response.responseCode(38, "retweeting");
     }
 
     /**
      * delete a tweet.
      *
-     * @param id .
-     * @param user  .
+     * @param id   .
+     * @param user .
      * @return error code.
      */
     @Override
     public synchronized String deleteTweet(int id, User user) {
         Tweet tweet = findTweet(id);
         int code = 1;
-        if(tweet != null){
+        if (tweet != null) {
             for (Tweet i : database.userTweets.get(user)) {
                 if (tweet.equals(i)) {
                     database.userTweets.get(user).remove(tweet);
@@ -156,7 +156,7 @@ public class TweetingServiceImpl implements TweetingService {
                 }
             }
         }
-        return response.responseCode(code,"deleting tweet");
+        return response.responseCode(code, "deleting tweet");
     }
 
     /**
@@ -225,6 +225,38 @@ public class TweetingServiceImpl implements TweetingService {
         JSONArray result = new JSONArray();
         result.put(getTweet(tweet));
         return response.response(1, result);
+    }
+
+    /**
+     * this method get users that retweet a tweet.
+     *
+     * @param id .
+     * @return response of server in json format.
+     */
+    @Override
+    public synchronized String getJRetweets(int id) {
+        Tweet tweet = findTweet(id);
+        if (tweet == null) {
+            return response.error(1, "finding-tweet", null);
+        }
+        JSONArray result = getRetweets(tweet);
+        return response.response(result.length(), result);
+    }
+
+    /**
+     * this method get users that likes a tweet.
+     *
+     * @param id .
+     * @return response of server in json format.
+     */
+    @Override
+    public synchronized String getJLikes(int id) {
+        Tweet tweet = findTweet(id);
+        if (tweet == null) {
+            return response.error(1, "finding-tweet", null);
+        }
+        JSONArray result = getLikes(tweet);
+        return response.response(result.length(), result);
     }
 
     /**

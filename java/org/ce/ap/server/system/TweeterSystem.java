@@ -64,17 +64,25 @@ public class TweeterSystem {
             case "unlike":
                 return ts.unlike(this.user, parameter.getInt("tweet-id"));
             case "send-tweet":
-                return ts.sendTweet(this.user,parameter.getString("content"));
+                return ts.sendTweet(this.user, parameter.getString("content"));
             case "delete-tweet":
-                return ts.deleteTweet(parameter.getInt("tweet-id"),this.user);
+                return ts.deleteTweet(parameter.getInt("tweet-id"), this.user);
             case "retweet":
                 return ts.retweet(this.user, parameter.getInt("tweet-id"));
             case "follow":
-                return os.follow(this.user,parameter.getString("username"));
+                return os.follow(this.user, parameter.getString("username"));
             case "unfollow":
                 return os.unfollow(this.user, parameter.getString("username"));
             case "profile":
                 return au.getProfile(parameter.getString("username"));
+            case "get-likes":
+                return ts.getJLikes(parameter.getInt("tweet-id"));
+            case "get-followers":
+                return os.getJFollowers(parameter.getString("username"));
+            case "get-follows":
+                return os.getJFollows(parameter.getString("username"));
+            case "get-retweets":
+                return ts.getJRetweets(parameter.getInt("tweet-id"));
             default:
                 return response.error(56, "request not understanding", null);
         }
@@ -95,7 +103,7 @@ public class TweeterSystem {
         if (method.equals("signup")) {
             return signup(request.getJSONObject("parameters"));
         }
-        return response.error(8,"Authentication",null);
+        return response.error(8, "Authentication", null);
     }
 
     /**
@@ -110,7 +118,7 @@ public class TweeterSystem {
         if (value == 30) {
             user = au.findUser(username);
             isLogin = true;
-            return response.responseCode(value,"login");
+            return response.responseCode(value, "login");
         }
         return response.error(value, "validation", null);
     }
@@ -131,7 +139,7 @@ public class TweeterSystem {
         if (value == 30) {
             user = au.findUser(username);
             isLogin = true;
-            return response.responseCode(value,"signup");
+            return response.responseCode(value, "signup");
         }
         return response.error(value, "serverError", null);
     }

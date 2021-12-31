@@ -16,7 +16,7 @@ public interface ObserverService {
     /**
      * someone follows somebody.
      *
-     * @param user        someone.
+     * @param user     someone.
      * @param username somebody.
      * @return error code.
      */
@@ -25,7 +25,7 @@ public interface ObserverService {
     /**
      * someone unfollows somebody.
      *
-     * @param user        someone.
+     * @param user     someone.
      * @param username somebody.
      * @return error code.
      */
@@ -42,4 +42,20 @@ public interface ObserverService {
      * @return users that this user follow them.
      */
     ArrayList<User> getFollows(User user);
+
+    /**
+     * get followers of a user.
+     *
+     * @param username .
+     * @return followers in json format.
+     */
+    String getJFollowers(String username);
+
+    /**
+     * get follows of a user.
+     *
+     * @param username .
+     * @return follows in json format.
+     */
+    String getJFollows(String username);
 }

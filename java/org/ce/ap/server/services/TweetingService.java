@@ -17,8 +17,8 @@ public interface TweetingService {
     /**
      * likes a tweet.
      *
-     * @param user  .
-     * @param id .
+     * @param user .
+     * @param id   .
      * @return error code.
      */
     String like(User user, int id);
@@ -26,8 +26,8 @@ public interface TweetingService {
     /**
      * unlike a tweet.
      *
-     * @param user  .
-     * @param id .
+     * @param user .
+     * @param id   .
      * @return error code.
      */
     String unlike(User user, int id);
@@ -44,16 +44,16 @@ public interface TweetingService {
     /**
      * retweet a tweet.
      *
-     * @param user  .
-     * @param id .
+     * @param user .
+     * @param id   .
      */
     String retweet(User user, int id);
 
     /**
      * delete a tweet.
      *
-     * @param id .
-     * @param user  .
+     * @param id   .
+     * @param user .
      * @return error code.
      */
     String deleteTweet(int id, User user);
@@ -86,6 +86,7 @@ public interface TweetingService {
 
     /**
      * get a tweet by its id.
+     *
      * @param id .
      * @return tweet in json format.
      */
@@ -96,4 +97,20 @@ public interface TweetingService {
      * @return a tweet from database.
      */
     Tweet findTweet(int id);
+
+    /**
+     * this method get users that retweet a tweet.
+     *
+     * @param id .
+     * @return response of server in json format.
+     */
+    String getJRetweets(int id);
+
+    /**
+     * this method get users that likes a tweet.
+     *
+     * @param id .
+     * @return response of server in json format.
+     */
+    String getJLikes(int id);
 }

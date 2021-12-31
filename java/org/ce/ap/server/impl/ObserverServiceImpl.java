@@ -4,6 +4,7 @@ import main.java.org.ce.ap.server.database.EMPDatabase;
 import main.java.org.ce.ap.server.modules.User;
 import main.java.org.ce.ap.server.services.ObserverService;
 import main.java.org.ce.ap.server.system.Response;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
@@ -58,13 +59,13 @@ public class ObserverServiceImpl implements ObserverService {
                 code = 35;
             }
         }
-        return response.responseCode(code,"following");
+        return response.responseCode(code, "following");
     }
 
     /**
      * someone unfollows somebody.
      *
-     * @param user        someone.
+     * @param user     someone.
      * @param username somebody.
      * @return error code.
      */
@@ -72,7 +73,7 @@ public class ObserverServiceImpl implements ObserverService {
     public String unfollow(User user, String username) {
         User destination = au.findUser(username);
         int code = 1;
-        if(destination != null){
+        if (destination != null) {
             for (User i : database.followers.get(destination)) {
                 if (i.equals(user)) {
                     database.followers.get(destination).remove(user);
@@ -81,11 +82,11 @@ public class ObserverServiceImpl implements ObserverService {
                     code = 39;
                 }
             }
-            if(code == 1){
-            code = 29;
+            if (code == 1) {
+                code = 29;
             }
         }
-        return response.responseCode(code,"unfollowing");
+        return response.responseCode(code, "unfollowing");
     }
 
     /**
@@ -104,5 +105,45 @@ public class ObserverServiceImpl implements ObserverService {
     @Override
     public synchronized ArrayList<User> getFollows(User user) {
         return database.follows.get(user);
+    }
+
+    /**
+     * get followers of a user.
+     *
+     * @param username .
+     * @return followers in json format.
+     */
+    @Override
+    public synchronized String getJFollowers(String username) {
+        User user = au.findUser(username);
+        if (user == null) {
+            return response.error(1, "finding-user", null);
+        }
+        ArrayList<User> users = getFollowers(user);
+        JSONArray result = new JSONArray();
+        for (User i : users) {
+            result.put(i.getUsername());
+        }
+        return response.response(users.size(), result);
+    }
+
+    /**
+     * get follows of a user.
+     *
+     * @param username .
+     * @return follows in json format.
+     */
+    @Override
+    public synchronized String getJFollows(String username) {
+        User user = au.findUser(username);
+        if (user == null) {
+            return response.error(1, "finding-user", null);
+        }
+        ArrayList<User> users = getFollows(user);
+        JSONArray result = new JSONArray();
+        for (User i : users) {
+            result.put(i.getUsername());
+        }
+        return response.response(users.size(), result);
     }
 }
