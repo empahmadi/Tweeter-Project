@@ -18,19 +18,19 @@ public interface TweetingService {
      * likes a tweet.
      *
      * @param user  .
-     * @param tweet .
+     * @param id .
      * @return error code.
      */
-    int like(User user, Tweet tweet);
+    String like(User user, int id);
 
     /**
      * unlike a tweet.
      *
      * @param user  .
-     * @param tweet .
+     * @param id .
      * @return error code.
      */
-    int unlike(User user, Tweet tweet);
+    String unlike(User user, int id);
 
     /**
      * send a tweet.
@@ -39,24 +39,24 @@ public interface TweetingService {
      * @param content the content of tweet.
      * @return code.
      */
-    int sendTweet(User user, String content);
+    String sendTweet(User user, String content);
 
     /**
      * retweet a tweet.
      *
      * @param user  .
-     * @param tweet .
+     * @param id .
      */
-    int retweet(User user, Tweet tweet);
+    String retweet(User user, int id);
 
     /**
      * delete a tweet.
      *
-     * @param tweet .
+     * @param id .
      * @param user  .
      * @return error code.
      */
-    int deleteTweet(Tweet tweet, User user);
+    String deleteTweet(int id, User user);
 
     /**
      * @param user .
@@ -85,14 +85,11 @@ public interface TweetingService {
     JSONObject getTweet(Tweet tweet);
 
     /**
-     * get information and perform some action on it.
-     *
-     * @param information more information about action.
-     * @param method      .
-     * @param user        .
-     * @return errors or response.
+     * get a tweet by its id.
+     * @param id .
+     * @return tweet in json format.
      */
-    String run(User user, String method, JSONObject information);
+    String getTweetByID(int id);
 
     /**
      * @param id .

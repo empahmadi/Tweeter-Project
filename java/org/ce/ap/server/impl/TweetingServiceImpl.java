@@ -39,39 +39,53 @@ public class TweetingServiceImpl implements TweetingService {
     /**
      * likes a tweet.
      *
-     * @param user  .
-     * @param tweet .
+     * @param user .
+     * @param id   .
      * @return error code.
      */
     @Override
-    public int like(User user, Tweet tweet) {
-        for (User i : database.tweetLikes.get(tweet)) {
-            if (i.equals(user)) {
-                return 1;
+    public synchronized String like(User user, int id) {
+        Tweet tweet = findTweet(id);
+        int code = 1;
+        if (tweet != null) {
+            for (User i : database.tweetLikes.get(tweet)) {
+                if (i.equals(user)) {
+                    code = 20;
+                    break;
+                }
             }
+            if (code != 20) {
+                database.tweetLikes.get(tweet).add(user);
+                database.userLikes.get(user).add(tweet);
+                code = 32;
+            }else
+                code = 1;
         }
-        database.tweetLikes.get(tweet).add(user);
-        database.userLikes.get(user).add(tweet);
-        return 32;
+        return response.responseCode(code, "liking tweet");
     }
 
     /**
      * unlike a tweet.
      *
-     * @param user  .
-     * @param tweet .
+     * @param user .
+     * @param id   .
      * @return error code.
      */
     @Override
-    public int unlike(User user, Tweet tweet) {
-        for (User i : database.tweetLikes.get(tweet)) {
-            if (user.equals(i)) {
-                database.tweetLikes.get(tweet).remove(user);
-                database.userLikes.get(user).remove(tweet);
-                return 33;
+    public synchronized String unlike(User user, int id) {
+        Tweet tweet = findTweet(id);
+        int code = 1;
+        if (tweet != null) {
+            for (User i : database.tweetLikes.get(tweet)) {
+                if (user.equals(i)) {
+                    database.tweetLikes.get(tweet).remove(user);
+                    database.userLikes.get(user).remove(tweet);
+                    code = 33;
+                    break;
+                }
             }
         }
-        return 1;
+        return response.responseCode(code, "unliking tweet");
     }
 
     /**
@@ -82,55 +96,67 @@ public class TweetingServiceImpl implements TweetingService {
      * @return code.
      */
     @Override
-    public int sendTweet(User user, String content) {
+    public synchronized String sendTweet(User user, String content) {
+        int code;
         if (content.length() > 256)
-            return 3;
-        if (content.length() == 0)
-            return 4;
-        Tweet tweet = new Tweet(content, idMaker());
-        database.tweetRetweets.put(tweet, new ArrayList<>());
-        database.userTweets.get(user).add(tweet);
-        database.tweetLikes.put(tweet, new ArrayList<>());
-        database.tweets.add(tweet);
-        return 31;
+            code = 3;
+        else if (content.length() == 0)
+            code = 4;
+        else {
+            Tweet tweet = new Tweet(content, idMaker());
+            database.tweetRetweets.put(tweet, new ArrayList<>());
+            database.userTweets.get(user).add(tweet);
+            database.tweetLikes.put(tweet, new ArrayList<>());
+            database.tweets.add(tweet);
+            code = 31;
+        }
+        return response.responseCode(code, "sending tweet");
     }
 
     /**
      * retweet a tweet.
      *
      * @param user  .
-     * @param tweet .
+     * @param id .
      */
     @Override
-    public int retweet(User user, Tweet tweet) {
+    public synchronized String retweet(User user, int id) {
+        Tweet tweet = findTweet(id);
+        if (tweet == null){
+            return response.error(1,"retweeting",null);
+        }
         database.tweetRetweets.get(tweet).add(user);
         database.userTweets.get(user).add(tweet);
         database.userRetweets.get(user).add(tweet);
-        return 38;
+        return response.responseCode(38,"retweeting");
     }
 
     /**
      * delete a tweet.
      *
-     * @param tweet .
+     * @param id .
      * @param user  .
      * @return error code.
      */
     @Override
-    public int deleteTweet(Tweet tweet, User user) {
-        for (Tweet i : database.userTweets.get(user)) {
-            if (tweet.equals(i)) {
-                database.userTweets.get(user).remove(tweet);
-                database.tweetLikes.remove(tweet);
-                for (User j : database.tweetRetweets.get(tweet)) {
-                    database.userTweets.get(j).remove(tweet);
+    public synchronized String deleteTweet(int id, User user) {
+        Tweet tweet = findTweet(id);
+        int code = 1;
+        if(tweet != null){
+            for (Tweet i : database.userTweets.get(user)) {
+                if (tweet.equals(i)) {
+                    database.userTweets.get(user).remove(tweet);
+                    database.tweetLikes.remove(tweet);
+                    for (User j : database.tweetRetweets.get(tweet)) {
+                        database.userTweets.get(j).remove(tweet);
+                    }
+                    database.tweetRetweets.remove(tweet);
+                    database.tweets.remove(tweet);
+                    code = 34;
                 }
-                database.tweetRetweets.remove(tweet);
-                database.tweets.remove(tweet);
-                return 34;
             }
         }
-        return 1;
+        return response.responseCode(code,"deleting tweet");
     }
 
     /**
@@ -186,38 +212,19 @@ public class TweetingServiceImpl implements TweetingService {
     }
 
     /**
-     * get information and perform some action on it.
+     * this method get a tweet by its id.
      *
-     * @param information more information about action.
-     * @param method      .
-     * @param user        .
-     * @return errors or response.
+     * @param id .
+     * @return tweet in json format.
      */
-    @Override
-    public synchronized String run(User user, String method, JSONObject information) {
-        if (method.equals("send-tweet")) {
-            return response.responseCode(sendTweet(user, information.getString("content")), "sending-tweet");
-        }
-        Tweet tweet = findTweet(information.getInt("tweet-id"));
+    public synchronized String getTweetByID(int id) {
+        Tweet tweet = findTweet(id);
         if (tweet == null) {
-            return response.error(11, "finding-tweet", null);
+            return response.error(1, "finding tweet", null);
         }
-        if (method.equals("like")) {
-            return response.responseCode(like(user, tweet), "liking-tweet");
-        }
-        if (method.equals("unlike")) {
-            return response.responseCode(unlike(user, tweet), "unliking-tweet");
-        }
-        if (method.equals("get-tweet")){
-            JSONArray result = new JSONArray();
-            result.put(getTweet(tweet));
-            return response.response(1,result);
-        }
-        return switch (method) {
-            case "delete-tweet" -> response.responseCode(deleteTweet(tweet, user), "deleting-tweet");
-            case "retweet" -> response.responseCode(retweet(user, tweet), "retweeting");
-            default -> null;
-        };
+        JSONArray result = new JSONArray();
+        result.put(getTweet(tweet));
+        return response.response(1, result);
     }
 
     /**

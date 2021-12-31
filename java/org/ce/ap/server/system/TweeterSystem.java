@@ -58,15 +58,21 @@ public class TweeterSystem {
             case "timeline":
                 return update.run(this.user);
             case "get-tweet":
+                return ts.getTweetByID(parameter.getInt("tweet-id"));
             case "like":
+                return ts.like(this.user, parameter.getInt("tweet-id"));
             case "unlike":
+                return ts.unlike(this.user, parameter.getInt("tweet-id"));
             case "send-tweet":
+                return ts.sendTweet(this.user,parameter.getString("content"));
             case "delete-tweet":
+                return ts.deleteTweet(parameter.getInt("tweet-id"),this.user);
             case "retweet":
-                return ts.run(this.user,method,parameter);
+                return ts.retweet(this.user, parameter.getInt("tweet-id"));
             case "follow":
+                return os.follow(this.user,parameter.getString("username"));
             case "unfollow":
-                return os.run(method, parameter, user);
+                return os.unfollow(this.user, parameter.getString("username"));
             case "profile":
                 return au.getProfile(parameter.getString("username"));
             default:

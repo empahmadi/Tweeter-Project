@@ -17,19 +17,19 @@ public interface ObserverService {
      * someone follows somebody.
      *
      * @param user        someone.
-     * @param destination somebody.
+     * @param username somebody.
      * @return error code.
      */
-    int follow(User user, User destination);
+    String follow(User user, String username);
 
     /**
      * someone unfollows somebody.
      *
      * @param user        someone.
-     * @param destination somebody.
+     * @param username somebody.
      * @return error code.
      */
-    int unfollow(User user, User destination);
+    String unfollow(User user, String username);
 
     /**
      * @param user .
@@ -42,13 +42,4 @@ public interface ObserverService {
      * @return users that this user follow them.
      */
     ArrayList<User> getFollows(User user);
-    /**
-     * this methode manage follow and unfollow actions and handle its return codes.
-     *
-     * @param method    follow or unfollow.
-     * @param parameter parameter include username of destination.
-     * @param user      user.
-     * @return response of server in JSON format.
-     */
-    String run(String method, JSONObject parameter, User user);
 }
