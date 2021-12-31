@@ -20,7 +20,7 @@ public class TweeterSystem {
     private final TweetingServiceImpl ts;
     private final ObserverServiceImpl os;
     private final TimeLineServiceImpl update;
-    private Response response;
+    private final Response response;
     private boolean isLogin;
 
     /**
@@ -57,21 +57,21 @@ public class TweeterSystem {
         switch (method) {
             case "timeline":
                 return update.run(this.user);
-            case "follow":
-            case "unfollow":
-                return os.run(method, parameter, user);
+            case "get-tweet":
             case "like":
             case "unlike":
             case "send-tweet":
             case "delete-tweet":
             case "retweet":
-                return ts.run(this.user, method, parameter);
+                return ts.run(this.user,method,parameter);
+            case "follow":
+            case "unfollow":
+                return os.run(method, parameter, user);
             case "profile":
                 return au.getProfile(parameter.getString("username"));
             default:
                 return response.error(56, "request not understanding", null);
         }
-
     }
 
     /**

@@ -48,14 +48,6 @@ public interface AuthenticationService {
      */
     User findUser(String username);
 
-    /**
-     * change the information about user.
-     * is in working.
-     *
-     * @param in information.
-     * @return code.
-     */
-    int changeInformation(JSONObject in);
 
     /**
      * check the validation of information that user entered.

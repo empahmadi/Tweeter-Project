@@ -7,6 +7,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
     /**
@@ -16,12 +18,10 @@ public class Main {
      * @param args .
      */
     public static void main(String[] args) {
-        try (Socket socket = new Socket("localhost", 9321);
-             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-             DataInputStream in = new DataInputStream(socket.getInputStream())) {
+        ExecutorService execute = Executors.newCachedThreadPool();
+        try (Socket socket = new Socket("localhost", 9321)){
             System.out.println("Connection Established :)");
-            ConnectionServiceImpl connector = new ConnectionServiceImpl(in, out);
-            connector.run();
+            execute.execute(new ConnectionServiceImpl(socket));
         } catch (IOException ioe) {
             System.out.println(ioe.toString());
         }

@@ -114,7 +114,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @param user .
      */
     @Override
-    public synchronized void addUser(User user) {
+    public void addUser(User user) {
         database.users.add(user);
         database.userTweets.put(user, new ArrayList<>());
         database.follows.put(user, new ArrayList<>());
@@ -138,17 +138,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return null;
     }
 
-    /**
-     * change the information about user.
-     * is in working.
-     *
-     * @param in information.
-     * @return code.
-     */
-    @Override
-    public synchronized int changeInformation(JSONObject in) {
-        return 37;
-    }
 
     /**
      * check the validation of information that user entered.
@@ -159,6 +148,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public synchronized JSONArray checkInformation(JSONObject in) {
         JSONArray errors = new JSONArray();
+
         // username:
         if (in.getString("username").length() <= 1) {
             errors.put("Username must include at least 2 characters.");
@@ -190,8 +180,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         if (in.getJSONArray("date-of-birth").getInt(2) > 31) {
             errors.put("you are so young for using this app");
+        }if (in.getString("lastname").length() == 0){
+            errors.put("lastname should have at least one character");
+        }if (in.getString("bio").length() == 0){
+            errors.put("biography should have at least one character");
+        }if (in.getString("bio").length() >= 256){
+            errors.put("lastname should have maximum 256 characters");
         }
-        //unnecessary.
         return errors;
     }
 

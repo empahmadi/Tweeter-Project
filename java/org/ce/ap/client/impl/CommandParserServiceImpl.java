@@ -35,7 +35,14 @@ public class CommandParserServiceImpl implements CommandParserService {
         JSONObject request = new JSONObject();
         request.put("method", method);
         request.put("parameters", parameters);
-        return connectionService.connection(request.toString());
+        String response = connectionService.connection(request.toString());
+        try{
+            JSONObject res = new JSONObject(response);
+            return connectionService.connection(request.toString());
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return "10";
+        }
     }
 
     /**
@@ -78,5 +85,107 @@ public class CommandParserServiceImpl implements CommandParserService {
             parameters.put("biography", information[4]);
         }
         return makeRequest("signup", parameters);
+    }
+
+    /**
+     * get main page components.
+     *
+     * @return response of server.
+     */
+    @Override
+    public String main() {
+        JSONObject params = new JSONObject();
+        return  makeRequest("timeline",params);
+    }
+
+    /**
+     * get profile of username information.
+     *
+     * @param username .
+     * @return response of server.
+     */
+    @Override
+    public String profile(String username) {
+        JSONObject params = new JSONObject();
+        params.put("username",username);
+        return makeRequest("profile",params);
+    }
+
+    /**
+     * send a tweet.
+     *
+     * @param content content of tweet.
+     * @return response of server.
+     */
+    @Override
+    public String sendTweet(String content) {
+        JSONObject parameter = new JSONObject();
+        parameter.put("content",content);
+        return makeRequest("send-tweet",parameter);
+    }
+
+    /**
+     * get a list of user with given type.
+     *
+     * @param type .
+     * @param username .
+     * @return response of server.
+     */
+    @Override
+    public String getList(String type, String username) {
+        JSONObject parameter = new JSONObject();
+        parameter.put("username",username);
+        return makeRequest(type,parameter);
+    }
+
+    /**
+     * do an action.
+     *
+     * @param type type of action.
+     * @param id .
+     * @return response of server.
+     */
+    @Override
+    public String tweetAction(String type, int id) {
+        JSONObject params = new JSONObject();
+        params.put("tweet-id",id);
+        JSONObject response = new JSONObject(makeRequest(type,params));
+        if (response.getBoolean("hasError")){
+            return response.getInt("errorCode")+"";
+        }
+        System.out.println(response.getJSONArray("result").get(0));
+        return "empty";
+    }
+
+    /**
+     * do an action on users.
+     *
+     * @param type     type of action.
+     * @param username .
+     * @return response of server.
+     */
+    @Override
+    public String userAction(String type, String username) {
+        JSONObject params = new JSONObject();
+        params.put("username",username);
+        JSONObject response = new JSONObject(makeRequest(type,params));
+        if (response.getBoolean("hasError")){
+            return response.getInt("errorCode")+"";
+        }
+        System.out.println(response.getJSONArray("result").get(0));
+        return "empty";
+    }
+
+    /**
+     * get a tweet from server.
+     *
+     * @param id tweet id.
+     * @return response of server.
+     */
+    @Override
+    public String getTweet(int id) {
+        JSONObject params = new JSONObject();
+        params.put("tweet-id",id);
+        return makeRequest("get-tweet",params);
     }
 }

@@ -1,5 +1,8 @@
 package main.java.org.ce.ap.client.services;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /**
  * this interface is a framework for console view service.
  *
@@ -7,17 +10,6 @@ package main.java.org.ce.ap.client.services;
  * @version 1.0
  */
 public interface ConsoleViewService {
-    /**
-     * this method get information and destination page and send information to that page.
-     * @return code .
-     */
-    int consoleSys(String information, String page);
-
-    /**
-     * this method is for single response such
-     * @param text
-     */
-    void singleRes(String text);
 
     /**
      * login or signup someone to system.
@@ -33,21 +25,34 @@ public interface ConsoleViewService {
 
     /**
      * show a list of anything that we need it to show as a list.
+     * @param type type of list.
+     * @param username .
      * @return code.
      */
-    int list();
+    int list(String type,String username);
+
+    /**
+     * show a list that its content is in client side.
+     * @param items items of list.
+     * @return code.
+     */
+
+    int listView(JSONArray items);
 
     /**
      * this method will show a profile.
+     *
+     * @param username .
      * @return code.
      */
-    int profile();
+    int profile(String username);
 
     /**
      * this method will show a tweet.
+     * @param id  tweet id.
      * @return code.
      */
-    int tweet();
+    int tweet(int id);
 
     /**
      * this method will sign up a user.
@@ -55,6 +60,16 @@ public interface ConsoleViewService {
      */
     int signup();
 
+    /**
+     * creat a tweet.
+     * @return code.
+     */
+    int creatTweet();
+    /**
+     * this method is for exit.
+     */
+
+    void exit();
     /**
      * this method will show error that related to its code.
      *

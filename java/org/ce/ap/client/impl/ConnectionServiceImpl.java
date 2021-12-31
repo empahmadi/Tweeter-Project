@@ -5,6 +5,9 @@ import main.java.org.ce.ap.client.services.ConnectionService;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * this class connect client to server.
@@ -12,24 +15,20 @@ import java.io.IOException;
  * @author Eid Mohammad Ahmadi
  * @version 1.0
  */
-public class ConnectionServiceImpl implements ConnectionService {
-
-    private final DataInputStream input;
-    private final DataOutputStream output;
+public class ConnectionServiceImpl implements ConnectionService,Runnable {
+    private Socket server;
     private final CommandParserServiceImpl cps;
     private final ConsoleViewServiceImpl cvs;
 
     /**
      * this constructor is for initialize something.
      *
-     * @param in  input.
-     * @param out output.
+     * @param server server.
      */
-    public ConnectionServiceImpl(DataInputStream in, DataOutputStream out) {
-        input = in;
-        output = out;
+    public ConnectionServiceImpl(Socket server) {
         cps = new CommandParserServiceImpl(this);
         cvs = new ConsoleViewServiceImpl(cps);
+        this.server = server;
     }
 
     /**
@@ -40,7 +39,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         int value = 0;
         while (value == 0)
             value = cvs.loginPage();
-        System.out.println("reach");
+        cvs.main();
     }
 
     /**
@@ -52,9 +51,9 @@ public class ConnectionServiceImpl implements ConnectionService {
      */
     @Override
     public String connection(String request) {
-        try {
+        try(DataOutputStream output = new DataOutputStream(server.getOutputStream());
+            DataInputStream input = new DataInputStream(server.getInputStream())) {
             output.writeUTF(request);
-            output.flush();
             return input.readUTF();
         } catch (IOException ioe) {
             System.out.println(ioe.toString());
