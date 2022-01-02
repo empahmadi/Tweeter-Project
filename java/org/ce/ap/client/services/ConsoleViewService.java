@@ -73,7 +73,14 @@ public interface ConsoleViewService {
     /**
      * this method will show error that related to its code.
      *
-     * @param code .
+     * @param error .
      */
-    void parseError(int code);
+    void parseError(JSONObject error);
+
+    /**
+     * this method will show error with given code.
+     *
+     * @param code error code.
+     */
+    void parseErrorByCode(int code);
 }

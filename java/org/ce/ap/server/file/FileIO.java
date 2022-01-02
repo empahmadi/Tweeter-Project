@@ -43,6 +43,19 @@ public class FileIO {
         return "Successful";
     }
 
+    public void deleteUser(String username){
+        String path = giveAddress("server.users.file");
+        if (path != null){
+            File file = new File(path+username+".user");
+        }
+    }
+    public void deleteTweet(int id){
+        String path = giveAddress("server.tweets.file");
+        if (path != null){
+            File file = new File(path+id+".tweet");
+        }
+    }
+
     /**
      * backup from tweets.
      *

@@ -52,7 +52,7 @@ public class TimeLineServiceImpl implements TimelineService {
         }
         delRepeated(tweets);
         for (Tweet i : tweets) {
-            timeline.put(ts.getTweet(i));
+            timeline.put(ts.getTweet(user,i));
         }
         return timeline;
     }

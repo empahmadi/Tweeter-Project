@@ -23,11 +23,16 @@ public class Response {
      * @return response of server in unique format (JSON).
      */
     public String error(int code, String type, JSONArray params) {
+
         JSONObject jResponse = new JSONObject();
         jResponse.put("hasError",true);
         jResponse.put("errorType", type);
         jResponse.put("errorCode", code);
-        jResponse.put("params", params);
+        if (params == null){
+            jResponse.put("params",new JSONArray());
+        }else{
+            jResponse.put("params", params);
+        }
         return jResponse.toString();
     }
 

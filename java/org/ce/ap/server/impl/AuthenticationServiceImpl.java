@@ -72,10 +72,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (hash == null) {
             return 1;
         }
-        String date = in.getJSONArray("date-of-birth").get(0) + "-" + in.getJSONArray("date-of-birth").get(1) +
-                "-" + in.getJSONArray("date-of-birth").get(2);
+        String date = in.getInt("year") + "-" + in.getInt("month") +
+                "-" + in.getInt("day");
         User user = new User(in.getString("username"), hash,
                 in.getString("name"), date);
+        user.setLastname(in.getString("lastname"));
+        user.setBiography(in.getString("bio"));
         addUser(user);
         return 30;
     }
@@ -83,28 +85,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     /**
      * remove a user.
      *
-     * @param user user.
+     * @param username user.
      * @return code.
      */
     @Override
-    public synchronized int removeUser(User user) {
+    public synchronized int removeUser(String username) {
+        User user = findUser(username);
         if (user == null)
             return 1;
         if (!database.users.contains(user))
             return 20;
-        for (User j : database.followers.get(user)) {
-            database.follows.get(j).remove(user);
-        }
-        database.followers.remove(user);
-        for (User j : database.follows.get(user)) {
-            database.followers.get(j).remove(user);
-        }
-        database.follows.remove(user);
-        database.users.remove(user);
-        database.userTweets.remove(user);
-        database.notifications.remove(user);
-        database.userRetweets.remove(user);
-        database.userLikes.remove(user);
+        database.removeUser(user);
         return 0;
     }
 
@@ -148,7 +139,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public synchronized JSONArray checkInformation(JSONObject in) {
         JSONArray errors = new JSONArray();
-
         // username:
         if (in.getString("username").length() <= 1) {
             errors.put("Username must include at least 2 characters.");
@@ -169,22 +159,25 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             errors.put("Password must include at least 4 character.");
         }
         //date of birth.
-        if (in.getJSONArray("date-of-birth").getInt(0) >= 2020) {
+        if (in.getInt("year") >= 2020) {
             errors.put("You are so young for using this app");
         }
-        if (in.getJSONArray("date-of-birth").getInt(0) <= 1900) {
+        if (in.getInt("year") <= 1900) {
             errors.put("You entered an invalid year(the year must be greater than 1900).");
         }
-        if (in.getJSONArray("date-of-birth").getInt(1) > 12) {
+        if (in.getInt("month") > 12) {
             errors.put("You entered an invalid month.");
         }
-        if (in.getJSONArray("date-of-birth").getInt(2) > 31) {
+        if (in.getInt("day") > 31) {
             errors.put("you are so young for using this app");
-        }if (in.getString("lastname").length() == 0){
+        }
+        if (in.getString("lastname").length() == 0) {
             errors.put("lastname should have at least one character");
-        }if (in.getString("bio").length() == 0){
+        }
+        if (in.getString("bio").length() == 0) {
             errors.put("biography should have at least one character");
-        }if (in.getString("bio").length() >= 256){
+        }
+        if (in.getString("bio").length() >= 256) {
             errors.put("lastname should have maximum 256 characters");
         }
         return errors;
@@ -212,7 +205,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @return the profile information of user.
      */
     @Override
-    public synchronized String getProfile(String username) {
+    public synchronized String getProfile(User main, String username) {
         int check = 0;
         User user = findUser(username);
         if (user == null) {
@@ -222,10 +215,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         JSONObject profile = new JSONObject();
         JSONArray followers = new JSONArray();
         JSONArray follows = new JSONArray();
-        for (User i: database.followers.get(user)){
+        for (User i : database.followers.get(user)) {
             followers.put(i.getUsername());
         }
-        for (User i: database.follows.get(user)){
+        for (User i : database.follows.get(user)) {
             follows.put(i.getUsername());
         }
         profile.put("username", user.getUsername());
@@ -244,14 +237,44 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             check++;
         }
         profile.put("profile-is-complete", check == 0);
-        profile.put("followers",followers);
-        profile.put("follows",follows);
+        profile.put("followers", followers);
+        profile.put("follows", follows);
+        profile.put("follow-state", follows(main, user));
         result.put(profile);
         if (database.userTweets.get(user).size() != 0) {
             for (Tweet i : database.userTweets.get(user)) {
-                result.put(ts.getTweet(i));
+                result.put(ts.getTweet(user, i));
             }
         }
         return response.response(result.length(), result);
+    }
+
+    /**
+     * check that a follow follows user or no.
+     *
+     * @param follow .
+     * @param user   .
+     * @return true if follows else false.
+     */
+    @Override
+    public boolean follows(User follow, User user) {
+        for (User i : database.followers.get(user)) {
+            if (i.equals(follow)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void update(){
+        database.backup();
+    }
+
+    public synchronized String notifications(User user){
+        JSONArray result = new JSONArray();
+        for (int i = 0;i < database.notifications.get(user).size();i++){
+            result.put(database.notifications.get(user).get(i));
+        }
+        return response.response(result.length(),result);
     }
 }

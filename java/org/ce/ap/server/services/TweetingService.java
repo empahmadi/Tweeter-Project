@@ -80,17 +80,11 @@ public interface TweetingService {
      * give a tweet and change its information to JSON format.
      *
      * @param tweet tweet.
+     * @param user user that wants this tweet.
      * @return information of tweet.
      */
-    JSONObject getTweet(Tweet tweet);
+    JSONObject getTweet(User user,Tweet tweet);
 
-    /**
-     * get a tweet by its id.
-     *
-     * @param id .
-     * @return tweet in json format.
-     */
-    String getTweetByID(int id);
 
     /**
      * @param id .
@@ -113,4 +107,19 @@ public interface TweetingService {
      * @return response of server in json format.
      */
     String getJLikes(int id);
+    /**
+     * this method get a tweet by its id.
+     *
+     * @param id .
+     * @return tweet in json format.
+     */
+    String getTweetByID(User user,int id);
+
+    /**
+     * check that user likes this tweet or no.
+     * @param tweet .
+     * @param user .
+     * @return true if likes else false.
+     */
+    boolean likes(Tweet tweet, User user);
 }

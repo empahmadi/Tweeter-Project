@@ -1,5 +1,6 @@
 package main.java.org.ce.ap.client.impl;
 
+import main.java.org.ce.ap.client.Test;
 import main.java.org.ce.ap.client.services.ConnectionService;
 
 import java.io.DataInputStream;
@@ -13,20 +14,23 @@ import java.net.Socket;
  * @author Eid Mohammad Ahmadi
  * @version 1.0
  */
-public class ConnectionServiceImpl implements ConnectionService,Runnable {
-    private Socket server;
+public class ConnectionServiceImpl implements ConnectionService{
     private final CommandParserServiceImpl cps;
     private final ConsoleViewServiceImpl cvs;
+    private final DataInputStream input;
+    private final DataOutputStream output;
 
     /**
      * this constructor is for initialize something.
      *
-     * @param server server.
+     * @param input server.
+     * @param output .
      */
-    public ConnectionServiceImpl(Socket server) {
-        cps = new CommandParserServiceImpl(this);
+    public ConnectionServiceImpl(DataOutputStream output, DataInputStream input) {
+        cps = new CommandParserServiceImpl(new Test());
         cvs = new ConsoleViewServiceImpl(cps);
-        this.server = server;
+        this.input = input;
+        this.output = output;
     }
 
     /**
@@ -49,9 +53,9 @@ public class ConnectionServiceImpl implements ConnectionService,Runnable {
      */
     @Override
     public String connection(String request) {
-        try(DataOutputStream output = new DataOutputStream(server.getOutputStream());
-            DataInputStream input = new DataInputStream(server.getInputStream())) {
+        try {
             output.writeUTF(request);
+            output.flush();
             return input.readUTF();
         } catch (IOException ioe) {
             System.out.println(ioe.toString());

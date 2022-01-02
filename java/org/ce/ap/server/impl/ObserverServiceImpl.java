@@ -42,7 +42,7 @@ public class ObserverServiceImpl implements ObserverService {
      * @return error code.
      */
     @Override
-    public String follow(User user, String username) {
+    public synchronized String follow(User user, String username) {
         User destination = au.findUser(username);
         int code = 1;
         if (user != null) {
@@ -55,7 +55,7 @@ public class ObserverServiceImpl implements ObserverService {
             if (code == 1) {
                 database.followers.get(destination).add(user);
                 database.follows.get(user).add(destination);
-                database.notifications.get(user).add("user @" + user.getUsername() + " follow you in " + dateFormat.format(LocalDateTime.now()) + ".");
+                database.notifications.get(destination).add("user @" + user.getUsername() + " follow you in " + dateFormat.format(LocalDateTime.now()) + ".");
                 code = 35;
             }
         }
@@ -70,7 +70,7 @@ public class ObserverServiceImpl implements ObserverService {
      * @return error code.
      */
     @Override
-    public String unfollow(User user, String username) {
+    public synchronized String unfollow(User user, String username) {
         User destination = au.findUser(username);
         int code = 1;
         if (destination != null) {
@@ -78,8 +78,9 @@ public class ObserverServiceImpl implements ObserverService {
                 if (i.equals(user)) {
                     database.followers.get(destination).remove(user);
                     database.follows.get(user).remove(destination);
-                    database.notifications.get(user).add("user @" + user.getUsername() + " unfollow you in " + dateFormat.format(LocalDateTime.now()) + ".");
+                    database.notifications.get(destination).add("user @" + user.getUsername() + " unfollow you in " + dateFormat.format(LocalDateTime.now()) + ".");
                     code = 39;
+                    break;
                 }
             }
             if (code == 1) {

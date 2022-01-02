@@ -58,9 +58,11 @@ public class TweeterSystem {
             case "timeline":
                 return update.run(this.user);
             case "get-tweet":
-                return ts.getTweetByID(parameter.getInt("tweet-id"));
+                return ts.getTweetByID(this.user,parameter.getInt("tweet-id"));
             case "like":
                 return ts.like(this.user, parameter.getInt("tweet-id"));
+            case "delete-account":
+                return response.responseCode(au.removeUser(parameter.getString("username")),"deleting account");
             case "unlike":
                 return ts.unlike(this.user, parameter.getInt("tweet-id"));
             case "send-tweet":
@@ -69,12 +71,12 @@ public class TweeterSystem {
                 return ts.deleteTweet(parameter.getInt("tweet-id"), this.user);
             case "retweet":
                 return ts.retweet(this.user, parameter.getInt("tweet-id"));
+            case "profile":
+                return au.getProfile(this.user,parameter.getString("username"));
             case "follow":
                 return os.follow(this.user, parameter.getString("username"));
             case "unfollow":
                 return os.unfollow(this.user, parameter.getString("username"));
-            case "profile":
-                return au.getProfile(parameter.getString("username"));
             case "get-likes":
                 return ts.getJLikes(parameter.getInt("tweet-id"));
             case "get-followers":
@@ -83,6 +85,11 @@ public class TweeterSystem {
                 return os.getJFollows(parameter.getString("username"));
             case "get-retweets":
                 return ts.getJRetweets(parameter.getInt("tweet-id"));
+            case "notifications":
+                return au.notifications(this.user);
+            case "exit":
+                au.update();
+                return "exit";
             default:
                 return response.error(56, "request not understanding", null);
         }

@@ -58,10 +58,7 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
         password = scan.nextLine();
         JSONObject response = new JSONObject(cps.login(username, password));
         if (response.getBoolean("hasError")) {
-            parseError(response.getInt("errorCode"));
-            for (Object i : response.getJSONArray("params")) {
-                System.out.println((String) i);
-            }
+            parseError(response);
             return 0;
         }
         result = response.getJSONArray("result").getJSONObject(0).getString("response");
@@ -79,10 +76,14 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
     public int main() {
         JSONObject response = new JSONObject(cps.main());
         JSONObject tweet;
-        String command;
+        String command,search = "";
         int value = 1;
         while (true) {
-            System.out.printf("%-20s%-20s%-20s\n%-20s%-20s%-20s\n", "new_tweet", "followers", "follows", "profile", "notifications", "exit");
+            if (response.getBoolean("hasError")) {
+                parseError(response);
+                return 10;
+            }
+            System.out.printf("%-20s%-20s%-20s%-20s\n%-20s%-20s%-20s%-20s\n", "new_tweet", "followers", "follows", "update", "profile", "notifications", "search", "exit");
             for (int i = 0; i < response.getInt("count"); i++) {
                 tweet = response.getJSONArray("result").getJSONObject(i);
                 System.out.printf("%d)\n|%-30s%-30s%-20s|\n|%-256s|\n|%-12s%-6s%-15s\n\n", (i + 1), tweet.getString("username"),
@@ -92,14 +93,23 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
             System.out.println("Enter a command from top menu or enter the number of tweet.");
             System.out.print("command: ");
             command = scan.nextLine();
+            if(command.equals("search")){
+                System.out.print("enter the username: ");
+                search = scan.nextLine();
+            }
             if (isNumeric(command)) {
                 int index = Integer.parseInt(command);
                 value = tweet(response.getJSONArray("result").getJSONObject(index - 1).getInt("tweet-id"));
-            } else {
+            }if(command.equals("update")){
+                value = 5;
+            }else {
                 switch (command) {
                     case "new_tweet" -> value = creatTweet();
-                    case "followers", "follows" -> value = list(command,username);
+                    case "followers" -> value = list("get-followers", username);
+                    case "follows" -> value = list("get-follows", username);
                     case "profile" -> value = profile(username);
+                    case "notifications" -> notifies();
+                    case "search" -> value = profile(search);
                     case "exit" -> {
                         exit();
                         return 0;
@@ -131,6 +141,10 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
         String command;
         while (true) {
             response = new JSONObject(cps.getList(type, username));
+            if (response.getBoolean("hasError")) {
+                parseError(response);
+                return 1;
+            }
             result = response.getJSONArray("result");
             size = response.getInt("count");
             for (i = 0; i < size; i++) {
@@ -150,6 +164,14 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
                 if (value != 1)
                     return value;
             }
+        }
+    }
+
+    public void notifies(){
+        JSONObject response = new JSONObject(cps.notifies());
+        JSONArray result = response.getJSONArray("result");
+        for (int i= 0;i < response.getInt("count");i++){
+            System.out.println(result.get(i));
         }
     }
 
@@ -196,30 +218,36 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
         String command, res;
         while (true) {
             response = new JSONObject(cps.profile(username));
+            if (response.getBoolean("hasError")) {
+                parseError(response);
+                return 1;
+            }
             user = response.getJSONArray("result").getJSONObject(0);
             size = response.getInt("count");
-            System.out.printf("Name: %-30sLastname: %-30sUsername%-30s\nBio: %-256s\n", user.getString("name"),
+            System.out.printf("Name: %-34sLastname: %-30sUsername: %-30s\nBio: %-256s\n", user.getString("name"),
                     user.getString("lastname"), user.getString("username"), user.getString("biography"));
-            System.out.printf("%-20s%20s", "followers(" + user.getJSONArray("followers").length() + ")",
-                    "follows(" + user.getJSONArray("follows").length() + ")\n");
-            if (!username.equals(user.getString("username"))) {
+            System.out.printf("%-60s%-60s\n", "followers(" + user.getJSONArray("followers").length() + ")",
+                    "follows(" + user.getJSONArray("follows").length() + ")");
+            if (!this.username.equals(user.getString("username"))) {
                 if (user.getBoolean("follow-state")) {
-                    System.out.println("unfollow");
+                    System.out.printf("%-30s", "unfollow");
                 } else {
-                    System.out.println("follow");
+                    System.out.printf("%-30s", "follow");
                 }
             } else {
-                System.out.println("delete-account");
+                System.out.printf("%-30s", "delete-account");
             }
+            System.out.printf("%-30s%-30s%-30s\n", "back", "main", "exit");
             for (i = 1; i < size; i++) {
                 tweet = response.getJSONArray("result").getJSONObject(i);
-                System.out.printf("%d)\n|%-30s%-30s%-20s|\n|%-256s|\n|%-12s%-6s%-15s\n\n", (i), tweet.getString("username"),
+                System.out.printf("%d)\n|%-30s%-31s%-19s|\n|%-80s|\n|%-20s%-37s%-23s|\n\n", (i), tweet.getString("username"),
                         " ", tweet.getString("creationDate"), tweet.getString("content"), "Likes(" + tweet.getJSONArray("likes").length() + ")",
                         " ", "retweets(" + tweet.getJSONArray("retweets").length() + ")");
             }
             System.out.println("enter any command from top of profile or any number of tweet.");
             System.out.print("command: ");
             command = scan.nextLine();
+
             if (isNumeric(command)) {
                 index = Integer.parseInt(command);
                 if (index >= 0 && index <= size) {
@@ -229,23 +257,23 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
                 }
             } else {
                 if (command.equals("follow") || command.equals("unfollow")) {
-                    if (!username.equals(user.getString("username"))) {
+                    if (!this.username.equals(user.getString("username"))) {
                         if (command.equals("follow")) {
-                            if (user.getBoolean("follow-state")) {
-                                res = cps.userAction("unfollow", user.getString("username"));
+                            if (!user.getBoolean("follow-state")) {
+                                res = cps.userAction("follow", user.getString("username"));
                                 if (isNumeric(res)) {
-                                    parseError(Integer.parseInt(res));
+                                    parseErrorByCode(Integer.parseInt(res));
                                 }
                             } else {
                                 System.out.println("'" + command + "' not specified!!!");
                             }
                         } else {
-                            if (user.getBoolean("follow-state")) {
+                            if (!user.getBoolean("follow-state")) {
                                 System.out.println("'" + command + "' not specified!!!");
                             } else {
-                                res = cps.userAction("follow", user.getString("username"));
+                                res = cps.userAction("unfollow", user.getString("username"));
                                 if (isNumeric(res)) {
-                                    parseError(Integer.parseInt(res));
+                                    parseErrorByCode(Integer.parseInt(res));
                                 }
                             }
                         }
@@ -257,7 +285,7 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
                     if (username.equals(user.getString("username"))) {
                         res = cps.userAction("delete-account", username);
                         if (isNumeric(res)) {
-                            parseError(Integer.parseInt(res));
+                            parseErrorByCode(Integer.parseInt(res));
                         }
                         return 10;
                     } else {
@@ -266,9 +294,12 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
                 } else {
                     switch (command) {
                         case "followers":
-                        case "follows":
-                            value = list(command, user.getString("username"));
+                            value = list("get-followers", user.getString("username"));
                             break;
+                        case "follows":
+                            value = list("get-follows", user.getString("username"));
+                            break;
+                        case "notifications":
                         case "back":
                             return 1;
                         case "main":
@@ -278,9 +309,9 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
                         default:
                             System.out.println("'" + command + "' not specified!!!");
                     }
-                    if (value != 1) {
-                        return value;
-                    }
+                }
+                if (value != 1) {
+                    return value;
                 }
             }
         }
@@ -294,8 +325,8 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
      */
     @Override
     public int tweet(int id) {
-        JSONObject tweet,response;
-        String command,res;
+        JSONObject tweet, response;
+        String command, res;
         int value = 1;
         while (true) {
             response = new JSONObject(cps.getTweet(id));
@@ -303,37 +334,38 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
             System.out.printf("|%-30s%-30s%-20s|\n|%-256s|\n|%-12s%-6s%-15s\n\n", tweet.getString("username"),
                     " ", tweet.getString("creationDate"), tweet.getString("content"), "Likes(" + tweet.getJSONArray("likes").length() + ")",
                     " ", "retweets(" + tweet.getJSONArray("retweets").length() + ")");
-            System.out.printf("%-30s%-30s%-30s%-30s%-30s%-30s%-30s\n", "retweet",
-                    "likes", "retweets", tweet.getString("username"), "back", "main", "exit");
+            System.out.printf("%-30s%-30s%-30s%-30s\n", "retweet",
+                    "likes", "retweets", tweet.getString("username"));
             if (!username.equals(tweet.getString("username"))) {
                 if (tweet.getBoolean("like-state")) {
-                    System.out.println("unlike");
+                    System.out.printf("%-30s", "unlike");
                 } else {
-                    System.out.println("like");
+                    System.out.printf("%-30s", "like");
                 }
             } else {
-                System.out.println("delete-tweet");
+                System.out.printf("%-30s", "delete-tweet");
             }
+            System.out.printf("%-30s%-30s%-30s\n", "back", "main", "exit");
             System.out.print("command:");
             command = scan.nextLine();
             if (command.equals("like") || command.equals("unlike")) {
                 if (!username.equals(tweet.getString("username"))) {
                     if (command.equals("like")) {
-                        if (tweet.getBoolean("like-state")) {
-                            res = cps.tweetAction("unlike", id);
+                        if (!tweet.getBoolean("like-state")) {
+                            res = cps.tweetAction("like", id);
                             if (isNumeric(res)) {
-                                parseError(Integer.parseInt(res));
+                                parseErrorByCode(Integer.parseInt(res));
                             }
                         } else {
                             System.out.println("'" + command + "' not specified!!!");
                         }
                     } else {
-                        if (tweet.getBoolean("like-state")) {
+                        if (!tweet.getBoolean("like-state")) {
                             System.out.println("'" + command + "' not specified!!!");
                         } else {
-                            res = cps.tweetAction("like", id);
+                            res = cps.tweetAction("unlike", id);
                             if (isNumeric(res)) {
-                                parseError(Integer.parseInt(res));
+                                parseErrorByCode(Integer.parseInt(res));
                             }
                         }
                     }
@@ -345,12 +377,14 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
                 if (username.equals(tweet.getString("username"))) {
                     res = cps.tweetAction("delete-tweet", id);
                     if (isNumeric(res)) {
-                        parseError(Integer.parseInt(res));
+                        parseErrorByCode(Integer.parseInt(res));
                     }
                     return 1;
                 } else {
                     System.out.println("'" + command + "' not specified!!!");
                 }
+            } else if (command.equals(tweet.getString("username"))) {
+                value = profile(command);
             } else {
                 switch (command) {
                     case "likes":
@@ -366,9 +400,9 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
                     default:
                         System.out.println("'" + command + "' not specified!!!");
                 }
-                if (value != 1) {
-                    return value;
-                }
+            }
+            if (value != 1) {
+                return value;
             }
         }
     }
@@ -380,34 +414,33 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
      */
     @Override
     public int signup() {
-        String username, name, password, lastname = "", bio = "";
+        String username, name, password, lastname, bio,date;
         int y, m, d;
-        boolean skip;
         System.out.print("username: ");
         username = scan.nextLine();
         System.out.print("name: ");
         name = scan.nextLine();
         System.out.print("password: ");
         password = scan.nextLine();
-        System.out.print("date of birth(yyyy mm dd): ");
-        y = scan.nextInt();
-        m = scan.nextInt();
-        d = scan.nextInt();
-        System.out.print("do you want to complete your profile now(yes or no): ");
-        skip = scan.nextLine().equals("yes");
-        if (skip) {
-            System.out.print("lastname: ");
-            lastname = scan.nextLine();
-            System.out.print("biography: ");
-            bio = scan.nextLine();
-        }
-        JSONObject response = new JSONObject(cps.signup(y, m, d, username, name, password, lastname, bio));
+        System.out.println("date of birth: ");
+        System.out.print("year: ");
+        date = scan.nextLine();
+        y = Integer.parseInt(date);
+        System.out.print("month: ");
+        date = scan.nextLine();
+        m = Integer.parseInt(date);
+        System.out.print("day: ");
+        date = scan.nextLine();
+        d = Integer.parseInt(date);
+        System.out.print("lastname: ");
+        lastname = scan.nextLine();
+        System.out.print("biography: ");
+        bio = scan.nextLine();
+        String res = cps.signup(y,m,d,name,lastname,username,password,bio);
+        JSONObject response = new JSONObject(res);
         if (response.getBoolean("hasError")) {
-            parseError(response.getInt("errorCode"));
-            for (Object i : response.getJSONArray("params")) {
-                System.out.println((String) i);
-            }
-            return 0;
+            parseError(response);
+            return 1;
         }
         String result = response.getJSONArray("result").getJSONObject(0).getString("response");
         System.out.println(result);
@@ -426,10 +459,11 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
         System.out.print("tweet text: ");
         content = scan.nextLine();
         JSONObject response = new JSONObject(cps.sendTweet(content));
-        if (response.getBoolean("hasError")){
-            parseError(response.getInt("errorCode"));
+        if (response.getBoolean("hasError")) {
+            parseError(response);
+            return 1;
         }
-        System.out.println(response.getJSONArray("result").getString(0));
+        System.out.println(response.getJSONArray("result").getJSONObject(0).getString("response"));
         return 1;
     }
 
@@ -438,17 +472,27 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
      */
     @Override
     public void exit() {
-
+        cps.exit();
     }
 
     /**
      * this method will show error that related to its code.
      *
-     * @param code .
+     * @param error .
      */
     @Override
-    public void parseError(int code) {
+    public void parseError(JSONObject error) {
+        System.out.println("error occurred");
+    }
 
+    /**
+     * this method will show error with given code.
+     *
+     * @param code error code.
+     */
+    @Override
+    public void parseErrorByCode(int code) {
+        System.out.println(code);
     }
 
     /**

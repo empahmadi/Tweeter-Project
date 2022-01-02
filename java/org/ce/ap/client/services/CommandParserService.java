@@ -30,10 +30,14 @@ public interface CommandParserService {
      * @param y year of birth.
      * @param m month of birth.
      * @param d day of birth.
-     * @param information information about sing up.
+     * @param name .
+     * @param username .
+     * @param bio .
+     * @param lastname .
+     * @param password .
      * @return response of server.
      */
-    String signup(int y,int m, int d,String... information);
+    String signup(int y,int m, int d, String name,String lastname,String username,String password,String bio);
 
     /**
      * get main page components.

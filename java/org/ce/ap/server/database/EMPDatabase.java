@@ -283,4 +283,23 @@ public class EMPDatabase {
         }
         return null;
     }
+
+    public void removeUser(User user){
+        for (User j : followers.get(user)) {
+            follows.get(j).remove(user);
+        }
+        followers.remove(user);
+        for (User j : follows.get(user)) {
+            followers.get(j).remove(user);
+        }
+        follows.remove(user);
+        users.remove(user);
+        userTweets.remove(user);
+        notifications.remove(user);
+        userRetweets.remove(user);
+        userLikes.remove(user);
+    }
+    public void removeTweet(Tweet tweet){
+
+    }
 }

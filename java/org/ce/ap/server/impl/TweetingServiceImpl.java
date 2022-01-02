@@ -198,16 +198,28 @@ public class TweetingServiceImpl implements TweetingService {
      * give a tweet and change its information to JSON format.
      *
      * @param tweet tweet.
+     * @param user  user that wants this tweet.
      * @return information of tweet.
      */
     @Override
-    public synchronized JSONObject getTweet(Tweet tweet) {
+    public synchronized JSONObject getTweet(User user, Tweet tweet) {
         JSONObject jTweet = new JSONObject();
-        jTweet.put("tweetId", tweet.getId());
+        jTweet.put("tweet-id", tweet.getId());
         jTweet.put("content", tweet.getContent());
         jTweet.put("creationDate", dateFormat.format(tweet.getAddingDate()));
-        jTweet.put("Likes", getLikes(tweet));
+        jTweet.put("likes", getLikes(tweet));
         jTweet.put("retweets", getRetweets(tweet));
+        jTweet.put("like-state", likes(tweet, user));
+        for (User j : database.userTweets.keySet()) {
+            for (Tweet i : database.userTweets.get(j)) {
+                if (i.equals(tweet)) {
+                    jTweet.put("username", j.getUsername());
+                    return jTweet;
+                }
+            }
+        }
+
+        jTweet.put("username", "error");
         return jTweet;
     }
 
@@ -217,13 +229,14 @@ public class TweetingServiceImpl implements TweetingService {
      * @param id .
      * @return tweet in json format.
      */
-    public synchronized String getTweetByID(int id) {
+    @Override
+    public synchronized String getTweetByID(User user, int id) {
         Tweet tweet = findTweet(id);
         if (tweet == null) {
             return response.error(1, "finding tweet", null);
         }
         JSONArray result = new JSONArray();
-        result.put(getTweet(tweet));
+        result.put(getTweet(user, tweet));
         return response.response(1, result);
     }
 
@@ -275,5 +288,22 @@ public class TweetingServiceImpl implements TweetingService {
 
     private synchronized int idMaker() {
         return database.getId();
+    }
+
+    /**
+     * check that user likes this tweet or no.
+     *
+     * @param tweet .
+     * @param user  .
+     * @return true if likes else false.
+     */
+    @Override
+    public boolean likes(Tweet tweet, User user) {
+        for (User i : database.tweetLikes.get(tweet)) {
+            if (user.equals(i)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

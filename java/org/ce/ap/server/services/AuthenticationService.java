@@ -30,10 +30,10 @@ public interface AuthenticationService {
     /**
      * remove a user.
      *
-     * @param user user.
+     * @param username user.
      * @return code.
      */
-    int removeUser(User user);
+    int removeUser(String username);
 
     /**
      * add a user
@@ -68,7 +68,17 @@ public interface AuthenticationService {
 
     /**
      * @param username .
+     * @param main     main user.
      * @return the profile information of user.
      */
-    String getProfile(String username);
+    String getProfile(User main, String username);
+
+    /**
+     * check that a follow follows user or no.
+     *
+     * @param follow .
+     * @param user   .
+     * @return true if follows else false.
+     */
+    boolean follows(User follow, User user);
 }

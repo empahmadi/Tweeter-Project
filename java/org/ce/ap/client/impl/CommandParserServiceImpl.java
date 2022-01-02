@@ -1,5 +1,6 @@
 package main.java.org.ce.ap.client.impl;
 
+import main.java.org.ce.ap.client.Test;
 import main.java.org.ce.ap.client.services.CommandParserService;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,15 +13,20 @@ import org.json.JSONObject;
  * @version 1.0
  */
 public class CommandParserServiceImpl implements CommandParserService {
-    private final ConnectionServiceImpl connectionService;
+    //private final ConnectionServiceImpl connectionService;
+    Test connectionService;
 
-    /**
-     * initialize connection service.
-     *
-     * @param cs connection service.
-     */
-    public CommandParserServiceImpl(ConnectionServiceImpl cs) {
-        connectionService = cs;
+//    /**
+//     * initialize connection service.
+//     *
+//     * @param cs connection service.
+//     */
+//    public CommandParserServiceImpl(ConnectionServiceImpl cs) {
+//        connectionService = cs;
+//    }
+
+    public CommandParserServiceImpl(Test test) {
+        this.connectionService = test;
     }
 
     /**
@@ -36,10 +42,11 @@ public class CommandParserServiceImpl implements CommandParserService {
         request.put("method", method);
         request.put("parameters", parameters);
         String response = connectionService.connection(request.toString());
-        try{
+        System.out.println("reach final");
+        try {
             JSONObject res = new JSONObject(response);
-            return connectionService.connection(request.toString());
-        }catch (Exception e){
+            return response;
+        } catch (Exception e) {
             System.out.println(e.toString());
             return "10";
         }
@@ -66,25 +73,28 @@ public class CommandParserServiceImpl implements CommandParserService {
      * @param y           year of birth.
      * @param m           month of birth.
      * @param d           day of birth.
-     * @param information information about sing up.
+     * @param name .
+     * @param username .
+     * @param bio .
+     * @param lastname .
+     * @param password .
      * @return response of server.
      */
     @Override
-    public String signup(int y, int m, int d, String... information) {
+    public String signup(int y, int m, int d, String name,String lastname,String username,String password,String bio) {
         JSONObject parameters = new JSONObject();
         JSONArray dof = new JSONArray();
-        dof.put(y);
-        dof.put(m);
-        dof.put(d);
-        parameters.put("username", information[0]);
-        parameters.put("name", information[1]);
-        parameters.put("password", information[2]);
-        parameters.put("date-of-birth", parameters);
-        if (information.length > 3) {
-            parameters.put("lastname", information[3]);
-            parameters.put("biography", information[4]);
-        }
-        return makeRequest("signup", parameters);
+        parameters.put("username", username);
+        parameters.put("name", name);
+        parameters.put("password", password);
+        parameters.put("lastname", lastname);
+        parameters.put("bio", bio);
+        parameters.put("year",y);
+        parameters.put("month",m);
+        parameters.put("day",d);
+        String response = makeRequest("signup",parameters);
+        System.out.println(response);
+        return response;
     }
 
     /**
@@ -95,7 +105,7 @@ public class CommandParserServiceImpl implements CommandParserService {
     @Override
     public String main() {
         JSONObject params = new JSONObject();
-        return  makeRequest("timeline",params);
+        return makeRequest("timeline", params);
     }
 
     /**
@@ -107,8 +117,8 @@ public class CommandParserServiceImpl implements CommandParserService {
     @Override
     public String profile(String username) {
         JSONObject params = new JSONObject();
-        params.put("username",username);
-        return makeRequest("profile",params);
+        params.put("username", username);
+        return makeRequest("profile", params);
     }
 
     /**
@@ -120,38 +130,43 @@ public class CommandParserServiceImpl implements CommandParserService {
     @Override
     public String sendTweet(String content) {
         JSONObject parameter = new JSONObject();
-        parameter.put("content",content);
-        return makeRequest("send-tweet",parameter);
+        parameter.put("content", content);
+        return makeRequest("send-tweet", parameter);
+    }
+
+    public String notifies(){
+        JSONObject parameters = new JSONObject();
+        return makeRequest("notifications",parameters);
     }
 
     /**
      * get a list of user with given type.
      *
-     * @param type .
+     * @param type     .
      * @param username .
      * @return response of server.
      */
     @Override
     public String getList(String type, String username) {
         JSONObject parameter = new JSONObject();
-        parameter.put("username",username);
-        return makeRequest(type,parameter);
+        parameter.put("username", username);
+        return makeRequest(type, parameter);
     }
 
     /**
      * do an action.
      *
      * @param type type of action.
-     * @param id .
+     * @param id   .
      * @return response of server.
      */
     @Override
     public String tweetAction(String type, int id) {
         JSONObject params = new JSONObject();
-        params.put("tweet-id",id);
-        JSONObject response = new JSONObject(makeRequest(type,params));
-        if (response.getBoolean("hasError")){
-            return response.getInt("errorCode")+"";
+        params.put("tweet-id", id);
+        JSONObject response = new JSONObject(makeRequest(type, params));
+        if (response.getBoolean("hasError")) {
+            return response.getInt("errorCode") + "";
         }
         System.out.println(response.getJSONArray("result").get(0));
         return "empty";
@@ -167,10 +182,10 @@ public class CommandParserServiceImpl implements CommandParserService {
     @Override
     public String userAction(String type, String username) {
         JSONObject params = new JSONObject();
-        params.put("username",username);
-        JSONObject response = new JSONObject(makeRequest(type,params));
-        if (response.getBoolean("hasError")){
-            return response.getInt("errorCode")+"";
+        params.put("username", username);
+        JSONObject response = new JSONObject(makeRequest(type, params));
+        if (response.getBoolean("hasError")) {
+            return response.getInt("errorCode") + "";
         }
         System.out.println(response.getJSONArray("result").get(0));
         return "empty";
@@ -185,7 +200,12 @@ public class CommandParserServiceImpl implements CommandParserService {
     @Override
     public String getTweet(int id) {
         JSONObject params = new JSONObject();
-        params.put("tweet-id",id);
-        return makeRequest("get-tweet",params);
+        params.put("tweet-id", id);
+        return makeRequest("get-tweet", params);
+    }
+
+    public void exit() {
+        JSONObject params = new JSONObject();
+        makeRequest("exit", params);
     }
 }
