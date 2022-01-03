@@ -89,8 +89,8 @@ public class EMPDatabase {
         System.out.println(setTweetLikes(new JSONObject(file.getMap("tweet-likes"))));
         System.out.println(setTweetRetweets(new JSONObject(file.getMap("tweet-retweets"))));
         int max = 1;
-        for (Tweet i:tweets){
-            if (i.getId() > max){
+        for (Tweet i : tweets) {
+            if (i.getId() > max) {
                 max = i.getId();
             }
         }
@@ -143,7 +143,7 @@ public class EMPDatabase {
             follows.put(user, new ArrayList<>());
             for (Object follows : map.getJSONArray(username)) {
                 User follow = findUser((String) follows);
-                this.followers.get(user).add(follow);
+                this.follows.get(user).add(follow);
             }
         }
         return "success";
