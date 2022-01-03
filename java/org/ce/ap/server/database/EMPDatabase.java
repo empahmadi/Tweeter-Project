@@ -284,7 +284,12 @@ public class EMPDatabase {
         return null;
     }
 
-    public void removeUser(User user){
+    /**
+     * remove a user from database and file.
+     *
+     * @param user .
+     */
+    public void removeUser(User user) {
         for (User j : followers.get(user)) {
             follows.get(j).remove(user);
         }
@@ -292,15 +297,37 @@ public class EMPDatabase {
         for (User j : follows.get(user)) {
             followers.get(j).remove(user);
         }
+        for (Tweet i : userTweets.get(user)) {
+            removeTweet(user, i);
+        }
         follows.remove(user);
         users.remove(user);
         userTweets.remove(user);
         notifications.remove(user);
         userRetweets.remove(user);
         userLikes.remove(user);
-        file.deleteUser(user.getUsername());
+        System.out.println(file.deleteUser(user.getUsername()));
     }
-    public void removeTweet(Tweet tweet){
+
+    /**
+     * delete a tweet from a user from database and files.
+     *
+     * @param user  .
+     * @param tweet .
+     * @return state of deleting.
+     */
+    public String removeTweet(User user, Tweet tweet) {
+        for (User i : tweetRetweets.get(tweet)) {
+            userRetweets.get(i).removeIf(j -> j.equals(tweet));
+        }
+        for (User i : tweetLikes.get(tweet)) {
+            userLikes.get(i).removeIf(j -> j.equals(tweet));
+        }
+        tweetLikes.remove(tweet);
+        tweetRetweets.remove(tweet);
+        tweets.remove(tweet);
+        userTweets.get(user).remove(tweet);
+        return file.deleteTweet(tweet.getId());
 
     }
 }

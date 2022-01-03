@@ -26,7 +26,7 @@ public class Main {
         try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/server-application.properties")) {
             Properties config = new Properties();
             config.load(file);
-            port = (Integer)config.get("server.port");
+            port = Integer.parseInt(config.get("server.port").toString());
         } catch (IOException ioe) {
             System.out.println(ioe.toString());
         }
