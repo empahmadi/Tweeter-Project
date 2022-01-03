@@ -1,6 +1,6 @@
 package main.java.org.ce.ap.server.database;
 
-import main.java.org.ce.ap.server.file.FileIO;
+import main.java.org.ce.ap.server.impl.FileIOImpl;
 import main.java.org.ce.ap.server.modules.Tweet;
 import main.java.org.ce.ap.server.modules.User;
 import org.json.JSONObject;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class EMPDatabase {
     //singleton.
     private static EMPDatabase instance = null;
-    private final FileIO file;
+    private final FileIOImpl file;
     // main variables.
     public ArrayList<User> users;
     public ArrayList<Tweet> tweets;
@@ -49,7 +49,7 @@ public class EMPDatabase {
         userRetweets = new HashMap<>();
         userLikes = new HashMap<>();
         id = 0;
-        file = new FileIO();
+        file = new FileIOImpl();
         initialize();
     }
 
@@ -298,6 +298,7 @@ public class EMPDatabase {
         notifications.remove(user);
         userRetweets.remove(user);
         userLikes.remove(user);
+        file.deleteUser(user.getUsername());
     }
     public void removeTweet(Tweet tweet){
 

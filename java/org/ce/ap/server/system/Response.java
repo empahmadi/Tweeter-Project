@@ -89,6 +89,7 @@ public class Response {
             case 38 -> message.put("response", "Retweeted :)");
             case 39 -> message.put("response", "Unfollowed :)");
             case 40 -> message.put("response", "no set yet :(");
+            case 41 -> message.put("response","Have a good day :)");
             default -> message.put("response", "Unexpected error occurred!!! :(");
         }
         JSONArray result = new JSONArray();

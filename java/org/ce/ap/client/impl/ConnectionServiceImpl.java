@@ -27,7 +27,7 @@ public class ConnectionServiceImpl implements ConnectionService{
      * @param output .
      */
     public ConnectionServiceImpl(DataOutputStream output, DataInputStream input) {
-        cps = new CommandParserServiceImpl(new Test());
+        cps = new CommandParserServiceImpl(this);
         cvs = new ConsoleViewServiceImpl(cps);
         this.input = input;
         this.output = output;

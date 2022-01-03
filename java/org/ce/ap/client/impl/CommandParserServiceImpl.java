@@ -1,6 +1,5 @@
 package main.java.org.ce.ap.client.impl;
 
-import main.java.org.ce.ap.client.Test;
 import main.java.org.ce.ap.client.services.CommandParserService;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,20 +12,15 @@ import org.json.JSONObject;
  * @version 1.0
  */
 public class CommandParserServiceImpl implements CommandParserService {
-    //private final ConnectionServiceImpl connectionService;
-    Test connectionService;
+    private final ConnectionServiceImpl connectionService;
 
-//    /**
-//     * initialize connection service.
-//     *
-//     * @param cs connection service.
-//     */
-//    public CommandParserServiceImpl(ConnectionServiceImpl cs) {
-//        connectionService = cs;
-//    }
-
-    public CommandParserServiceImpl(Test test) {
-        this.connectionService = test;
+    /**
+     * initialize connection service.
+     *
+     * @param cs connection service.
+     */
+    public CommandParserServiceImpl(ConnectionServiceImpl cs) {
+        connectionService = cs;
     }
 
     /**

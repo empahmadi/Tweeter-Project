@@ -49,12 +49,16 @@ public class ClientHandler implements Runnable {
         String request;
         try (DataOutputStream out = new DataOutputStream(client.getOutputStream());
              DataInputStream in = new DataInputStream(client.getInputStream())) {
-            request = in.readUTF();
-            System.out.println(request);
-            if (request.equals("exit")) {
-                client.close();
+            while(true) {
+                request = in.readUTF();
+                System.out.println(request);
+                if (request.equals("exit")) {
+                    out.writeUTF(system.requestGetter(request));
+                    client.close();
+                    break;
+                }
+                out.writeUTF(system.requestGetter(request));
             }
-            out.writeUTF(system.requestGetter(request));
         } catch (IOException ioe) {
             System.out.println(ioe.toString());
         }

@@ -89,7 +89,7 @@ public class TweeterSystem {
                 return au.notifications(this.user);
             case "exit":
                 au.update();
-                return "exit";
+                return response.responseCode(40,"exiting");
             default:
                 return response.error(56, "request not understanding", null);
         }

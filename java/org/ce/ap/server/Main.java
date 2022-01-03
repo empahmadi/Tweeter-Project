@@ -10,19 +10,27 @@ import main.java.org.ce.ap.server.impl.TweetingServiceImpl;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) {
-        int count = 0;
+        int count = 0,port = 1111;
         ExecutorService thread = Executors.newCachedThreadPool();
         EMPDatabase database = EMPDatabase.getInstance();
         TweetingServiceImpl ts = new TweetingServiceImpl(database);
         AuthenticationServiceImpl au = new AuthenticationServiceImpl(database, ts);
         TimeLineServiceImpl tls = new TimeLineServiceImpl(database);
         ObserverServiceImpl os = new ObserverServiceImpl(database, au);
-        try (ServerSocket server = new ServerSocket(9321)) {
+        try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/server-application.properties")) {
+            Properties config = new Properties();
+            config.load(file);
+            port = (Integer)config.get("server.port");
+        } catch (IOException ioe) {
+            System.out.println(ioe.toString());
+        }
+        try (ServerSocket server = new ServerSocket(port)) {
             server.setReuseAddress(true);
             while (count < 30) {
                 Socket client = server.accept();
