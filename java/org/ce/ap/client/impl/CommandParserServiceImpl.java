@@ -36,7 +36,6 @@ public class CommandParserServiceImpl implements CommandParserService {
         request.put("method", method);
         request.put("parameters", parameters);
         String response = connectionService.connection(request.toString());
-        System.out.println("reach final");
         try {
             JSONObject res = new JSONObject(response);
             return response;

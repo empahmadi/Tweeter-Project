@@ -52,12 +52,12 @@ public class ClientHandler implements Runnable {
             while(true) {
                 request = in.readUTF();
                 System.out.println(request);
-                if (request.equals("exit")) {
-                    out.writeUTF(system.requestGetter(request));
+                String response = system.requestGetter(request);
+                if (response.equals("exit")){
                     client.close();
                     break;
                 }
-                out.writeUTF(system.requestGetter(request));
+                out.writeUTF(response);
             }
         } catch (IOException ioe) {
             System.out.println(ioe.toString());
