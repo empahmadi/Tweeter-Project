@@ -56,6 +56,9 @@ public class ConnectionServiceImpl implements ConnectionService{
         try {
             output.writeUTF(request);
             output.flush();
+            if (request.contains("exit")){
+                return "{}";
+            }
             return input.readUTF();
         } catch (IOException ioe) {
             System.out.println(ioe.toString());

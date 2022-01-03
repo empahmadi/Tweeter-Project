@@ -48,7 +48,6 @@ public class EMPDatabase {
         tweets = new ArrayList<>();
         userRetweets = new HashMap<>();
         userLikes = new HashMap<>();
-        id = 0;
         file = new FileIOImpl();
         initialize();
     }
@@ -89,6 +88,13 @@ public class EMPDatabase {
         System.out.println(setUserLikes(new JSONObject(file.getMap("user-likes"))));
         System.out.println(setTweetLikes(new JSONObject(file.getMap("tweet-likes"))));
         System.out.println(setTweetRetweets(new JSONObject(file.getMap("tweet-retweets"))));
+        int max = 1;
+        for (Tweet i:tweets){
+            if (i.getId() > max){
+                max = i.getId();
+            }
+        }
+        id = max;
     }
 
     /**
