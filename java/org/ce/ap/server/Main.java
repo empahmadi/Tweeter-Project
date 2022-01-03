@@ -31,7 +31,6 @@ public class Main {
             System.out.println(ioe.toString());
         }
         try (ServerSocket server = new ServerSocket(port)) {
-            server.setReuseAddress(true);
             while (count < 30) {
                 Socket client = server.accept();
                 System.out.println("new client connected " + client.getInetAddress().getHostAddress());

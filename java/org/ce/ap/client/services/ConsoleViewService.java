@@ -83,4 +83,9 @@ public interface ConsoleViewService {
      * @param code error code.
      */
     void parseErrorByCode(int code);
+
+    /**
+     * show notifications for user.
+     */
+    void notifies();
 }

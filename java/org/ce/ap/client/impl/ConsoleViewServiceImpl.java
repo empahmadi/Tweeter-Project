@@ -28,19 +28,6 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
     }
 
     /**
-     * convert server response to a specific format.
-     *
-     * @param response .
-     * @param part     .
-     * @return .
-     */
-    public String response(String response, String part) {
-        JSONObject res = new JSONObject(response);
-        return res.getString(part);
-    }
-
-
-    /**
      * login or signup someone to system.
      *
      * @return code.
@@ -76,7 +63,7 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
     public int main() {
         JSONObject response = new JSONObject(cps.main());
         JSONObject tweet;
-        String command,search = "";
+        String command, search = "";
         int value = 1;
         while (true) {
             if (response.getBoolean("hasError")) {
@@ -93,16 +80,17 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
             System.out.println("Enter a command from top menu or enter the number of tweet.");
             System.out.print("command: ");
             command = scan.nextLine();
-            if(command.equals("search")){
+            if (command.equals("search")) {
                 System.out.print("enter the username: ");
                 search = scan.nextLine();
             }
             if (isNumeric(command)) {
                 int index = Integer.parseInt(command);
                 value = tweet(response.getJSONArray("result").getJSONObject(index - 1).getInt("tweet-id"));
-            }if(command.equals("update")){
+            }
+            if (command.equals("update")) {
                 value = 5;
-            }else {
+            } else {
                 switch (command) {
                     case "new_tweet" -> value = creatTweet();
                     case "followers" -> value = list("get-followers", username);
@@ -150,13 +138,22 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
             for (i = 0; i < size; i++) {
                 System.out.println(result.getString(i));
             }
-            System.out.print("username: ");
+            System.out.printf("%-30s%-30s%-30s%-30s\n", "username", "back", "main", "exit");
+            System.out.print("command: ");
             command = scan.nextLine();
             for (i = 0; i < size; i++) {
                 if (command.equals(result.getString(i))) {
                     value = profile(command);
                     check = 10;
                 }
+            }
+            switch (command) {
+                case "back":
+                    return 1;
+                case "main":
+                    return 5;
+                case "exit":
+                    return 10;
             }
             if (check == 0)
                 System.out.println("'" + command + "' not specified!!!");
@@ -167,10 +164,14 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
         }
     }
 
-    public void notifies(){
+    /**
+     * show notifications for user.
+     */
+    @Override
+    public void notifies() {
         JSONObject response = new JSONObject(cps.notifies());
         JSONArray result = response.getJSONArray("result");
-        for (int i= 0;i < response.getInt("count");i++){
+        for (int i = 0; i < response.getInt("count"); i++) {
             System.out.println(result.get(i));
         }
     }
@@ -184,22 +185,31 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
     @Override
     public int listView(JSONArray items) {
         String command;
-        int value = 1;
+        int value = 1, check = 0;
         while (true) {
             for (Object i : items) {
                 System.out.println((String) i);
             }
-            System.out.printf("%-30s%-30s%-30s", "username", "back", "main");
-            System.out.print("Enter a username: ");
+            System.out.printf("%-30s%-30s%-30s%-30s\n", "username", "back", "main", "exit");
+            System.out.print("command: ");
             command = scan.nextLine();
             if (command.equals("back")) {
                 return 1;
             } else if (command.equals("main")) {
                 return 5;
+            } else if (command.equals("exit")) {
+                return 10;
             } else {
-                value = profile(command);
+                for (int i = 0; i < items.length(); i++) {
+                    if (command.equals(items.getString(i))) {
+                        value = profile(command);
+                        check = 10;
+                    }
+                }
             }
-            if (value != 1) {
+            if (check == 0) {
+                System.out.println("'" + command + "' not specified!!!");
+            } else if (value != 1) {
                 return value;
             }
         }
@@ -388,8 +398,10 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
             } else {
                 switch (command) {
                     case "likes":
+                        value = listView(tweet.getJSONArray("likes"));
+                        break;
                     case "retweets":
-                        value = list(command, tweet.getString("username"));
+                        value = listView(tweet.getJSONArray("retweets"));
                         break;
                     case "back":
                         return 1;
@@ -414,7 +426,7 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
      */
     @Override
     public int signup() {
-        String username, name, password, lastname, bio,date;
+        String username, name, password, lastname, bio, date;
         int y, m, d;
         System.out.print("username: ");
         username = scan.nextLine();
@@ -436,7 +448,7 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
         lastname = scan.nextLine();
         System.out.print("biography: ");
         bio = scan.nextLine();
-        String res = cps.signup(y,m,d,name,lastname,username,password,bio);
+        String res = cps.signup(y, m, d, name, lastname, username, password, bio);
         JSONObject response = new JSONObject(res);
         if (response.getBoolean("hasError")) {
             parseError(response);
