@@ -143,18 +143,8 @@ public class TweetingServiceImpl implements TweetingService {
         Tweet tweet = findTweet(id);
         int code = 1;
         if (tweet != null) {
-            for (Tweet i : database.userTweets.get(user)) {
-                if (tweet.equals(i)) {
-                    database.userTweets.get(user).remove(tweet);
-                    database.tweetLikes.remove(tweet);
-                    for (User j : database.tweetRetweets.get(tweet)) {
-                        database.userTweets.get(j).remove(tweet);
-                    }
-                    database.tweetRetweets.remove(tweet);
-                    database.tweets.remove(tweet);
-                    code = 34;
-                }
-            }
+            code = 34;
+            database.removeTweet(user,tweet);
         }
         return response.responseCode(code, "deleting tweet");
     }

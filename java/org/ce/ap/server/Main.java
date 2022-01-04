@@ -2,10 +2,7 @@ package main.java.org.ce.ap.server;
 
 import main.java.org.ce.ap.server.connection.ClientHandler;
 import main.java.org.ce.ap.server.database.EMPDatabase;
-import main.java.org.ce.ap.server.impl.AuthenticationServiceImpl;
-import main.java.org.ce.ap.server.impl.ObserverServiceImpl;
-import main.java.org.ce.ap.server.impl.TimeLineServiceImpl;
-import main.java.org.ce.ap.server.impl.TweetingServiceImpl;
+import main.java.org.ce.ap.server.impl.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -23,6 +20,7 @@ public class Main {
         AuthenticationServiceImpl au = new AuthenticationServiceImpl(database, ts);
         TimeLineServiceImpl tls = new TimeLineServiceImpl(database);
         ObserverServiceImpl os = new ObserverServiceImpl(database, au);
+        LogServiceImpl ls = new LogServiceImpl();
         try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/server-application.properties")) {
             Properties config = new Properties();
             config.load(file);
@@ -35,7 +33,7 @@ public class Main {
                 Socket client = server.accept();
                 System.out.println("new client connected " + client.getInetAddress().getHostAddress());
                 count++;
-                thread.execute(new ClientHandler(client, au, ts, os, tls));
+                thread.execute(new ClientHandler(client, au, ts, os, tls,ls));
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();

@@ -1,9 +1,6 @@
 package main.java.org.ce.ap.server.connection;
 
-import main.java.org.ce.ap.server.impl.AuthenticationServiceImpl;
-import main.java.org.ce.ap.server.impl.ObserverServiceImpl;
-import main.java.org.ce.ap.server.impl.TimeLineServiceImpl;
-import main.java.org.ce.ap.server.impl.TweetingServiceImpl;
+import main.java.org.ce.ap.server.impl.*;
 import main.java.org.ce.ap.server.system.TweeterSystem;
 
 import java.io.*;
@@ -20,6 +17,7 @@ public class ClientHandler implements Runnable {
     private final TweetingServiceImpl ts;
     private final ObserverServiceImpl os;
     private final TimeLineServiceImpl tls;
+    private final LogServiceImpl ls;
     private Socket client;
 
     /**
@@ -32,12 +30,14 @@ public class ClientHandler implements Runnable {
      * @param ts tweeting service.
      */
     public ClientHandler(Socket socket, AuthenticationServiceImpl au,
-                         TweetingServiceImpl ts, ObserverServiceImpl os, TimeLineServiceImpl tls) {
+                         TweetingServiceImpl ts, ObserverServiceImpl os, TimeLineServiceImpl tls,
+                         LogServiceImpl ls) {
         client = socket;
         this.au = au;
         this.tls = tls;
         this.os = os;
         this.ts = ts;
+        this.ls = ls;
     }
 
     /**
@@ -57,6 +57,7 @@ public class ClientHandler implements Runnable {
                     client.close();
                     break;
                 }
+                ls.recordLog(request,response);
                 out.writeUTF(response);
             }
         } catch (IOException ioe) {
