@@ -126,7 +126,6 @@ public class TweetingServiceImpl implements TweetingService {
             return response.error(1, "retweeting", null);
         }
         database.tweetRetweets.get(tweet).add(user);
-        database.userTweets.get(user).add(tweet);
         database.userRetweets.get(user).add(tweet);
         return response.responseCode(38, "retweeting");
     }
@@ -144,7 +143,7 @@ public class TweetingServiceImpl implements TweetingService {
         int code = 1;
         if (tweet != null) {
             code = 34;
-            database.removeTweet(user,tweet);
+            database.removeTweet(user, tweet);
         }
         return response.responseCode(code, "deleting tweet");
     }
@@ -193,6 +192,8 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized JSONObject getTweet(User user, Tweet tweet) {
+        int check = 0;
+        User main = null;
         JSONObject jTweet = new JSONObject();
         jTweet.put("tweet-id", tweet.getId());
         jTweet.put("content", tweet.getContent());
@@ -200,6 +201,20 @@ public class TweetingServiceImpl implements TweetingService {
         jTweet.put("likes", getLikes(tweet));
         jTweet.put("retweets", getRetweets(tweet));
         jTweet.put("like-state", likes(tweet, user));
+        for (Tweet i : database.userRetweets.get(user)) {
+            if (i.equals(tweet)) {
+                check = 10;
+                break;
+            }
+        }
+        for (Tweet i : database.userRetweets.get(user)) {
+            if (i.equals(tweet)) {
+                if (check == 0)
+                    jTweet.put("username", user.getUsername());
+                else
+                    jTweet.put("username", user.getUsername() + " \"retweet!\"");
+            }
+        }
         for (User j : database.userTweets.keySet()) {
             for (Tweet i : database.userTweets.get(j)) {
                 if (i.equals(tweet)) {

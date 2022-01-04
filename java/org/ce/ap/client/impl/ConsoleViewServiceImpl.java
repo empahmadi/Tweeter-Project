@@ -403,6 +403,12 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
                     case "retweets":
                         value = listView(tweet.getJSONArray("retweets"));
                         break;
+                    case "retweet":
+                        res = cps.tweetAction(command,tweet.getInt("tweet-id"));
+                        if (isNumeric(res)){
+                            parseErrorByCode(Integer.parseInt(res));
+                        }
+                        break;
                     case "back":
                         return 1;
                     case "main":

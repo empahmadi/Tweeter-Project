@@ -74,7 +74,7 @@ public class TimeLineServiceImpl implements TimelineService {
                 if (tweets.get(i).equals(tweets.get(j))) {
                     tweets.remove(j);
                     j--;
-
+                    size--;
                 }
             }
         }

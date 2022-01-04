@@ -17,27 +17,24 @@ public class ClientHandler implements Runnable {
     private final TweetingServiceImpl ts;
     private final ObserverServiceImpl os;
     private final TimeLineServiceImpl tls;
-    private final LogServiceImpl ls;
     private Socket client;
 
     /**
      * initialize some variables.
      *
-     * @param socket   client.
-     * @param au Authentication service.
-     * @param os observer service.
-     * @param tls timeline service.
-     * @param ts tweeting service.
+     * @param socket client.
+     * @param au     Authentication service.
+     * @param os     observer service.
+     * @param tls    timeline service.
+     * @param ts     tweeting service.
      */
     public ClientHandler(Socket socket, AuthenticationServiceImpl au,
-                         TweetingServiceImpl ts, ObserverServiceImpl os, TimeLineServiceImpl tls,
-                         LogServiceImpl ls) {
+                         TweetingServiceImpl ts, ObserverServiceImpl os, TimeLineServiceImpl tls) {
         client = socket;
         this.au = au;
         this.tls = tls;
         this.os = os;
         this.ts = ts;
-        this.ls = ls;
     }
 
     /**
@@ -49,15 +46,14 @@ public class ClientHandler implements Runnable {
         String request;
         try (DataOutputStream out = new DataOutputStream(client.getOutputStream());
              DataInputStream in = new DataInputStream(client.getInputStream())) {
-            while(true) {
+            while (true) {
                 request = in.readUTF();
                 System.out.println(request);
                 String response = system.requestGetter(request);
-                if (response.equals("exit")){
+                if (response.equals("exit")) {
                     client.close();
                     break;
                 }
-                ls.recordLog(request,response);
                 out.writeUTF(response);
             }
         } catch (IOException ioe) {

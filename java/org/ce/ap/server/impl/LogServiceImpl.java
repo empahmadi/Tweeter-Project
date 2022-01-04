@@ -11,10 +11,9 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class LogServiceImpl implements LogService {
-    private Logger logger = Logger.getLogger("tweeterLog");
-    private FileHandler fh;
+    private final Logger logger = Logger.getLogger("tweeterLog");
 
-    public LogServiceImpl(){
+    public LogServiceImpl() {
         setup();
     }
 
@@ -34,12 +33,13 @@ public class LogServiceImpl implements LogService {
         }
         if (path.equals("111"))
             return;
-        try{
-            fh = new FileHandler(path+"tweeterLog.log");
+        path += "tweeterLogFile.log";
+        try {
+            FileHandler fh = new FileHandler("D:/Project/java/Tweeter/logs/tweeterLogFile.log", true);
             logger.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -53,14 +53,14 @@ public class LogServiceImpl implements LogService {
     @Override
     public synchronized void recordLog(String req, String res) {
         JSONObject request = new JSONObject(req);
-        JSONObject response =   new JSONObject(res);
+        JSONObject response = new JSONObject(res);
         String info;
-        if (response.getBoolean("hasError")){
-            info = "error in "+response.getString("errorType")+".";
-        }else{
+        if (response.getBoolean("hasError")) {
+            info = "error in " + response.getString("errorType") + ".";
+        } else {
             info = "responding was successful.";
         }
-        logger.info("request: "+request.getString("method")+" --> response: "+info);
+        logger.info("request: " + request.getString("method") + " --> response: " + info);
     }
 
 }

@@ -323,6 +323,13 @@ public class EMPDatabase {
      * @return state of deleting.
      */
     public String removeTweet(User user, Tweet tweet) {
+        for (Tweet i: userRetweets.get(user)){
+            if (i.equals(tweet)){
+                tweetRetweets.get(tweet).remove(user);
+                userRetweets.get(user).remove(tweet);
+                return "successfully deleted";
+            }
+        }
         for (User i : tweetRetweets.get(tweet)) {
             userRetweets.get(i).removeIf(j -> j.equals(tweet));
         }
