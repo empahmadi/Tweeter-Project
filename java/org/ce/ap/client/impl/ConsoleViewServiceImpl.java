@@ -199,19 +199,21 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
             System.out.printf("%-30s%-30s%-30s%-30s\n", "username", "back", "main", "exit");
             System.out.print("command: ");
             command = scan.nextLine();
-            if (command.equals("back")) {
-                return 1;
-            } else if (command.equals("main")) {
-                return 5;
-            } else if (command.equals("exit")) {
-                return 10;
-            } else {
-                for (int i = 0; i < items.length(); i++) {
-                    if (command.equals(items.getString(i))) {
-                        value = profile(command);
-                        check = 10;
+            switch (command) {
+                case "back":
+                    return 1;
+                case "main":
+                    return 5;
+                case "exit":
+                    return 10;
+                default:
+                    for (int i = 0; i < items.length(); i++) {
+                        if (command.equals(items.getString(i))) {
+                            value = profile(command);
+                            check = 10;
+                        }
                     }
-                }
+                    break;
             }
             if (check == 0) {
                 System.out.println("'" + command + "' not specified!!!");
@@ -530,43 +532,19 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
      */
     @Override
     public void parseErrorByCode(int code) {
-        switch (code){
-            case 1:
-                System.out.println("unexpected error occurred!!!");
-                break;
-            case 2:
-                System.out.println("your tweet is too long it must be under 256 characters!!!");
-                break;
-            case 3:
-                System.out.println("you not entered anything!!!");
-                break;
-            case 11:
-                System.out.println("tweet not found!!!");
-                break;
-            case 12:
-                System.out.println("error occurred in deleting tweet!!!");
-                break;
-            case 13:
-                System.out.println("you already like this tweet!!!");
-                break;
-            case 14:
-                System.out.println("you don't like this tweet yet!!!");
-                break;
-            case 21:
-                System.out.println("user not found!!!");
-                break;
-            case 22:
-                System.out.println("password is incorrect!!!");
-                break;
-            case 23:
-                System.out.println("you already follow this user!!!");
-                break;
-            case 24:
-                System.out.println("you don't follow this user yet!!!");
-                break;
-            case 25:
-                System.out.println("invalid input!!!");
-                break;
+        switch (code) {
+            case 1 -> System.out.println("unexpected error occurred!!!");
+            case 2 -> System.out.println("your tweet is too long it must be under 256 characters!!!");
+            case 3 -> System.out.println("you not entered anything!!!");
+            case 11 -> System.out.println("tweet not found!!!");
+            case 12 -> System.out.println("error occurred in deleting tweet!!!");
+            case 13 -> System.out.println("you already like this tweet!!!");
+            case 14 -> System.out.println("you don't like this tweet yet!!!");
+            case 21 -> System.out.println("user not found!!!");
+            case 22 -> System.out.println("password is incorrect!!!");
+            case 23 -> System.out.println("you already follow this user!!!");
+            case 24 -> System.out.println("you don't follow this user yet!!!");
+            case 25 -> System.out.println("invalid input!!!");
         }
         System.out.println(code);
     }

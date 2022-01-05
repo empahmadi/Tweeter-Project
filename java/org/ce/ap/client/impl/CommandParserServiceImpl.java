@@ -85,9 +85,7 @@ public class CommandParserServiceImpl implements CommandParserService {
         parameters.put("year",y);
         parameters.put("month",m);
         parameters.put("day",d);
-        String response = makeRequest("signup",parameters);
-        System.out.println(response);
-        return response;
+        return makeRequest("signup",parameters);
     }
 
     /**
