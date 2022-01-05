@@ -119,4 +119,11 @@ public interface FileIO {
      * @return object.
      */
     Object reader(String address);
+
+    /**
+     * this method will save the map between tweet and user.
+     * @param owner .
+     * @return saving status
+     */
+    String setOwnerMap(HashMap<Tweet, User> owner);
 }

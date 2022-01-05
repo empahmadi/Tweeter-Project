@@ -45,7 +45,7 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized String like(User user, int id) {
-        Tweet tweet = findTweet(id);
+        Tweet tweet = database.findTweet(id);
         int code = 1;
         if (tweet != null) {
             for (User i : database.tweetLikes.get(tweet)) {
@@ -73,7 +73,7 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized String unlike(User user, int id) {
-        Tweet tweet = findTweet(id);
+        Tweet tweet = database.findTweet(id);
         int code = 1;
         if (tweet != null) {
             for (User i : database.tweetLikes.get(tweet)) {
@@ -103,11 +103,12 @@ public class TweetingServiceImpl implements TweetingService {
         else if (content.length() == 0)
             code = 4;
         else {
-            Tweet tweet = new Tweet(content, idMaker());
+            Tweet tweet = new Tweet(content, database.getId());
             database.tweetRetweets.put(tweet, new ArrayList<>());
             database.userTweets.get(user).add(tweet);
             database.tweetLikes.put(tweet, new ArrayList<>());
             database.tweets.add(tweet);
+            database.tweetOwner.put(tweet,user);
             code = 31;
         }
         return response.responseCode(code, "sending tweet");
@@ -121,7 +122,7 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized String retweet(User user, int id) {
-        Tweet tweet = findTweet(id);
+        Tweet tweet = database.findTweet(id);
         if (tweet == null) {
             return response.error(1, "retweeting", null);
         }
@@ -139,11 +140,13 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized String deleteTweet(int id, User user) {
-        Tweet tweet = findTweet(id);
+        Tweet tweet = database.findTweet(id);
         int code = 1;
         if (tweet != null) {
             code = 34;
-            database.removeTweet(user, tweet);
+            if(!database.removeTweet(user, tweet).equals("deleted")) {
+                code = 15;
+            }
         }
         return response.responseCode(code, "deleting tweet");
     }
@@ -192,8 +195,7 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized JSONObject getTweet(User user, Tweet tweet) {
-        int check = 0;
-        User main = null;
+        User owner = database.tweetOwner.get(tweet);
         JSONObject jTweet = new JSONObject();
         jTweet.put("tweet-id", tweet.getId());
         jTweet.put("content", tweet.getContent());
@@ -201,30 +203,17 @@ public class TweetingServiceImpl implements TweetingService {
         jTweet.put("likes", getLikes(tweet));
         jTweet.put("retweets", getRetweets(tweet));
         jTweet.put("like-state", likes(tweet, user));
-        for (Tweet i : database.userRetweets.get(user)) {
-            if (i.equals(tweet)) {
-                check = 10;
-                break;
-            }
+        if (database.userTweets.get(user).contains(tweet)) {
+            jTweet.put("username", owner.getUsername());
+            jTweet.put("is-retweet",false);
+            jTweet.put("main",owner.getUsername());
+        } else if (database.userRetweets.get(user).contains(tweet)) {
+            jTweet.put("username", user.getUsername());
+            jTweet.put("is-retweet",true);
+            jTweet.put("main",owner.getUsername());
+        } else {
+            jTweet.put("username", "error");
         }
-        for (Tweet i : database.userRetweets.get(user)) {
-            if (i.equals(tweet)) {
-                if (check == 0)
-                    jTweet.put("username", user.getUsername());
-                else
-                    jTweet.put("username", user.getUsername() + " \"retweet!\"");
-            }
-        }
-        for (User j : database.userTweets.keySet()) {
-            for (Tweet i : database.userTweets.get(j)) {
-                if (i.equals(tweet)) {
-                    jTweet.put("username", j.getUsername());
-                    return jTweet;
-                }
-            }
-        }
-
-        jTweet.put("username", "error");
         return jTweet;
     }
 
@@ -235,10 +224,14 @@ public class TweetingServiceImpl implements TweetingService {
      * @return tweet in json format.
      */
     @Override
-    public synchronized String getTweetByID(User user, int id) {
-        Tweet tweet = findTweet(id);
+    public synchronized String getTweetByID(String username, int id) {
+        Tweet tweet = database.findTweet(id);
+        User user = database.findUser(username);
         if (tweet == null) {
             return response.error(1, "finding tweet", null);
+        }
+        if (user == null) {
+            return response.error(1, "finding user", null);
         }
         JSONArray result = new JSONArray();
         result.put(getTweet(user, tweet));
@@ -253,7 +246,7 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized String getJRetweets(int id) {
-        Tweet tweet = findTweet(id);
+        Tweet tweet = database.findTweet(id);
         if (tweet == null) {
             return response.error(1, "finding-tweet", null);
         }
@@ -269,7 +262,7 @@ public class TweetingServiceImpl implements TweetingService {
      */
     @Override
     public synchronized String getJLikes(int id) {
-        Tweet tweet = findTweet(id);
+        Tweet tweet = database.findTweet(id);
         if (tweet == null) {
             return response.error(1, "finding-tweet", null);
         }
@@ -277,23 +270,6 @@ public class TweetingServiceImpl implements TweetingService {
         return response.response(result.length(), result);
     }
 
-    /**
-     * @param id .
-     * @return a tweet from database.
-     */
-    @Override
-    public synchronized Tweet findTweet(int id) {
-        for (Tweet i : database.tweets) {
-            if (i.getId() == id) {
-                return i;
-            }
-        }
-        return null;
-    }
-
-    private synchronized int idMaker() {
-        return database.getId();
-    }
 
     /**
      * check that user likes this tweet or no.

@@ -58,7 +58,7 @@ public class TweeterSystem {
             case "timeline":
                 return update.run(this.user);
             case "get-tweet":
-                return ts.getTweetByID(this.user,parameter.getInt("tweet-id"));
+                return ts.getTweetByID(parameter.getString("username"), parameter.getInt("tweet-id"));
             case "like":
                 return ts.like(this.user, parameter.getInt("tweet-id"));
             case "delete-account":

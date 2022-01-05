@@ -191,9 +191,10 @@ public class CommandParserServiceImpl implements CommandParserService {
      * @return response of server.
      */
     @Override
-    public String getTweet(int id) {
+    public String getTweet(int id, String username) {
         JSONObject params = new JSONObject();
         params.put("tweet-id", id);
+        params.put("username",username);
         return makeRequest("get-tweet", params);
     }
 

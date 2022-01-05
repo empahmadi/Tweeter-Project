@@ -241,10 +241,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         profile.put("follows", follows);
         profile.put("follow-state", follows(main, user));
         result.put(profile);
-        if (database.userTweets.get(user).size() != 0) {
-            for (Tweet i : database.userTweets.get(user)) {
-                result.put(ts.getTweet(user, i));
-            }
+        for (Tweet i : database.userTweets.get(user)) {
+            result.put(ts.getTweet(user, i));
+        }
+        for (Tweet i : database.userRetweets.get(user)) {
+            result.put(ts.getTweet(user, i));
         }
         return response.response(result.length(), result);
     }
@@ -266,15 +267,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return false;
     }
 
-    public void update(){
+    public void update() {
         database.backup();
     }
 
-    public synchronized String notifications(User user){
+    public synchronized String notifications(User user) {
         JSONArray result = new JSONArray();
-        for (int i = 0;i < database.notifications.get(user).size();i++){
+        for (int i = 0; i < database.notifications.get(user).size(); i++) {
             result.put(database.notifications.get(user).get(i));
         }
-        return response.response(result.length(),result);
+        return response.response(result.length(), result);
     }
 }

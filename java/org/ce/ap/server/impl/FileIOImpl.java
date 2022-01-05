@@ -110,6 +110,27 @@ public class FileIOImpl implements FileIO {
         }
         return "backup from tweets was Successful";
     }
+    /**
+     * this method will save the map between tweet and user.
+     * @param owner .
+     * @return saving status
+     */
+    public String setOwnerMap(HashMap<Tweet, User> owner){
+        String path = giveAddress("server.maps.file");
+        if (path == null) {
+            return "Error in finding file directory";
+        }
+        JSONObject map = new JSONObject();
+        for (Tweet i : owner.keySet()) {
+            map.put(i.getId()+"",owner.get(i).getUsername());
+        }
+        try (FileWriter file = new FileWriter(path + "owner.json")) {
+            file.write(map.toString());
+        } catch (IOException ioe) {
+            return ioe.toString();
+        }
+        return "backup from tweet-user map was successful";
+    }
 
     /**
      * backup from maps that is from tweet to user.

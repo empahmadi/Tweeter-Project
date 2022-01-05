@@ -30,6 +30,7 @@ public class EMPDatabase {
     public HashMap<User, ArrayList<String>> notifications;
     public HashMap<User, ArrayList<Tweet>> userLikes;
     // tweet dependent:
+    public HashMap<Tweet, User> tweetOwner;
     public HashMap<Tweet, ArrayList<User>> tweetLikes;
     public HashMap<Tweet, ArrayList<User>> tweetRetweets;
     private int id;
@@ -49,6 +50,7 @@ public class EMPDatabase {
         userRetweets = new HashMap<>();
         userLikes = new HashMap<>();
         file = new FileIOImpl();
+        tweetOwner = new HashMap<>();
         initialize();
     }
 
@@ -88,6 +90,7 @@ public class EMPDatabase {
         System.out.println(setUserLikes(new JSONObject(file.getMap("user-likes"))));
         System.out.println(setTweetLikes(new JSONObject(file.getMap("tweet-likes"))));
         System.out.println(setTweetRetweets(new JSONObject(file.getMap("tweet-retweets"))));
+        System.out.println(setTweetOwner(new JSONObject(file.getMap("owner"))));
         int max = 1;
         for (Tweet i : tweets) {
             if (i.getId() > max) {
@@ -103,6 +106,7 @@ public class EMPDatabase {
     public void backup() {
         System.out.println(file.setUsers(users));
         System.out.println(file.setTweets(tweets));
+        System.out.println(file.setOwnerMap(tweetOwner));
         System.out.println(file.setUUMap(followers, "followers"));
         System.out.println(file.setUUMap(follows, "follows"));
         System.out.println(file.setUSMap(notifications, "notifications"));
@@ -261,6 +265,21 @@ public class EMPDatabase {
     }
 
     /**
+     * maps tweet with user.
+     *
+     * @param map .
+     * @return response.
+     */
+    private String setTweetOwner(JSONObject map) {
+        for (String ID : map.keySet()) {
+            Tweet tweet = findTweet(Integer.parseInt(ID));
+            User user = findUser((String) map.get(ID));
+            tweetOwner.put(tweet, user);
+        }
+        return "success";
+    }
+
+    /**
      * find a user from database by its username.
      *
      * @param username .
@@ -307,6 +326,12 @@ public class EMPDatabase {
             removeTweet(user, i);
         }
         follows.remove(user);
+        for (Tweet i : userLikes.get(user)) {
+            tweetLikes.get(i).remove(user);
+        }
+        for (Tweet i : userRetweets.get(user)) {
+            tweetRetweets.get(i).remove(user);
+        }
         users.remove(user);
         userTweets.remove(user);
         notifications.remove(user);
@@ -323,24 +348,23 @@ public class EMPDatabase {
      * @return state of deleting.
      */
     public String removeTweet(User user, Tweet tweet) {
-        for (Tweet i: userRetweets.get(user)){
-            if (i.equals(tweet)){
-                tweetRetweets.get(tweet).remove(user);
-                userRetweets.get(user).remove(tweet);
-                return "successfully deleted";
+        if (tweetOwner.get(tweet).equals(user)) {
+            tweets.remove(tweet);
+            userTweets.get(user).remove(tweet);
+            userLikes.get(user).remove(tweet);
+            for (User i : tweetRetweets.get(tweet)) {
+                userRetweets.get(i).remove(tweet);
             }
+            tweetLikes.remove(tweet);
+            tweetRetweets.remove(tweet);
+            tweetOwner.remove(tweet);
+            return file.deleteTweet(tweet.getId());
+        } else if (userRetweets.get(user).contains(tweet)) {
+            userRetweets.get(user).remove(tweet);
+            tweetRetweets.get(tweet).remove(user);
+            return "deleted";
+        } else {
+            return "error";
         }
-        for (User i : tweetRetweets.get(tweet)) {
-            userRetweets.get(i).removeIf(j -> j.equals(tweet));
-        }
-        for (User i : tweetLikes.get(tweet)) {
-            userLikes.get(i).removeIf(j -> j.equals(tweet));
-        }
-        tweetLikes.remove(tweet);
-        tweetRetweets.remove(tweet);
-        tweets.remove(tweet);
-        userTweets.get(user).remove(tweet);
-        return file.deleteTweet(tweet.getId());
-
     }
 }

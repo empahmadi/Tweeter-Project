@@ -87,12 +87,6 @@ public interface TweetingService {
 
 
     /**
-     * @param id .
-     * @return a tweet from database.
-     */
-    Tweet findTweet(int id);
-
-    /**
      * this method get users that retweet a tweet.
      *
      * @param id .
@@ -113,7 +107,7 @@ public interface TweetingService {
      * @param id .
      * @return tweet in json format.
      */
-    String getTweetByID(User user,int id);
+    String getTweetByID(String username,int id);
 
     /**
      * check that user likes this tweet or no.

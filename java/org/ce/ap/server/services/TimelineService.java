@@ -22,13 +22,6 @@ public interface TimelineService {
     JSONArray timeline(User user);
 
     /**
-     * delete repeated tweets.
-     *
-     * @param tweets tweets.
-     */
-    void delRepeated(ArrayList<Tweet> tweets);
-
-    /**
      * @param user ..
      * @return related tweets to user.
      */

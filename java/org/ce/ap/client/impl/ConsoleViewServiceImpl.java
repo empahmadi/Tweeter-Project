@@ -63,7 +63,7 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
     public int main() {
         JSONObject response = new JSONObject(cps.main());
         JSONObject tweet;
-        String command, search = "";
+        String command, search = "", userShow;
         int value = 1;
         while (true) {
             if (response.getBoolean("hasError")) {
@@ -73,7 +73,12 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
             System.out.printf("%-20s%-20s%-20s%-20s\n%-20s%-20s%-20s%-20s\n", "new_tweet", "followers", "follows", "update", "profile", "notifications", "search", "exit");
             for (int i = 0; i < response.getInt("count"); i++) {
                 tweet = response.getJSONArray("result").getJSONObject(i);
-                System.out.printf("%d)\n|%-30s%-30s%-20s|\n|%-256s|\n|%-12s%-6s%-15s\n\n", (i + 1), tweet.getString("username"),
+                if (tweet.getBoolean("is-retweet")) {
+                    userShow = tweet.getString("username") + " retweet from " + tweet.get("main");
+                } else {
+                    userShow = tweet.getString("username");
+                }
+                System.out.printf("%d)\n|%-30s%-30s%-20s|\n|%-256s|\n|%-12s%-6s%-15s\n\n", (i + 1), userShow,
                         " ", tweet.getString("creationDate"), tweet.getString("content"), "Likes(" + tweet.getJSONArray("likes").length() + ")",
                         " ", "retweets(" + tweet.getJSONArray("retweets").length() + ")");
             }
@@ -86,7 +91,8 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
             }
             if (isNumeric(command)) {
                 int index = Integer.parseInt(command);
-                value = tweet(response.getJSONArray("result").getJSONObject(index - 1).getInt("tweet-id"));
+                value = tweet(response.getJSONArray("result").getJSONObject(index - 1).getInt("tweet-id"),
+                        response.getJSONArray("result").getJSONObject(index - 1).getString("username"));
             }
             if (command.equals("update")) {
                 value = 5;
@@ -225,7 +231,7 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
     public int profile(String username) {
         JSONObject response, user, tweet;
         int size, i, value = 1, index;
-        String command, res;
+        String command, res, userShow;
         while (true) {
             response = new JSONObject(cps.profile(username));
             if (response.getBoolean("hasError")) {
@@ -250,7 +256,12 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
             System.out.printf("%-30s%-30s%-30s\n", "back", "main", "exit");
             for (i = 1; i < size; i++) {
                 tweet = response.getJSONArray("result").getJSONObject(i);
-                System.out.printf("%d)\n|%-30s%-31s%-19s|\n|%-80s|\n|%-20s%-37s%-23s|\n\n", (i), tweet.getString("username"),
+                if (tweet.getBoolean("is-retweet")) {
+                    userShow = tweet.getString("username") + " retweet from " + tweet.get("main");
+                } else {
+                    userShow = tweet.getString("username");
+                }
+                System.out.printf("%d)\n|%-30s%-31s%-19s|\n|%-80s|\n|%-20s%-37s%-23s|\n\n", (i), userShow,
                         " ", tweet.getString("creationDate"), tweet.getString("content"), "Likes(" + tweet.getJSONArray("likes").length() + ")",
                         " ", "retweets(" + tweet.getJSONArray("retweets").length() + ")");
             }
@@ -261,7 +272,8 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
             if (isNumeric(command)) {
                 index = Integer.parseInt(command);
                 if (index >= 0 && index <= size) {
-                    value = tweet(response.getJSONArray("result").getJSONObject(index).getInt("tweet-id"));
+                    value = tweet(response.getJSONArray("result").getJSONObject(index).getInt("tweet-id"),
+                            response.getJSONArray("result").getJSONObject(index).getString("username"));
                 } else {
                     System.out.println("'" + command + "' not specified!!!");
                 }
@@ -334,14 +346,19 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
      * @return code.
      */
     @Override
-    public int tweet(int id) {
+    public int tweet(int id, String owner) {
         JSONObject tweet, response;
-        String command, res;
+        String command, res, userShow;
         int value = 1;
         while (true) {
-            response = new JSONObject(cps.getTweet(id));
+            response = new JSONObject(cps.getTweet(id, owner));
             tweet = response.getJSONArray("result").getJSONObject(0);
-            System.out.printf("|%-30s%-30s%-20s|\n|%-256s|\n|%-12s%-6s%-15s\n\n", tweet.getString("username"),
+            if (tweet.getBoolean("is-retweet")) {
+                userShow = tweet.getString("username") + " retweet from " + tweet.get("main");
+            } else {
+                userShow = tweet.getString("username");
+            }
+            System.out.printf("|%-30s%-30s%-20s|\n|%-256s|\n|%-12s%-6s%-15s\n\n", userShow,
                     " ", tweet.getString("creationDate"), tweet.getString("content"), "Likes(" + tweet.getJSONArray("likes").length() + ")",
                     " ", "retweets(" + tweet.getJSONArray("retweets").length() + ")");
             System.out.printf("%-30s%-30s%-30s%-30s\n", "retweet",
@@ -404,8 +421,8 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
                         value = listView(tweet.getJSONArray("retweets"));
                         break;
                     case "retweet":
-                        res = cps.tweetAction(command,tweet.getInt("tweet-id"));
-                        if (isNumeric(res)){
+                        res = cps.tweetAction(command, tweet.getInt("tweet-id"));
+                        if (isNumeric(res)) {
                             parseErrorByCode(Integer.parseInt(res));
                         }
                         break;
@@ -461,7 +478,6 @@ public class ConsoleViewServiceImpl implements ConsoleViewService {
             return 1;
         }
         String result = response.getJSONArray("result").getJSONObject(0).getString("response");
-        System.out.println(result);
         this.username = username;
         return 1;
     }

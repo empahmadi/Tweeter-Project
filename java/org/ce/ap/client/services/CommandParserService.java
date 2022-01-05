@@ -88,5 +88,5 @@ public interface CommandParserService {
      * @param id tweet id.
      * @return response of server.
      */
-    String getTweet(int id);
+    String getTweet(int id, String username);
 }

@@ -39,45 +39,19 @@ public class TimeLineServiceImpl implements TimelineService {
      */
     @Override
     public JSONArray timeline(User user) {
-        ArrayList<Tweet> tweets = new ArrayList<>();
         JSONArray timeline = new JSONArray();
         for (User i : database.follows.get(user)) {
-            tweets.addAll(database.userTweets.get(i));
-        }
-        for (User i : database.follows.get(user)) {
-            tweets.addAll(database.userRetweets.get(i));
-        }
-        for (User i : database.follows.get(user)) {
-            tweets.addAll(database.userLikes.get(i));
-        }
-        delRepeated(tweets);
-        for (Tweet i : tweets) {
-            timeline.put(ts.getTweet(user,i));
-        }
-        return timeline;
-    }
-
-    /**
-     * delete repeated tweets.
-     *
-     * @param tweets tweets.
-     */
-    @Override
-    public void delRepeated(ArrayList<Tweet> tweets) {
-        int i, j, size = tweets.size();
-        for (i = 0; i < size; i++) {
-            if (i == tweets.size() - 1)
-                break;
-            for (j = i + 1; j < size; j++) {
-                if (j == tweets.size())
-                    break;
-                if (tweets.get(i).equals(tweets.get(j))) {
-                    tweets.remove(j);
-                    j--;
-                    size--;
-                }
+            for (Tweet j:database.userTweets.get(i)){
+                timeline.put(ts.getTweet(i,j));
+            }
+            for (Tweet j:database.userRetweets.get(i)){
+                timeline.put(ts.getTweet(i,j));
+            }
+            for (Tweet j : database.userLikes.get(i)) {
+                timeline.put(ts.getTweet(database.tweetOwner.get(j),j));
             }
         }
+        return timeline;
     }
 
     /**

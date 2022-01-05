@@ -52,7 +52,7 @@ public interface ConsoleViewService {
      * @param id  tweet id.
      * @return code.
      */
-    int tweet(int id);
+    int tweet(int id, String owner);
 
     /**
      * this method will sign up a user.
