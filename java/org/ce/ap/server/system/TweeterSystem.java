@@ -139,7 +139,7 @@ public class TweeterSystem {
     private String signup(JSONObject request) {
         JSONArray errors = au.checkInformation(request);
         if (errors.length() != 0) {
-            return this.response.error(1, "invalidInput", errors);
+            return this.response.error(25, "invalidInput", errors);
         }
         String username = request.getString("username");
         int value = au.signup(request);

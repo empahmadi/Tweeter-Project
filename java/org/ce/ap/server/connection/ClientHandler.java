@@ -17,7 +17,7 @@ public class ClientHandler implements Runnable {
     private final TweetingServiceImpl ts;
     private final ObserverServiceImpl os;
     private final TimeLineServiceImpl tls;
-    private Socket client;
+    private final Socket client;
 
     /**
      * initialize some variables.
@@ -48,7 +48,6 @@ public class ClientHandler implements Runnable {
              DataInputStream in = new DataInputStream(client.getInputStream())) {
             while (true) {
                 request = in.readUTF();
-                System.out.println(request);
                 String response = system.requestGetter(request);
                 if (response.equals("exit")) {
                     client.close();

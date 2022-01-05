@@ -5,7 +5,6 @@ import main.java.org.ce.ap.server.modules.User;
 import main.java.org.ce.ap.server.services.ObserverService;
 import main.java.org.ce.ap.server.system.Response;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -44,15 +43,15 @@ public class ObserverServiceImpl implements ObserverService {
     @Override
     public synchronized String follow(User user, String username) {
         User destination = au.findUser(username);
-        int code = 1;
+        int code = 21;
         if (user != null) {
             for (User i : database.followers.get(destination)) {
                 if (i.equals(user)) {
-                    code = 29;
+                    code = 23;
                     break;
                 }
             }
-            if (code == 1) {
+            if (code == 21) {
                 database.followers.get(destination).add(user);
                 database.follows.get(user).add(destination);
                 database.notifications.get(destination).add("user @" + user.getUsername() + " follow you in " + dateFormat.format(LocalDateTime.now()) + ".");
@@ -72,7 +71,7 @@ public class ObserverServiceImpl implements ObserverService {
     @Override
     public synchronized String unfollow(User user, String username) {
         User destination = au.findUser(username);
-        int code = 1;
+        int code = 21;
         if (destination != null) {
             for (User i : database.followers.get(destination)) {
                 if (i.equals(user)) {
@@ -83,8 +82,8 @@ public class ObserverServiceImpl implements ObserverService {
                     break;
                 }
             }
-            if (code == 1) {
-                code = 29;
+            if (code == 21) {
+                code = 24;
             }
         }
         return response.responseCode(code, "unfollowing");
@@ -118,7 +117,7 @@ public class ObserverServiceImpl implements ObserverService {
     public synchronized String getJFollowers(String username) {
         User user = au.findUser(username);
         if (user == null) {
-            return response.error(1, "finding-user", null);
+            return response.error(21, "finding-user", null);
         }
         ArrayList<User> users = getFollowers(user);
         JSONArray result = new JSONArray();
@@ -138,7 +137,7 @@ public class ObserverServiceImpl implements ObserverService {
     public synchronized String getJFollows(String username) {
         User user = au.findUser(username);
         if (user == null) {
-            return response.error(1, "finding-user", null);
+            return response.error(21, "finding-user", null);
         }
         ArrayList<User> users = getFollows(user);
         JSONArray result = new JSONArray();

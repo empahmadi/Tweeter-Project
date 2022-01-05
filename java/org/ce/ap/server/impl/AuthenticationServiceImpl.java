@@ -48,16 +48,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public synchronized int login(JSONObject information) {
         User user = findUser(information.getString("username"));
         if (user == null) {
-            return 1;
+            return 21;
         }
         byte[] hash = getSHA(information.get("password").toString());
         if (hash == null) {
-            return 3;
+            return 1;
         }
         if (Arrays.equals(hash, user.getPassword())) {
             return 30;
         }
-        return 1;
+        return 22;
     }
 
     /**
@@ -92,9 +92,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public synchronized int removeUser(String username) {
         User user = findUser(username);
         if (user == null)
-            return 1;
+            return 21;
         if (!database.users.contains(user))
-            return 20;
+            return 21;
         database.removeUser(user);
         return 0;
     }
@@ -209,7 +209,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         int check = 0;
         User user = findUser(username);
         if (user == null) {
-            return response.error(5, "showing-profile", null);
+            return response.error(21, "showing-profile", null);
         }
         JSONArray result = new JSONArray();
         JSONObject profile = new JSONObject();
@@ -267,10 +267,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return false;
     }
 
+    /**
+     * give a backup from system.
+     */
     public void update() {
         database.backup();
     }
 
+    /**
+     * it shows notifications.
+     * @param user .
+     * @return response of server.
+     */
     public synchronized String notifications(User user) {
         JSONArray result = new JSONArray();
         for (int i = 0; i < database.notifications.get(user).size(); i++) {

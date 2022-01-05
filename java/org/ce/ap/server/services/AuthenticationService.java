@@ -81,4 +81,11 @@ public interface AuthenticationService {
      * @return true if follows else false.
      */
     boolean follows(User follow, User user);
+
+    /**
+     * it shows notifications.
+     * @param user .
+     * @return response of server.
+     */
+    String notifications(User user);
 }

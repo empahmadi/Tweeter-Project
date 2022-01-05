@@ -7,8 +7,6 @@ import main.java.org.ce.ap.server.services.TimelineService;
 import main.java.org.ce.ap.server.system.Response;
 import org.json.JSONArray;
 
-import java.util.ArrayList;
-
 /**
  * this class is for sorting the related tweets to a user.
  *
