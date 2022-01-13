@@ -1,9 +1,9 @@
-package main.java.org.ce.ap.server.impl;
+package org.ce.ap.server.impl;
 
-import main.java.org.ce.ap.server.database.EMPDatabase;
-import main.java.org.ce.ap.server.modules.User;
-import main.java.org.ce.ap.server.services.ObserverService;
-import main.java.org.ce.ap.server.system.Response;
+import org.ce.ap.server.database.EMPDatabase;
+import org.ce.ap.server.modules.User;
+import org.ce.ap.server.services.ObserverService;
+import org.ce.ap.server.system.Response;
 import org.json.JSONArray;
 
 import java.time.LocalDateTime;

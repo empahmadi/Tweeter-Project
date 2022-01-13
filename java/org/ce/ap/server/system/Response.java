@@ -1,4 +1,4 @@
-package main.java.org.ce.ap.server.system;
+package org.ce.ap.server.system;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

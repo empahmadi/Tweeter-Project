@@ -1,4 +1,4 @@
-package main.java.org.ce.ap.server.modules;
+package org.ce.ap.server.modules;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

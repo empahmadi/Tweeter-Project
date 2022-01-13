@@ -1,6 +1,4 @@
-package main.java.org.ce.ap.client.services;
-
-import java.io.IOException;
+package org.ce.ap.client.services;
 
 /**
  * this interface is a framework for connection service.

@@ -1,8 +1,8 @@
-package main.java.org.ce.ap.server;
+package org.ce.ap.server;
 
-import main.java.org.ce.ap.server.connection.ClientHandler;
-import main.java.org.ce.ap.server.database.EMPDatabase;
-import main.java.org.ce.ap.server.impl.*;
+import org.ce.ap.server.connection.ClientHandler;
+import org.ce.ap.server.database.EMPDatabase;
+import org.ce.ap.server.impl.*;
 
 import java.io.*;
 import java.net.ServerSocket;

@@ -1,6 +1,6 @@
-package main.java.org.ce.ap.server.impl;
+package org.ce.ap.server.impl;
 
-import main.java.org.ce.ap.server.services.LogService;
+import org.ce.ap.server.services.LogService;
 import org.json.JSONObject;
 
 import java.io.FileInputStream;

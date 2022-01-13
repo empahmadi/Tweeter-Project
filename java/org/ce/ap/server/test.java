@@ -1,11 +1,11 @@
-package main.java.org.ce.ap.server;
+package org.ce.ap.server;
 
-import main.java.org.ce.ap.server.database.EMPDatabase;
-import main.java.org.ce.ap.server.impl.AuthenticationServiceImpl;
-import main.java.org.ce.ap.server.impl.ObserverServiceImpl;
-import main.java.org.ce.ap.server.impl.TimeLineServiceImpl;
-import main.java.org.ce.ap.server.impl.TweetingServiceImpl;
-import main.java.org.ce.ap.server.system.TweeterSystem;
+import org.ce.ap.server.database.EMPDatabase;
+import org.ce.ap.server.impl.AuthenticationServiceImpl;
+import org.ce.ap.server.impl.ObserverServiceImpl;
+import org.ce.ap.server.impl.TimeLineServiceImpl;
+import org.ce.ap.server.impl.TweetingServiceImpl;
+import org.ce.ap.server.system.TweeterSystem;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

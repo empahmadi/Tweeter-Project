@@ -1,12 +1,11 @@
-package main.java.org.ce.ap.client.impl;
+package org.ce.ap.client.impl;
 
-import main.java.org.ce.ap.client.Test;
-import main.java.org.ce.ap.client.services.ConnectionService;
+
+import org.ce.ap.client.services.ConnectionService;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 
 /**
  * this class connect client to server.
@@ -14,7 +13,7 @@ import java.net.Socket;
  * @author Eid Mohammad Ahmadi
  * @version 1.0
  */
-public class ConnectionServiceImpl implements ConnectionService{
+public class ConnectionServiceImpl implements ConnectionService {
     private final CommandParserServiceImpl cps;
     private final ConsoleViewServiceImpl cvs;
     private final DataInputStream input;

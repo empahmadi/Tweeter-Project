@@ -1,8 +1,8 @@
-package main.java.org.ce.ap.server.database;
+package org.ce.ap.server.database;
 
-import main.java.org.ce.ap.server.impl.FileIOImpl;
-import main.java.org.ce.ap.server.modules.Tweet;
-import main.java.org.ce.ap.server.modules.User;
+import org.ce.ap.server.impl.FileIOImpl;
+import org.ce.ap.server.modules.Tweet;
+import org.ce.ap.server.modules.User;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

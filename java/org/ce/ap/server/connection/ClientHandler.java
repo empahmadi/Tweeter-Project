@@ -1,7 +1,7 @@
-package main.java.org.ce.ap.server.connection;
+package org.ce.ap.server.connection;
 
-import main.java.org.ce.ap.server.impl.*;
-import main.java.org.ce.ap.server.system.TweeterSystem;
+import org.ce.ap.server.impl.*;
+import org.ce.ap.server.system.TweeterSystem;
 
 import java.io.*;
 import java.net.Socket;

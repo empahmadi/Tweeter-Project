@@ -1,7 +1,7 @@
-package main.java.org.ce.ap.server.services;
+package org.ce.ap.server.services;
 
-import main.java.org.ce.ap.server.modules.Tweet;
-import main.java.org.ce.ap.server.modules.User;
+import org.ce.ap.server.modules.Tweet;
+import org.ce.ap.server.modules.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

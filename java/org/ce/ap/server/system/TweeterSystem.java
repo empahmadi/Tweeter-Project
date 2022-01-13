@@ -1,10 +1,10 @@
-package main.java.org.ce.ap.server.system;
+package org.ce.ap.server.system;
 
-import main.java.org.ce.ap.server.impl.AuthenticationServiceImpl;
-import main.java.org.ce.ap.server.modules.User;
-import main.java.org.ce.ap.server.impl.ObserverServiceImpl;
-import main.java.org.ce.ap.server.impl.TimeLineServiceImpl;
-import main.java.org.ce.ap.server.impl.TweetingServiceImpl;
+import org.ce.ap.server.impl.AuthenticationServiceImpl;
+import org.ce.ap.server.modules.User;
+import org.ce.ap.server.impl.ObserverServiceImpl;
+import org.ce.ap.server.impl.TimeLineServiceImpl;
+import org.ce.ap.server.impl.TweetingServiceImpl;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

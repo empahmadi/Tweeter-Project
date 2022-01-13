@@ -1,7 +1,6 @@
-package main.java.org.ce.ap.client;
+package org.ce.ap.client;
 
-
-import main.java.org.ce.ap.client.impl.ConnectionServiceImpl;
+import org.ce.ap.client.impl.ConnectionServiceImpl;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
