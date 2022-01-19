@@ -1,0 +1,49 @@
+.container {
+    -fx-background-color: #55aced;
+}
+
+.small {
+    -fx-pref-width: 600;
+    -fx-pref-height: 700;
+    -fx-fit-to-width: 600;
+    -fx-fit-to-height: 700;
+    -fx-min-width: 600;
+    -fx-min-height: 700;
+    -fx-max-width: 600;
+    -fx-max-height: 700;
+}
+
+.image-s {
+    -fx-pref-width: 500;
+    -fx-pref-height: 400;
+    -fx-fit-to-width: 500;
+    -fx-fit-to-height: 400;
+    -fx-min-width: 500;
+    -fx-min-height: 400;
+    -fx-max-width: 500;
+    -fx-max-height: 400;
+}
+
+.caption-s {
+    -fx-pref-width: 500;
+    -fx-pref-height: 60;
+    -fx-fit-to-width: 500;
+    -fx-fit-to-height: 60;
+    -fx-min-width: 500;
+    -fx-min-height: 60;
+    -fx-max-width: 500;
+    -fx-max-height: 60;
+    -fx-font-size: 25;
+    -fx-alignment: center;
+}
+.btn-s{
+    -fx-pref-width: 150;
+    -fx-pref-height: 40;
+    -fx-fit-to-width: 150;
+    -fx-fit-to-height: 40;
+    -fx-min-width: 150;
+    -fx-min-height: 40;
+    -fx-max-width: 150;
+    -fx-max-height: 40;
+    -fx-background-color: #2599f8;
+}
