@@ -40,12 +40,13 @@ public class Twitter extends Application {
         } catch (IOException ioe) {
             System.out.println(ioe.toString());
         }
-        try (Socket socket = new Socket("localhost", port);
+        try{ Socket socket = new Socket("localhost", port);
              DataInputStream input = new DataInputStream(socket.getInputStream());
-             DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
+             DataOutputStream output = new DataOutputStream(socket.getOutputStream());
             System.out.println("Connection Established :)");
-            ConnectionServiceImpl cs = new ConnectionServiceImpl(output, input, stage);
+            ConnectionServiceImpl cs = new ConnectionServiceImpl(output, input, stage,socket);
             cs.run();
+            System.out.println("finished");
         } catch (IOException ioe) {
             stage.setScene(error.show(stage, 1, 0, 0));
             System.out.println(ioe.toString());

@@ -48,8 +48,11 @@ public class PageHandlerImpl implements PageHandler {
      */
     @Override
     public void login() {
+        System.out.println("reach");
         Scene scene = login.init(size,mode,this);
+        System.out.println("reach2");
         stage.setScene(scene);
+        System.out.println("reach3");
     }
 
     /**

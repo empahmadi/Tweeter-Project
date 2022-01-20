@@ -1,11 +1,13 @@
 package org.ce.ap.client.impl;
 
 
+import javafx.stage.Stage;
 import org.ce.ap.client.services.ConnectionService;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 
 /**
  * this class connect client to server.
@@ -14,10 +16,10 @@ import java.io.IOException;
  * @version 1.0
  */
 public class ConnectionServiceImpl implements ConnectionService {
-    private final CommandParserServiceImpl cps;
-    private final ConsoleViewServiceImpl cvs;
     private final DataInputStream input;
     private final DataOutputStream output;
+    private final PageHandlerImpl main;
+    private final Socket server;
 
     /**
      * this constructor is for initialize something.
@@ -25,11 +27,12 @@ public class ConnectionServiceImpl implements ConnectionService {
      * @param input server.
      * @param output .
      */
-    public ConnectionServiceImpl(DataOutputStream output, DataInputStream input) {
-        cps = new CommandParserServiceImpl(this);
-        cvs = new ConsoleViewServiceImpl(cps);
+    public ConnectionServiceImpl(DataOutputStream output, DataInputStream input, Stage window, Socket server) {
+        CommandParserServiceImpl cps = new CommandParserServiceImpl(this);
         this.input = input;
         this.output = output;
+        this.server = server;
+        main = new PageHandlerImpl(cps,window,window.getScene());
     }
 
     /**
@@ -37,10 +40,7 @@ public class ConnectionServiceImpl implements ConnectionService {
      */
     @Override
     public void run() {
-        int value = 0;
-        while (value == 0)
-            value = cvs.loginPage();
-        cvs.main();
+        main.login();
     }
 
     /**
@@ -52,14 +52,23 @@ public class ConnectionServiceImpl implements ConnectionService {
      */
     @Override
     public String connection(String request) {
+        System.out.println(request);
         try {
             output.writeUTF(request);
             output.flush();
             if (request.contains("exit")){
+                output.close();
+                input.close();
+                server.close();
                 return "{}";
             }
-            return input.readUTF();
-        } catch (IOException ioe) {
+            String res = input.readUTF();
+            System.out.println(res);
+            output.close();
+            input.close();
+            server.close();
+            return res;
+        } catch (IOException | NullPointerException ioe) {
             System.out.println(ioe.toString());
             return ioe.toString();
         }
