@@ -1,16 +1,18 @@
 .container {
     -fx-background-color: #55aced;
+    -fx-border-width: 1;
+    -fx-border-color: black;
 }
 
 .small {
-    -fx-pref-width: 600;
-    -fx-pref-height: 700;
-    -fx-fit-to-width: 600;
-    -fx-fit-to-height: 700;
-    -fx-min-width: 600;
-    -fx-min-height: 700;
-    -fx-max-width: 600;
-    -fx-max-height: 700;
+    -fx-pref-width: 800;
+    -fx-pref-height: 650;
+    -fx-fit-to-width: 800;
+    -fx-fit-to-height: 650;
+    -fx-min-width: 800;
+    -fx-min-height: 650;
+    -fx-max-width: 800;
+    -fx-max-height: 650;
 }
 
 .image-s {

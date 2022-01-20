@@ -1,6 +1,7 @@
 package org.ce.ap.client.pages;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.ce.ap.client.gui.impl.ErrorControllerImpl;
@@ -31,11 +32,12 @@ public class Error {
             caption = "Error Occurred In Application!!! :(";
         }
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("loading.fxml"));
-            ErrorControllerImpl error = fxmlLoader.getController();
-            error.init(size,mode,caption,code,path);
-            scene = new Scene(fxmlLoader.load(), 800, 600);
-        } catch (IOException ioe) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("error.fxml"));
+            Parent root = fxmlLoader.load();
+            ErrorControllerImpl controller = fxmlLoader.getController();
+            controller.init(size,mode,caption,code,path);
+            scene = new Scene(root, 900, 650);
+        } catch (IOException | NullPointerException ioe) {
             System.out.println(ioe.toString());
         }
         return scene;

@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.ce.ap.client.gui.controllers.ErrorController;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -43,6 +42,7 @@ public class ErrorControllerImpl implements ErrorController, Initializable {
      */
     @Override
     public void init(int size, int mode, String caption, int type,String path) {
+        parent.getStyleClass().add("container");
         if (size == 1) {
             parent.getStyleClass().add("large");
             this.caption.getStyleClass().add("large");
@@ -50,9 +50,9 @@ public class ErrorControllerImpl implements ErrorController, Initializable {
             back.getStyleClass().add("large");
         } else {
             parent.getStyleClass().add("small");
-            this.caption.getStyleClass().add("small");
-            image.getStyleClass().add("small");
-            back.getStyleClass().add("small");
+            this.caption.getStyleClass().add("caption-s");
+            image.getStyleClass().add("image-s");
+            back.getStyleClass().add("btn-s");
         }
         if (mode == 1) {
             parent.getStyleClass().add("dark");
