@@ -72,10 +72,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (hash == null) {
             return 1;
         }
-        String date = in.getInt("year") + "-" + in.getInt("month") +
-                "-" + in.getInt("day");
         User user = new User(in.getString("username"), hash,
-                in.getString("name"), date);
+                in.getString("name"), in.getString("dof"));
         user.setLastname(in.getString("lastname"));
         user.setBiography(in.getString("bio"));
         addUser(user);
@@ -159,17 +157,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             errors.put("Password must include at least 4 character.");
         }
         //date of birth.
-        if (in.getInt("year") >= 2020) {
-            errors.put("You are so young for using this app");
-        }
-        if (in.getInt("year") <= 1900) {
-            errors.put("You entered an invalid year(the year must be greater than 1900).");
-        }
-        if (in.getInt("month") > 12) {
-            errors.put("You entered an invalid month.");
-        }
-        if (in.getInt("day") > 31) {
-            errors.put("you are so young for using this app");
+        if (in.getString("dof").equals("")) {
+            errors.put("date of birth not set!!!");
         }
         if (in.getString("lastname").length() == 0) {
             errors.put("lastname should have at least one character");
@@ -276,6 +265,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     /**
      * it shows notifications.
+     *
      * @param user .
      * @return response of server.
      */

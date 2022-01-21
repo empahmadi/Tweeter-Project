@@ -3,6 +3,7 @@ package org.ce.ap.server;
 import org.ce.ap.server.connection.ClientHandler;
 import org.ce.ap.server.database.EMPDatabase;
 import org.ce.ap.server.impl.*;
+import org.ce.ap.server.system.AutoUpdateServer;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -20,6 +21,7 @@ public class Main {
         AuthenticationServiceImpl au = new AuthenticationServiceImpl(database, ts);
         TimeLineServiceImpl tls = new TimeLineServiceImpl(database);
         ObserverServiceImpl os = new ObserverServiceImpl(database, au);
+        AutoUpdateServer aus = new AutoUpdateServer(au);
         try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/server-application.properties")) {
             Properties config = new Properties();
             config.load(file);
@@ -28,6 +30,7 @@ public class Main {
             System.out.println(ioe.toString());
         }
         try (ServerSocket server = new ServerSocket(port)) {
+            thread.execute(aus);
             while (count < 30) {
                 Socket client = server.accept();
                 System.out.println("new client connected " + client.getInetAddress().getHostAddress());
