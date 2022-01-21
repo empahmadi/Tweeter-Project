@@ -51,4 +51,11 @@ public class Login {
     public void checkLogin(String username, String password, Label error){
         main.checkLogin(username,password,error,scene);
     }
+
+    /**
+     * this method is for signup new users.
+     */
+    public void signup(){
+        main.signup();
+    }
 }

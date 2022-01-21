@@ -27,9 +27,7 @@ public interface CommandParserService {
 
     /**
      * try to signup someone to server.
-     * @param y year of birth.
-     * @param m month of birth.
-     * @param d day of birth.
+     * @param dof date of birth.
      * @param name .
      * @param username .
      * @param bio .
@@ -37,7 +35,7 @@ public interface CommandParserService {
      * @param password .
      * @return response of server.
      */
-    String signup(int y,int m, int d, String name,String lastname,String username,String password,String bio);
+    String signup(String dof, String name,String lastname,String username,String password,String bio);
 
     /**
      * get main page components.

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<Pane fx:id="form" styleClass="container-s" stylesheets="@style/signup.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.impl.SignupController">
+    <children>
+      <TextArea fx:id="error" styleClass="errors" layoutX="10" layoutY="10" />
+        <VBox layoutX="25.0" styleClass="info">
+         <children>
+             <ImageView pickOnBounds="true" preserveRatio="true" styleClass="logo">
+                 <Image requestedHeight="100" requestedWidth="100" url="@icons/twitter1.png" />
+             </ImageView>
+            <Label styleClass="text" text="Sign up" />
+         </children></VBox>
+        <VBox layoutX="25" layoutY="130" styleClass="fields">
+            <children>
+                <HBox styleClass="row">
+                    <children>
+                        <TextField fx:id="name" promptText="Name" styleClass="field" />
+                        <TextField fx:id="lastname" promptText="Last Name" styleClass="field" />
+                    </children>
+                </HBox>
+                <HBox styleClass="row">
+                    <children>
+                        <TextField fx:id="username" promptText="User Name" styleClass="field" />
+                        <DatePicker fx:id="date" promptText="date of birth" styleClass="field" />
+                    </children>
+                </HBox>
+                <JFXTextArea fx:id="bio" promptText="Biography . . ." styleClass="bio" />
+                <HBox styleClass="row">
+                    <children>
+                        <TextField fx:id="password" promptText="Password" styleClass="field" />
+                        <TextField fx:id="confirm" promptText="Confirm" styleClass="field" />
+                    </children>
+                </HBox>
+                <HBox styleClass="row">
+                    <children>
+                        <ChoiceBox fx:id="sex" styleClass="field" value="Gender">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Gender"/>
+                                    <String fx:value="Male"/>
+                                    <String fx:value="Female"/>
+                                </FXCollections>
+                            </items>
+                        </ChoiceBox>
+                        <Button fx:id="submit" mnemonicParsing="false" onAction="#submit" styleClass="field" text="Submit" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</Pane>

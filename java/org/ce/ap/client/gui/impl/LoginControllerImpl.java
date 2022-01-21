@@ -120,7 +120,7 @@ public class LoginControllerImpl implements LoginController {
 
     @FXML
     public void signup(ActionEvent actionEvent) {
-
+        main.signup();
     }
 
     @FXML

@@ -2,9 +2,12 @@ package org.ce.ap.client.impl;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import org.ce.ap.client.pages.Login;
+import org.ce.ap.client.pages.Signup;
 import org.ce.ap.client.services.PageHandler;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -14,11 +17,11 @@ import org.json.JSONObject;
  * @version 1.0
  */
 public class PageHandlerImpl implements PageHandler {
-    private Stage stage;
-    private Scene load;
-    private int size,mode;
-    private CommandParserServiceImpl cps;
-    private Login login;
+    private final Stage stage;
+    private final Scene load;
+    private final int size;
+    private final int mode;
+    private final CommandParserServiceImpl cps;
 
     /**
      * this constructor will initialize our variables.
@@ -30,7 +33,6 @@ public class PageHandlerImpl implements PageHandler {
         this.stage = stage;
         this.load = load;
         this.cps = cps;
-        login = new Login();
         size = 0;mode = 1;
     }
 
@@ -48,11 +50,9 @@ public class PageHandlerImpl implements PageHandler {
      */
     @Override
     public void login() {
-        System.out.println("reach");
+        Login login = new Login();
         Scene scene = login.init(size,mode,this);
-        System.out.println("reach2");
         stage.setScene(scene);
-        System.out.println("reach3");
     }
 
     /**
@@ -80,14 +80,40 @@ public class PageHandlerImpl implements PageHandler {
      */
     @Override
     public void signup() {
-
+        Signup signup = new Signup();
+        stage.setScene(signup.init(size,mode,this));
     }
 
     /**
      * check information about signup.
+     *
+     * @param name        .
+     * @param username    .
+     * @param lastname    .
+     * @param password    .
+     * @param dateOfBirth .
+     * @param sex         .
+     * @param bio         .
+     * @param error .
+     * @param signup .
      */
     @Override
-    public void checkSignup() {
-
+    public void checkSignup(String name, String username, String lastname, String password, String dateOfBirth, String sex, String bio, TextArea error, Scene signup) {
+        stage.setScene(load);
+        JSONObject response = new JSONObject(cps.signup(dateOfBirth,name,lastname,username,password,bio));
+        if (response.getBoolean("hasError")) {
+            JSONArray errors = response.getJSONArray("params");
+            StringBuilder text = new StringBuilder();
+            for(Object i:errors){
+                text.append((String)i);
+            }
+            error.setVisible(true);
+            error.setText(text.toString());
+            stage.setScene(signup);
+        }else{
+            run();
+        }
     }
+
+
 }

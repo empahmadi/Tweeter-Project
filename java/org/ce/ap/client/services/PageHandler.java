@@ -2,6 +2,7 @@ package org.ce.ap.client.services;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 
 /**
  * this interface is a framework for PageHandler.
@@ -37,6 +38,14 @@ public interface PageHandler {
 
     /**
      * check information about signup.
+     * @param name .
+     * @param username .
+     * @param lastname .
+     * @param password .
+     * @param dateOfBirth .
+     * @param sex .
+     * @param bio .
+     * @para
      */
-    void checkSignup();
+    void checkSignup(String name, String username, String lastname, String password, String dateOfBirth, String sex, String bio, TextArea error, Scene signup);
 }
