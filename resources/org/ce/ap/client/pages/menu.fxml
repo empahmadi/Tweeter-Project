@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<Pane styleClass="body-s" stylesheets="@style/general.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <HBox styleClass="sep-s">
+            <children>
+                <VBox prefHeight="400.0" prefWidth="120.0" styleClass="menu" stylesheets="@style/menu.css">
+                    <children>
+                        <ImageView pickOnBounds="true" preserveRatio="true" styleClass="logo">
+                            <Image requestedHeight="48" requestedWidth="48" url="@icons/twitter1.png" />
+                        </ImageView>
+                        <Button fx:id="home" styleClass="menu-item" text="Home">
+                            <graphic>
+                                <ImageView>
+                                    <Image requestedHeight="16" requestedWidth="16" url="@icons/homeB.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="notifications" styleClass="menu-item" text="Notifications">
+                            <graphic>
+                                <ImageView>
+                                    <Image requestedHeight="16" requestedWidth="16" url="@icons/notifyB.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="profile" styleClass="menu-item" text="Profile">
+                            <graphic>
+                                <ImageView>
+                                    <Image requestedHeight="16" requestedWidth="16" url="@icons/profileB.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="search" styleClass="menu-item" text="Search">
+                            <graphic>
+                                <ImageView>
+                                    <Image requestedHeight="16" requestedWidth="16" url="@icons/searchB.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="logout" styleClass="menu-item" text="Logout">
+                            <graphic>
+                                <ImageView>
+                                    <Image requestedHeight="16" requestedWidth="16" url="@icons/logoutB.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="exit" styleClass="menu-item" text="Exit">
+                            <graphic>
+                                <ImageView>
+                                    <Image requestedHeight="16" requestedWidth="16" url="@icons/exitB.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                  <Pane prefHeight="219.0" prefWidth="144.0" />
+                        <Label styleClass="label" text="©EMP Twitter" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</Pane>

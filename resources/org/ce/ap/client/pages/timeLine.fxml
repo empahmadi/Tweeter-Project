@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<ScrollPane fx:id="parent" styleClass="home-s, light" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.ce.ap.client.gui.impl.TimeLineControllerImpl">
+    <VBox fx:id="list" prefHeight="353.0" prefWidth="439.0" styleClass="tweets-s, light">
+        <children>
+
+        </children>
+    </VBox>
+</ScrollPane>

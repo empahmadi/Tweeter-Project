@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import org.ce.ap.client.pages.Login;
+import org.ce.ap.client.pages.Main;
 import org.ce.ap.client.pages.Signup;
 import org.ce.ap.client.services.PageHandler;
 import org.json.JSONArray;
@@ -22,6 +23,7 @@ public class PageHandlerImpl implements PageHandler {
     private final int size;
     private final int mode;
     private final CommandParserServiceImpl cps;
+    private String username;
 
     /**
      * this constructor will initialize our variables.
@@ -42,7 +44,8 @@ public class PageHandlerImpl implements PageHandler {
      */
     @Override
     public void run() {
-
+        Main main = new Main(cps,username);
+        stage.setScene(main.init(size,mode));
     }
 
     /**
@@ -71,6 +74,7 @@ public class PageHandlerImpl implements PageHandler {
             error.setVisible(true);
             stage.setScene(login);
         }else{
+            this.username = username;
             run();
         }
     }
@@ -111,6 +115,7 @@ public class PageHandlerImpl implements PageHandler {
             error.setText(text.toString());
             stage.setScene(signup);
         }else{
+            this.username = username;
             run();
         }
     }

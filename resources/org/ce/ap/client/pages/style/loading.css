@@ -1,0 +1,17 @@
+.page-l{
+    -fx-background-color: white;
+}
+.page-d{
+    -fx-background-color: black;
+}
+.text-l{
+    -fx-text-fill: black;
+    -fx-alignment: center;
+    -fx-background-color: white;
+    -fx-font-size: 26;
+}.text-d{
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-background-color: black;
+    -fx-font-size: 26;
+}
