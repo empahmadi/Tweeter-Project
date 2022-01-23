@@ -1,0 +1,17 @@
+.params-s{
+    -fx-pref-width: 706.5;
+    -fx-fit-to-width: 706.5;
+    -fx-min-width: 706.5;
+    -fx-max-width: 706.5;
+    -fx-min-height: 620;
+    -fx-padding: 20 0 0 0;
+    -fx-alignment: top-center;
+}
+.CList{
+    -fx-padding: 100 0 0 0 !important;
+    -fx-alignment: top-center;
+}
+.label{
+    -fx-text-alignment: left;
+    -fx-font-size: 17;
+}

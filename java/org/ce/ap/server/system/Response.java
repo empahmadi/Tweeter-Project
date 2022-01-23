@@ -24,9 +24,9 @@ public class Response {
      */
     public String error(int code, String type, JSONArray params) {
         JSONObject jResponse = new JSONObject();
-        jResponse.put("hasError",true);
-        jResponse.put("errorType", type);
-        jResponse.put("errorCode", code);
+        jResponse.put("has-error",true);
+        jResponse.put("error-type", type);
+        jResponse.put("error-code", code);
         if (params == null){
             jResponse.put("params",new JSONArray());
         }else{
@@ -44,7 +44,7 @@ public class Response {
      */
     public String response(int count, JSONArray result) {
         JSONObject jResponse = new JSONObject();
-        jResponse.put("hasError",false);
+        jResponse.put("has-error",false);
         jResponse.put("count", count);
         jResponse.put("result", result);
         return jResponse.toString();
@@ -62,7 +62,7 @@ public class Response {
             return error(code, type, null);
         }
         JSONObject jResponse = new JSONObject();
-        jResponse.put("hasError",false);
+        jResponse.put("has-error",false);
         jResponse.put("count", 1);
         jResponse.put("result", successCode(code));
         return jResponse.toString();

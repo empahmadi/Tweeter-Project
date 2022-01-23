@@ -41,11 +41,11 @@ public class CommandParserServiceImpl implements CommandParserService {
             return response;
         } catch (Exception e) {
             JSONArray params = new JSONArray();
-            params.put(response);
+            params.put(e.toString());
             JSONObject error = new JSONObject();
             error.put("hasError", true);
-            error.put("errorType", "Connection to server");
-            error.put("errorCode", 550);
+            error.put("errorType", "Json format error");
+            error.put("errorCode", 51);
             error.put("params", params);
             return error.toString();
         }

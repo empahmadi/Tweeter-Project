@@ -213,6 +213,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         profile.put("username", user.getUsername());
         profile.put("name", user.getName());
         profile.put("date-of-birth", user.getDateOfBirth());
+        profile.put("date-of-join", user.getDateOfJoin());
         if (user.getLastname() != null) {
             profile.put("lastname", user.getLastname());
         } else {

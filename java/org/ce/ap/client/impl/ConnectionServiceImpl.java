@@ -3,6 +3,8 @@ package org.ce.ap.client.impl;
 
 import javafx.stage.Stage;
 import org.ce.ap.client.services.ConnectionService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -20,6 +22,7 @@ public class ConnectionServiceImpl implements ConnectionService {
     private final DataOutputStream output;
     private final PageHandlerImpl main;
     private final Socket server;
+    private int count;
 
     /**
      * this constructor is for initialize something.
@@ -33,6 +36,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         this.output = output;
         this.server = server;
         main = new PageHandlerImpl(cps,window,window.getScene());
+        count = 5;
     }
 
     /**
@@ -52,7 +56,6 @@ public class ConnectionServiceImpl implements ConnectionService {
      */
     @Override
     public String connection(String request) {
-        System.out.println(request);
         try {
             output.writeUTF(request);
             output.flush();
@@ -62,15 +65,26 @@ public class ConnectionServiceImpl implements ConnectionService {
                 server.close();
                 return "{}";
             }
+            if (count == 0){
+                output.close();
+                input.close();
+                server.close();
+            }else {
+                count--;
+            }
             String res = input.readUTF();
             System.out.println(res);
-            output.close();
-            input.close();
-            server.close();
             return res;
         } catch (IOException | NullPointerException ioe) {
             System.out.println(ioe.toString());
-            return ioe.toString();
+            JSONObject response = new JSONObject();
+            JSONArray params = new JSONArray();
+            params.put(ioe.toString());
+            response.put("has-error",true);
+            response.put("error-code",50);
+            response.put("error-type","interact with server");
+            response.put("params",params);
+            return response.toString();
         }
     }
 }
