@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.ScrollPane?>
+<ScrollPane fx:id="content" stylesheets="@style/createTweet.css, @style/general.css"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.ce.ap.client.gui.impl.CreateTweetController">
+    <VBox fx:id="list">
+        <children>
+            <HBox fx:id="row1" styleClass="row1-s">
+                <children>
+                    <Label prefHeight="50" prefWidth="120" style="-fx-font-size: 20" alignment="BOTTOM_LEFT"
+                           text="Content:"/>
+                    <Label fx:id="error" text="Label"/>
+                </children>
+            </HBox>
+            <TextArea fx:id="text" prefHeight="200.0" prefWidth="200.0" promptText="write your tweet here . . ."/>
+            <HBox fx:id="row2" styleClass="row2-s">
+                <children>
+                    <Button fx:id="cancel"  onAction="#btn" mnemonicParsing="false"
+                            text="Cancel"/>
+                    <Button fx:id="create" onAction="#btn" mnemonicParsing="false" text="Creat"/>
+                </children>
+            </HBox>
+        </children>
+    </VBox>
+</ScrollPane>
+
