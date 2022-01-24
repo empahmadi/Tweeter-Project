@@ -201,6 +201,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return response.error(21, "showing-profile", null);
         }
         JSONArray result = new JSONArray();
+        JSONArray tweets = new JSONArray();
+        JSONArray likes = new JSONArray();
+        JSONArray retweets = new JSONArray();
         JSONObject profile = new JSONObject();
         JSONArray followers = new JSONArray();
         JSONArray follows = new JSONArray();
@@ -229,14 +232,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         profile.put("profile-is-complete", check == 0);
         profile.put("followers", followers);
         profile.put("follows", follows);
-        profile.put("follow-state", follows(main, user));
+        if (follows(main,user)){
+            profile.put("follow-state", "Unfollow");
+        }else{
+            profile.put("follow-state", "Follow");
+        }
         result.put(profile);
         for (Tweet i : database.userTweets.get(user)) {
-            result.put(ts.getTweet(user, i));
+            tweets.put(ts.getTweet(user, i));
         }
         for (Tweet i : database.userRetweets.get(user)) {
-            result.put(ts.getTweet(user, i));
+            retweets.put(ts.getTweet(user, i));
         }
+        for (Tweet i : database.userLikes.get(user)) {
+            likes.put(ts.getTweet(user, i));
+        }
+        result.put(tweets);
+        result.put(retweets);
+        result.put(likes);
         return response.response(result.length(), result);
     }
 

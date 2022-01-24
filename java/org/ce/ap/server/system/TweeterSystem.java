@@ -73,9 +73,9 @@ public class TweeterSystem {
                 return ts.retweet(this.user, parameter.getInt("tweet-id"));
             case "profile":
                 return au.getProfile(this.user,parameter.getString("username"));
-            case "follow":
+            case "Follow":
                 return os.follow(this.user, parameter.getString("username"));
-            case "unfollow":
+            case "Unfollow":
                 return os.unfollow(this.user, parameter.getString("username"));
             case "get-likes":
                 return ts.getJLikes(parameter.getInt("tweet-id"));

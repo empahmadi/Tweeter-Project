@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<ScrollPane fx:id="content" styleClass="scroll-bar" stylesheets="@style/search.css, @style/general.css"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.impl.SearchController">
+    <VBox fx:id="list">
+        <children>
+            <HBox fx:id="row">
+                <TextField fx:id="field"/>
+                <Button fx:id="search" text="Search"/>
+            </HBox>
+        </children>
+    </VBox>
+</ScrollPane>

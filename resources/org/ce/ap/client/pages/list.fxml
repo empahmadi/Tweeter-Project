@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<ScrollPane fx:id="parent" styleClass="parent, scroll-bar, light" stylesheets="@style/list.css"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.ce.ap.client.gui.impl.ListController">
+    <VBox fx:id="list" styleClass="list, light">
+        <children>
+            <Label fx:id="notFound" styleClass="label" text="Theres no user to show :("/>
+            <HBox styleClass="item-s">
+                <children>
+                    <ImageView pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image requestedWidth="60" requestedHeight="60" url="@icons/twitter.png"/>
+                        </image>
+                    </ImageView>
+                    <Button styleClass="username-s" mnemonicParsing="false" text="Button"/>
+                </children>
+            </HBox>
+        </children>
+    </VBox>
+</ScrollPane>

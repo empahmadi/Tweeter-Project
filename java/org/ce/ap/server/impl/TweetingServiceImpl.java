@@ -205,6 +205,9 @@ public class TweetingServiceImpl implements TweetingService {
         jTweet.put("likes", getLikes(tweet));
         jTweet.put("retweets", getRetweets(tweet));
         jTweet.put("like-state", likes(tweet, user));
+        jTweet.put("has-image",false);
+        jTweet.put("has-profile-image",false);
+        jTweet.put("name",database.tweetOwner.get(tweet).getUsername());
         if (database.userTweets.get(user).contains(tweet)) {
             jTweet.put("username", owner.getUsername());
             jTweet.put("is-retweet", false);

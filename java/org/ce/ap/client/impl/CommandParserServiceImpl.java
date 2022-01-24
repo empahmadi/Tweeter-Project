@@ -175,12 +175,7 @@ public class CommandParserServiceImpl implements CommandParserService {
     public String userAction(String type, String username) {
         JSONObject params = new JSONObject();
         params.put("username", username);
-        JSONObject response = new JSONObject(makeRequest(type, params));
-        if (response.getBoolean("hasError")) {
-            return response.getInt("errorCode") + "";
-        }
-        System.out.println(response.getJSONArray("result").get(0));
-        return "empty";
+        return makeRequest(type,params);
     }
 
     /**
