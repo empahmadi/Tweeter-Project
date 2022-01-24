@@ -232,12 +232,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         profile.put("profile-is-complete", check == 0);
         profile.put("followers", followers);
         profile.put("follows", follows);
-        if (follows(main,user)){
+        if (follows(main, user)) {
             profile.put("follow-state", "Unfollow");
-        }else{
+        } else {
             profile.put("follow-state", "Follow");
         }
         result.put(profile);
+
         for (Tweet i : database.userTweets.get(user)) {
             tweets.put(ts.getTweet(user, i));
         }
@@ -245,7 +246,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             retweets.put(ts.getTweet(user, i));
         }
         for (Tweet i : database.userLikes.get(user)) {
-            likes.put(ts.getTweet(user, i));
+            likes.put(ts.getTweet(database.tweetOwner.get(i), i));
         }
         result.put(tweets);
         result.put(retweets);

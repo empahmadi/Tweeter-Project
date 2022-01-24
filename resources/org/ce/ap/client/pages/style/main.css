@@ -1,0 +1,17 @@
+.body-s{
+    -fx-pref-width: 900 ;-fx-pref-height: 620;
+    -fx-fit-to-width: 900;-fx-fit-to-height: 620;
+    -fx-min-width: 900;-fx-min-height: 620;
+    -fx-max-width: 900;-fx-max-height: 620;
+    -fx-background-color: white;
+}
+
+.sep-s{
+    -fx-padding: 20 0 0 0;
+    -fx-pref-width: 600 ;-fx-pref-height: 620;
+    -fx-fit-to-width: 600;-fx-fit-to-height: 620;
+    -fx-min-width: 600;-fx-min-height: 620;
+    -fx-max-width: 600;-fx-max-height: 620;
+    -fx-background-color: white;
+    -fx-alignment: center-left;
+}

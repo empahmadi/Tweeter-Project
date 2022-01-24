@@ -156,12 +156,7 @@ public class CommandParserServiceImpl implements CommandParserService {
     public String tweetAction(String type, int id) {
         JSONObject params = new JSONObject();
         params.put("tweet-id", id);
-        JSONObject response = new JSONObject(makeRequest(type, params));
-        if (response.getBoolean("hasError")) {
-            return response.getInt("errorCode") + "";
-        }
-        System.out.println(response.getJSONArray("result").get(0));
-        return "empty";
+        return makeRequest(type, params);
     }
 
     /**

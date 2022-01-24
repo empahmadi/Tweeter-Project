@@ -21,6 +21,7 @@ public class Twitter extends Application {
         stage.setTitle("Tweeter");
         stage.setWidth(900);
         stage.setHeight(650);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
         connectToServer(stage);
@@ -46,11 +47,9 @@ public class Twitter extends Application {
             System.out.println("Connection Established :)");
             ConnectionServiceImpl cs = new ConnectionServiceImpl(output, input, stage,socket);
             cs.run();
-            System.out.println("finished");
         } catch (IOException ioe) {
             stage.setScene(error.show(stage, 1, 0, 0));
             System.out.println(ioe.toString());
         }
     }
-
 }

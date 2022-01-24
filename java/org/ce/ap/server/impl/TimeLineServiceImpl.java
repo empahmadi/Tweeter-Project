@@ -49,6 +49,9 @@ public class TimeLineServiceImpl implements TimelineService {
                 timeline.put(ts.getTweet(database.tweetOwner.get(j),j));
             }
         }
+        for (Tweet j : database.userTweets.get(user)){
+            timeline.put(ts.getTweet(database.tweetOwner.get(j),j));
+        }
         return timeline;
     }
 

@@ -1,6 +1,7 @@
 package org.ce.ap.client.gui.controllers;
 
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
 import org.json.JSONArray;
 
 /**
@@ -16,8 +17,9 @@ public interface MainController {
      * @param size     .
      * @param mode     .
      * @param timeline .
+     * @param menu .
      * @return code.
      */
-    int init(int size, int mode, ScrollPane timeline);
+    int init(int size, int mode, VBox menu, ScrollPane timeline);
 
 }

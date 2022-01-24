@@ -4,12 +4,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import org.ce.ap.client.pages.Error;
 import org.ce.ap.client.pages.Login;
 import org.ce.ap.client.pages.Main;
 import org.ce.ap.client.pages.Signup;
 import org.ce.ap.client.services.PageHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * this class will handle all pages.
@@ -24,18 +29,34 @@ public class PageHandlerImpl implements PageHandler {
     private final int mode;
     private final CommandParserServiceImpl cps;
     private String username;
+    private String AppPath;
 
     /**
      * this constructor will initialize our variables.
-     * @param cps .
+     *
+     * @param cps   .
      * @param stage .
-     * @param load .
+     * @param load  .
      */
-    public PageHandlerImpl(CommandParserServiceImpl cps,Stage stage,Scene load){
+    public PageHandlerImpl(CommandParserServiceImpl cps, Stage stage, Scene load) {
         this.stage = stage;
         this.load = load;
         this.cps = cps;
-        size = 0;mode = 1;
+        size = 0;
+        mode = 1;
+    }
+
+    /**
+     * initialize the path of files.
+     */
+    public void initPath() {
+        try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/client-application.properties")) {
+            Properties config = new Properties();
+            config.load(file);
+            AppPath = config.get("client.app").toString();
+        } catch (IOException ioe) {
+            System.out.println(ioe.toString());
+        }
     }
 
 
@@ -44,8 +65,10 @@ public class PageHandlerImpl implements PageHandler {
      */
     @Override
     public void run() {
-        Main main = new Main(cps,username);
-        stage.setScene(main.init(size,mode));
+        Main main = new Main(cps, username, this, AppPath);
+        Scene scene = main.init(size, mode);
+        if (scene != null)
+            stage.setScene(scene);
     }
 
     /**
@@ -54,7 +77,7 @@ public class PageHandlerImpl implements PageHandler {
     @Override
     public void login() {
         Login login = new Login();
-        Scene scene = login.init(size,mode,this);
+        Scene scene = login.init(size, mode, this);
         stage.setScene(scene);
     }
 
@@ -64,16 +87,16 @@ public class PageHandlerImpl implements PageHandler {
      * @param username .
      * @param password .
      * @param error    .
-     * @param login .
+     * @param login    .
      */
     @Override
-    public void checkLogin(String username, String password, Label error,Scene login) {
+    public void checkLogin(String username, String password, Label error, Scene login) {
         stage.setScene(load);
         JSONObject response = new JSONObject(cps.login(username, password));
-        if (response.getBoolean("hasError")) {
+        if (response.getBoolean("has-error")) {
             error.setVisible(true);
             stage.setScene(login);
-        }else{
+        } else {
             this.username = username;
             run();
         }
@@ -85,7 +108,7 @@ public class PageHandlerImpl implements PageHandler {
     @Override
     public void signup() {
         Signup signup = new Signup();
-        stage.setScene(signup.init(size,mode,this));
+        stage.setScene(signup.init(size, mode, this));
     }
 
     /**
@@ -98,27 +121,34 @@ public class PageHandlerImpl implements PageHandler {
      * @param dateOfBirth .
      * @param sex         .
      * @param bio         .
-     * @param error .
-     * @param signup .
+     * @param error       .
+     * @param signup      .
      */
     @Override
     public void checkSignup(String name, String username, String lastname, String password, String dateOfBirth, String sex, String bio, TextArea error, Scene signup) {
         stage.setScene(load);
-        JSONObject response = new JSONObject(cps.signup(dateOfBirth,name,lastname,username,password,bio));
-        if (response.getBoolean("hasError")) {
+        JSONObject response = new JSONObject(cps.signup(dateOfBirth, name, lastname, username, password, bio));
+        if (response.getBoolean("has-error")) {
             JSONArray errors = response.getJSONArray("params");
             StringBuilder text = new StringBuilder();
-            for(Object i:errors){
-                text.append((String)i);
+            for (Object i : errors) {
+                text.append((String) i);
             }
             error.setVisible(true);
             error.setText(text.toString());
             stage.setScene(signup);
-        }else{
+        } else {
             this.username = username;
             run();
         }
     }
 
+    /**
+     * show error
+     */
+    public void error() {
+        Error error = new Error();
+        error.show(stage, 561, size, mode);
+    }
 
 }

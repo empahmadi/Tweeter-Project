@@ -59,11 +59,11 @@ public class TweeterSystem {
                 return update.run(this.user);
             case "get-tweet":
                 return ts.getTweetByID(parameter.getString("username"), parameter.getInt("tweet-id"));
-            case "like":
+            case "Like":
                 return ts.like(this.user, parameter.getInt("tweet-id"));
             case "delete-account":
                 return response.responseCode(au.removeUser(parameter.getString("username")),"deleting account");
-            case "unlike":
+            case "Unlike":
                 return ts.unlike(this.user, parameter.getInt("tweet-id"));
             case "send-tweet":
                 return ts.sendTweet(this.user, parameter.getString("content"));

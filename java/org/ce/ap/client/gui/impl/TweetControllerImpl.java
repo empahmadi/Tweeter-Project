@@ -1,24 +1,20 @@
 package org.ce.ap.client.gui.impl;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import org.ce.ap.client.gui.controllers.TweetController;
-import org.ce.ap.client.impl.CommandParserServiceImpl;
+import org.ce.ap.client.pages.Main;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * this class is an event handler for tweets.
@@ -26,11 +22,16 @@ import java.util.ResourceBundle;
  * @author Eid Mohammad Ahmadi
  * @version 1.0
  */
-public class TweetControllerImpl implements TweetController, Initializable {
+public class TweetControllerImpl {
+    private Main main;
+    private JSONArray jLikes;
+    private JSONArray jRetweets;
+    private int id;
+    private String owner;
     @FXML
-    private Hyperlink name;
+    private Button name;
     @FXML
-    private Hyperlink username;
+    private Button username;
     @FXML
     private Button isRetweet;
     @FXML
@@ -46,84 +47,17 @@ public class TweetControllerImpl implements TweetController, Initializable {
     @FXML
     private Button profile;
     @FXML
-    private Pane identity;
-    @FXML
     private Label date;
-    @FXML
-    private Image profileImage;
     @FXML
     private Button like;
     @FXML
-    private Hyperlink delete;
+    private Button delete;
     @FXML
-    private Hyperlink likes;
+    private Button likes;
     @FXML
-    private Hyperlink retweets;
+    private Button retweets;
     @FXML
     private Button retweet;
-    private CommandParserServiceImpl cps;
-    private JSONObject JInfo;
-    private String mainUser;
-    private StringProperty likeAdd = new SimpleStringProperty(this,"likeAdd","");
-    private StringProperty retweetAdd = new SimpleStringProperty(this,"likeAdd","");
-    private StringProperty profileImageAdd = new SimpleStringProperty(this,"likeAdd","");
-    private StringProperty imageAdd = new SimpleStringProperty(this,"likeAdd","");
-
-    /**
-     * @return like icon address.
-     */
-    public String getLikeAdd() {
-        return likeAdd.get();
-    }
-
-    /**
-     * set like icon address.
-     * @param likeAdd like icon address.
-     */
-    public void setLikeAdd(String likeAdd) {
-        this.likeAdd.set(likeAdd);
-    }
-    /**
-     * @return retweet icon address.
-     */
-    public String getRetweetAdd() {
-        return retweetAdd.get();
-    }
-
-    /**
-     * set retweet icon address.
-     * @param retweetAdd retweet icon address.
-     */
-    public void setRetweetAdd(String retweetAdd) {
-        this.retweetAdd.set(retweetAdd);
-    }
-    /**
-     * @return profile image address.
-     */
-    public String getProfileImageAdd() {
-        return profileImageAdd.get();
-    }
-    /**
-     * set profile image address.
-     * @param profileImageAdd profile image address.
-     */
-    public void setProfileImageAdd(String profileImageAdd) {
-        this.profileImageAdd.set(profileImageAdd);
-    }
-    /**
-     * @return content image address.
-     */
-    public String getImageAdd() {
-        return imageAdd.getValue();
-    }
-
-    /**
-     * set content image address.
-     * @param imageAdd image address.
-     */
-    public void setImageAdd(String imageAdd) {
-        this.imageAdd.setValue(imageAdd);
-    }
 
 
     /**
@@ -131,65 +65,119 @@ public class TweetControllerImpl implements TweetController, Initializable {
      *
      * @param event event.
      */
-    @Override
-    public void tweetAction(ActionEvent event) {
-
+    @FXML
+    public void click(ActionEvent event) {
+        Node node = (Node) event.getSource();
+        switch (node.getId()) {
+            case "username", "name", "profile":
+                main.profile(username.getText());
+                break;
+            case "like":
+                main.like(id,like,likes,jLikes);
+                break;
+            case "likes":
+                main.userList(jLikes);
+                break;
+            case "retweet":
+                main.retweet(id,retweets,jRetweets);
+                break;
+            case "retweets":
+                main.userList(jRetweets);
+                break;
+            case "delete":
+                main.delete(id);
+                break;
+            case "isRetweet":
+                main.profile(owner);
+                break;
+            default:
+                main.error("error in tweet action!!!", "TweetControllerImpl, click()");
+        }
     }
 
     /**
      * make a tweet in json format and creat a layout for it.
      *
-     * @param info information about tweet.
+     * @param size     .
+     * @param mode     .
+     * @param info     information about tweet.
      * @param mainUser user that wants this tweet.
-     * @return tweet in vbox format.
+     * @param main     .
      */
-    @Override
-    public VBox tweetMaker(JSONObject info, String mainUser) {
-        if (info.getBoolean("is-retweet")) {
-            isRetweet.setText("Retweet from " + info.get("main"));
+    public void init(int size, String mode, JSONObject info, String mainUser, Main main) {
+        this.main = main;
+        String btnMode = "btn-";
+        tweet.getStyleClass().add(mode);
+        information.getStyleClass().add(mode);
+        caption.getStyleClass().add(mode);
+        textContent.getStyleClass().add(mode);
+        date.getStyleClass().add(mode);
+        name.getStyleClass().add(mode);
+        username.getStyleClass().add(mode);
+        isRetweet.getStyleClass().add(mode);
+        if (mode.equals("light")) {
+            btnMode += "l";
         } else {
-            isRetweet.setVisible(false);
+            btnMode += "d";
         }
-        username.setText(info.getString("username"));
+        if (size == 0) {
+            tweet.getStyleClass().add("tweet-s");
+            information.getStyleClass().add("info-s");
+            caption.getStyleClass().add("cap-s");
+            textContent.getStyleClass().add("text-s");
+            date.getStyleClass().add("date-s");
+        } else {
+            tweet.getStyleClass().add("tweet-l");
+            information.getStyleClass().add("info-l");
+            caption.getStyleClass().add("cap-l");
+            textContent.getStyleClass().add("text-l");
+            date.getStyleClass().add("date-l");
+
+        }
+        isRetweet.getStyleClass().add("name");
+        name.getStyleClass().add("name");
+        username.getStyleClass().add("name");
+        like.getStyleClass().add(btnMode);
+        likes.getStyleClass().add(btnMode);
+        retweet.getStyleClass().add(btnMode);
+        retweets.getStyleClass().add(btnMode);
+        delete.getStyleClass().add(btnMode);
+        // initialization:
         name.setText(info.getString("name"));
+        username.setText(info.getString("username"));
+        like.setText(info.getString("like-state"));
+        likes.setText("Likes(" + info.getJSONArray("likes").length() + ")");
+        retweet.setText("Retweet");
+        retweets.setText("Retweets(" + info.getJSONArray("retweets").length() + ")");
         date.setText(info.getString("creationDate"));
         textContent.setText(info.getString("content"));
-        likes.setText("("+info.getJSONArray("likes").length()+")");
-        retweets.setText("("+info.getJSONArray("retweets").length()+")");
-        if (info.getBoolean("like-state")) {
-            setLikeAdd("@icons/unlikedL.png");
-        } else {
-            setLikeAdd("@icons/likedL.png");
-        }
-        setRetweetAdd("@icons/unretweetedL.png");
         delete.setVisible(mainUser.equals(info.getString("username")));
-        if (info.getBoolean("has-image")){
-            setImageAdd(info.getString("image-address"));
+        if (info.getBoolean("is-retweet")){
+            isRetweet.setText("this tweet is a retweet from "+info.getString("main"));
+            owner = info.getString("main");
+            isRetweet.setVisible(true);
         }else{
-            imageContent.setVisible(false);
+            isRetweet.setVisible(false);
         }
-        if (info.getBoolean("has-profile-image")){
-            setProfileImageAdd(info.getString("profileImage"));
-        }else {
-            setProfileImageAdd("@icons/userW.png");
+        if (!info.getBoolean("has-image")) {
+            tweet.getChildren().remove(imageContent);
         }
-        return tweet;
+        jLikes = info.getJSONArray("likes");
+        jRetweets = info.getJSONArray("retweets");
+        id = info.getInt("tweet-id");
     }
 
     /**
-     * set command parser service.
-     *
-     * @param cps .
+     * @return address.
      */
-    public void setCps(CommandParserServiceImpl cps) {
-        this.cps = cps;
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        setLikeAdd("no-set-yet");
-        setRetweetAdd("no-set-yet");
-        setProfileImageAdd("no-set-yet");
-        setImageAdd("no-set-yet");
+    public String giveAddress() {
+        try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/client-application.properties")) {
+            Properties config = new Properties();
+            config.load(file);
+            return config.get("client.app").toString();
+        } catch (IOException ioe) {
+            System.out.println(ioe.toString());
+            return null;
+        }
     }
 }

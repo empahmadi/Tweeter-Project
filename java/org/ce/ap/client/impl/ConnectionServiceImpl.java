@@ -22,7 +22,6 @@ public class ConnectionServiceImpl implements ConnectionService {
     private final DataOutputStream output;
     private final PageHandlerImpl main;
     private final Socket server;
-    private int count;
 
     /**
      * this constructor is for initialize something.
@@ -36,7 +35,6 @@ public class ConnectionServiceImpl implements ConnectionService {
         this.output = output;
         this.server = server;
         main = new PageHandlerImpl(cps,window,window.getScene());
-        count = 5;
     }
 
     /**
@@ -64,13 +62,6 @@ public class ConnectionServiceImpl implements ConnectionService {
                 input.close();
                 server.close();
                 return "{}";
-            }
-            if (count == 0){
-                output.close();
-                input.close();
-                server.close();
-            }else {
-                count--;
             }
             String res = input.readUTF();
             System.out.println(res);

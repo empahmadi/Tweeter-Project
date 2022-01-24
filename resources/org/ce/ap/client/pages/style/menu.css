@@ -18,7 +18,7 @@
     -fx-min-width: 160;-fx-min-height: 50;
     -fx-max-width: 160;-fx-max-height: 50;
     -fx-background-color: #55aced;
-    -fx-alignment: left-center;
+    -fx-alignment: center-left;
     -fx-border-radius: 0;
     -fx-font-size: 15;
     -fx-text-fill: black;
@@ -29,7 +29,7 @@
     -fx-min-width: 160;-fx-min-height: 50;
     -fx-max-width: 160;-fx-max-height: 50;
     -fx-background-color: black;
-    -fx-alignment: left-center;
+    -fx-alignment: center-left;
     -fx-border-radius: 0;
     -fx-font-size: 15;
     -fx-text-fill: white;

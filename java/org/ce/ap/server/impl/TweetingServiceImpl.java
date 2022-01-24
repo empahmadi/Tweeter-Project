@@ -204,20 +204,23 @@ public class TweetingServiceImpl implements TweetingService {
         jTweet.put("creationDate", dateFormat.format(tweet.getAddingDate()));
         jTweet.put("likes", getLikes(tweet));
         jTweet.put("retweets", getRetweets(tweet));
-        jTweet.put("like-state", likes(tweet, user));
-        jTweet.put("has-image",false);
-        jTweet.put("has-profile-image",false);
-        jTweet.put("name",database.tweetOwner.get(tweet).getUsername());
+        if (likes(tweet, user)) {
+            jTweet.put("like-state", "Unlike");
+        } else {
+            jTweet.put("like-state", "Like");
+        }
+        jTweet.put("has-image", false);
+        jTweet.put("has-profile-image", false);
+        jTweet.put("name", user.getName());
+        jTweet.put("username", user.getUsername());
         if (database.userTweets.get(user).contains(tweet)) {
-            jTweet.put("username", owner.getUsername());
             jTweet.put("is-retweet", false);
             jTweet.put("main", owner.getUsername());
         } else if (database.userRetweets.get(user).contains(tweet)) {
-            jTweet.put("username", user.getUsername());
             jTweet.put("is-retweet", true);
             jTweet.put("main", owner.getUsername());
         } else {
-            jTweet.put("username", "error");
+            jTweet.put("is-retweet", false);
         }
         return jTweet;
     }

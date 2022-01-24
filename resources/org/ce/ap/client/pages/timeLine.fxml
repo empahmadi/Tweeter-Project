@@ -2,10 +2,10 @@
 
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
-<ScrollPane fx:id="parent" styleClass="home-s, light" xmlns="http://javafx.com/javafx"
+<ScrollPane stylesheets="@style/timeline.css, @style/general.css" fx:id="parent" styleClass="content-s, scroll-bar, light" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.ce.ap.client.gui.impl.TimeLineControllerImpl">
-    <VBox fx:id="list" prefHeight="353.0" prefWidth="439.0" styleClass="tweets-s, light">
+    <VBox fx:id="list" styleClass="list-s, light">
         <children>
 
         </children>

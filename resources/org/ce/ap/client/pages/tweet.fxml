@@ -1,38 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 <?import javafx.geometry.Insets?>
-
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.ce.ap.client.gui.impl.TweetControllerImpl"
-      styleClass="tweet-s-t, light" stylesheets="@style/tweet.css"
-      fx:id="tweet">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<VBox fx:id="tweet" styleClass="tweet-s" stylesheets="@style/tweet.css" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.impl.TweetControllerImpl">
     <children>
-        <HBox fx:id="information" styleClass="row1-s, light">
+        <HBox fx:id="information" styleClass="row1-s">
             <children>
-                <Button fx:id="profile" styleClass="user-icon-s, light">
-                    <graphic>
-                        <ImageView fitHeight="41.0" fitWidth="42.0" pickOnBounds="true"
-                                   preserveRatio="true" styleClass="prof-l-s, light">
-                            <Image fx:id="profileImage" requestedHeight="50" requestedWidth="50"
-                                   url="@icons/userW.png"/>
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Pane fx:id="identity" styleClass="user-pane-s, light">
+                <Button fx:id="profile" onAction="#click" styleClass="user-icon-s"/>
+                <Pane styleClass="user-pane-s">
                     <children>
-                        <Hyperlink fx:id="name" styleClass="name-s, light" text="name"/>
-                        <Hyperlink fx:id="username" layoutY="25" styleClass="username-s, light" text="username"/>
+                        <Button fx:id="name" onAction="#click" styleClass="name" style="-fx-font-size: 15;-fx-pref-height: 30" mnemonicParsing="false" text="Name"/>
+                        <Button fx:id="username" onAction="#click" styleClass="name" style="-fx-font-size: 11;-fx-pref-height: 20" layoutY="30.0" mnemonicParsing="false" text="username"/>
                     </children>
                 </Pane>
                 <Label fx:id="date" styleClass="date-s, light"/>
             </children>
         </HBox>
-        <Button fx:id="isRetweet" styleClass="retweet" mnemonicParsing="false"/>
+        <Button fx:id="isRetweet" onAction="#click" layoutX="50" mnemonicParsing="false"/>
         <Label fx:id="textContent" styleClass="content-s, light"/>
         <ImageView fx:id="imageContent" fitHeight="380" fitWidth="250.0" pickOnBounds="true" preserveRatio="true"
                    styleClass="image-s" VBox.vgrow="ALWAYS">
@@ -43,28 +30,17 @@
         </ImageView>
         <HBox fx:id="caption" styleClass="row4-s, light">
             <children>
-                <Pane prefHeight="20.0" prefWidth="53.0"/>
-                <Button fx:id="like" styleClass="like-s, light">
-                    <graphic>
-                        <ImageView>
-                            <Image requestedHeight="20" requestedWidth="20"
-                                   url="@icons/unlikedL.png"/>
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Hyperlink fx:id="likes" styleClass="likes-s, light" text="(5)"/>
-                <Pane  prefHeight="20.0" prefWidth="127.0"/>
-                <Button fx:id="retweet" styleClass="like-s">
-                    <graphic>
-                        <ImageView>
-                            <Image requestedHeight="20" requestedWidth="20"
-                                   url="@icons/unretweetedL.png"/>
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Hyperlink fx:id="retweets" styleClass="retweets-s, light" text="(5)"/>
-                <Pane prefHeight="20.0" prefWidth="104.0"/>
-                <Hyperlink fx:id="delete" styleClass="delete-tweet-s, light" text="delete"/>
+                <Pane styleClass="caption-wrapper-s">
+                    <Button fx:id="like" onAction="#click" styleClass="btn-l-s" text="Like"/>
+                    <Button fx:id="likes" onAction="#click" styleClass="btn-l-s" layoutX="45" text="Likes(12)"/>
+                </Pane>
+                <Pane styleClass="caption-wrapper-s">
+                    <Button fx:id="retweet" onAction="#click"  styleClass="btn-l-s" text="Retweet"/>
+                    <Button fx:id="retweets" onAction="#click" styleClass="btn-l-s" layoutX="60" text="Retweets(22)"/>
+                </Pane>
+                <Pane styleClass="caption-wrapper-s">
+                    <Button fx:id="delete" onAction="#click" styleClass="btn-l-s" layoutX="30" text="delete"/>
+                </Pane>
             </children>
         </HBox>
     </children>
