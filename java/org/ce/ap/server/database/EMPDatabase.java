@@ -351,9 +351,11 @@ public class EMPDatabase {
         if (tweetOwner.get(tweet).equals(user)) {
             tweets.remove(tweet);
             userTweets.get(user).remove(tweet);
-            userLikes.get(user).remove(tweet);
             for (User i : tweetRetweets.get(tweet)) {
                 userRetweets.get(i).remove(tweet);
+            }
+            for (User i : tweetLikes.get(tweet)) {
+                userLikes.get(i).remove(tweet);
             }
             tweetLikes.remove(tweet);
             tweetRetweets.remove(tweet);
