@@ -26,13 +26,13 @@ firstInformation
 .first-s{
     -fx-fit-to-height: 70;-fx-pref-height: 70;-fx-max-height: 70;-fx-min-height: 70;
     -fx-fit-to-width: 250;-fx-pref-width: 250;-fx-max-width: 250;-fx-min-width: 250;
-    -fx-alignment: CENTER;-fx-font-size: 25;-fx-font: "Calibri";-fx-font-weight: BOLD;
+    -fx-alignment: CENTER;-fx-font-size: 25;-fx-font-family: "Calibri";-fx-font-weight: BOLD;
 }
 
 .break-s{
     -fx-fit-to-height: 20;-fx-pref-height: 20;-fx-max-height: 20;-fx-min-height: 20;
     -fx-fit-to-width: 600;-fx-pref-width: 600;-fx-max-width: 600;-fx-min-width: 600;
-    -fx-alignment: CENTER;-fx-font-size: 15;-fx-font: "Calibri";
+    -fx-alignment: CENTER;-fx-font-size: 15;-fx-font-family: "Calibri";
 }
 
 /*
@@ -51,19 +51,19 @@ form
 .label-s{
     -fx-fit-to-height: 30;-fx-pref-height: 30;-fx-max-height: 30;-fx-min-height: 30;
     -fx-fit-to-width: 170;-fx-pref-width: 170;-fx-max-width: 170;-fx-min-width: 170;
-    -fx-alignment: CENTER_LEFT;-fx-font-size: 20;-fx-font: "Calibri";
+    -fx-alignment: CENTER_LEFT;-fx-font-size: 20;-fx-font-family: "Calibri";
 }
 
 .field-s{
     -fx-fit-to-height: 50;-fx-pref-height: 50;-fx-max-height: 50;-fx-min-height: 50;
     -fx-fit-to-width: 285;-fx-pref-width: 285;-fx-max-width: 285;-fx-min-width: 285;
-    -fx-alignment: CENTER;-fx-font: "Arial Narrow";-fx-font-size: 24;
+    -fx-alignment: CENTER;-fx-font-family: "Arial Narrow";-fx-font-size: 24;
     -fx-border-radius: 0;
 }
 .btn-s{
     -fx-fit-to-height: 50;-fx-pref-height: 50;-fx-max-height: 50;-fx-min-height: 50;
     -fx-fit-to-width: 285;-fx-pref-width: 285;-fx-max-width: 285;-fx-min-width: 285;
-    -fx-alignment: CENTER;-fx-font: "Arial Narrow";-fx-font-size: 24;
+    -fx-alignment: CENTER;-fx-font-family: "Arial Narrow";-fx-font-size: 24;
 }
 
 .error-s {

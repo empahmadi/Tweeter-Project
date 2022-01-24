@@ -28,7 +28,7 @@ public class Error {
         try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/client-application.properties")) {
             Properties config = new Properties();
             config.load(file);
-            path = config.get("client.app.images").toString();
+            path = config.get("client.app").toString();
         } catch (IOException ioe) {
             System.out.println(ioe.toString());
         }
