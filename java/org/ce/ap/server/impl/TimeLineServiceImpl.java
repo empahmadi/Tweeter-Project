@@ -39,18 +39,21 @@ public class TimeLineServiceImpl implements TimelineService {
     public JSONArray timeline(User user) {
         JSONArray timeline = new JSONArray();
         for (User i : database.follows.get(user)) {
-            for (Tweet j:database.userTweets.get(i)){
-                timeline.put(ts.getTweet(i,j));
+            for (Tweet j : database.userTweets.get(i)) {
+                timeline.put(ts.getTweet(i, j));
             }
-            for (Tweet j:database.userRetweets.get(i)){
-                timeline.put(ts.getTweet(i,j));
+            for (Tweet j : database.userRetweets.get(i)) {
+                timeline.put(ts.getTweet(i, j));
             }
             for (Tweet j : database.userLikes.get(i)) {
-                timeline.put(ts.getTweet(database.tweetOwner.get(j),j));
+                timeline.put(ts.getTweet(database.tweetOwner.get(j), j));
             }
         }
-        for (Tweet j : database.userTweets.get(user)){
-            timeline.put(ts.getTweet(database.tweetOwner.get(j),j));
+        for (Tweet j : database.userTweets.get(user)) {
+            timeline.put(ts.getTweet(database.tweetOwner.get(j), j));
+        }
+        for (Tweet j : database.userRetweets.get(user)) {
+            timeline.put(ts.getTweet(database.tweetOwner.get(j), j));
         }
         return timeline;
     }

@@ -1,6 +1,5 @@
 .head{
     -fx-pref-width: 706.5 ;-fx-pref-height: 100;
-    -fx-fit-to-width: 706.5;-fx-fit-to-height: 100;
     -fx-min-width: 706.5;-fx-min-height: 100;
     -fx-max-width: 706.5;-fx-max-height: 100;
     -fx-alignment: center-left;
@@ -8,14 +7,12 @@
 }
 .image{
     -fx-pref-width: 100 ;-fx-pref-height: 100;
-    -fx-fit-to-width: 100;-fx-fit-to-height: 100;
     -fx-min-width: 100;-fx-min-height: 100;
     -fx-max-width: 100;-fx-max-height: 100;
     -fx-border-radius: 50;
 }
 .edit{
     -fx-pref-width: 100 ;-fx-pref-height: 40;
-    -fx-fit-to-width: 100;-fx-fit-to-height: 40;
     -fx-min-width: 100;-fx-min-height: 40;
     -fx-max-width: 100;-fx-max-height: 40;
     -fx-border-style: solid;
@@ -29,14 +26,12 @@
 
 .label2{
     -fx-pref-height: 25;
-    -fx-fit-to-height: 25;
     -fx-min-height: 25;
     -fx-max-height: 25;
 }
 
 .label1{
     -fx-pref-width: 680 ;
-    -fx-fit-to-width: 680;
     -fx-min-width: 680;
     -fx-max-width: 680;
     -fx-text-alignment: left;
@@ -46,7 +41,6 @@
 
 .foot{
     -fx-pref-width: 706.5 ;-fx-pref-height: 50;
-    -fx-fit-to-width: 706.5;-fx-fit-to-height: 50;
     -fx-min-width: 706.5;-fx-min-height: 50;
     -fx-max-width: 706.5;-fx-max-height: 50;
     -fx-alignment: center-left;

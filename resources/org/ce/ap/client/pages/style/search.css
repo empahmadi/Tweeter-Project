@@ -1,9 +1,7 @@
 .row-s{
-    -fx-fit-to-height: 40;
     -fx-max-height: 40;
     -fx-pref-height: 40;
     -fx-min-height: 40;
-    -fx-fit-to-width: true;
     -fx-min-width: 706.5;
     -fx-max-width: 706.5;
     -fx-pref-width: 706.5;
@@ -11,11 +9,9 @@
     -fx-spacing: 6.5;
 }
 .field-s{
-    -fx-fit-to-height: 40;
     -fx-max-height: 40;
     -fx-pref-height: 40;
     -fx-min-height: 40;
-    -fx-fit-to-width: true;
     -fx-min-width: 580;
     -fx-max-width: 580;
     -fx-pref-width: 580;
@@ -27,7 +23,6 @@
     -fx-max-height: 40;
     -fx-pref-height: 40;
     -fx-min-height: 40;
-    -fx-fit-to-width: true;
     -fx-min-width: 80;
     -fx-max-width: 80;
     -fx-pref-width: 80;
