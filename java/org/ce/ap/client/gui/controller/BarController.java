@@ -70,6 +70,6 @@ public class BarController {
      * @param mode .
      */
     public void toggleTheme(String mode) {
-        //content.getStyleClass().add(mode);
+        content.getStyleClass().add(mode);
     }
 }
