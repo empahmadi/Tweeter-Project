@@ -83,9 +83,9 @@ public class LoginController {
 
     public void toggleScreen(int size){
         if (size == 0) {
-            info.setLayoutX(125);
-            box.setLayoutX(125);
-            error.setLayoutX(14);
+            info.setLayoutX(170);
+            box.setLayoutX(170);
+            error.setLayoutX(30);
         } else {
             info.setLayoutX(375);
             box.setLayoutX(375);
