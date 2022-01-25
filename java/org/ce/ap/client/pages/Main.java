@@ -464,7 +464,7 @@ public class Main {
         toggle.toggleSize(size);
     }
 
-    public void toggleTheme(){
+    public void toggleTheme(String mode){
         main.toggleTheme();
         this.mode = main.getMode();
     }

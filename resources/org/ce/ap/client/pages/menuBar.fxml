@@ -6,27 +6,27 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ToggleButton?>
 
-<MenuBar stylesheets="@style/menuBar.css" styleClass="container-s" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.ce.ap.client.gui.controller.BarController">
+<MenuBar fx:id="content" stylesheets="@style/menuBar.css" styleClass="container" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.ce.ap.client.gui.controller.BarController">
   <menus>
-    <Menu styleClass="menu-s" mnemonicParsing="false" text="Application">
+    <Menu mnemonicParsing="false" text="Application">
       <items>
-        <MenuItem styleClass="menu-item" mnemonicParsing="false" text="Exit" />
-        <MenuItem styleClass="menu-item" mnemonicParsing="false" text="Log out" />
+        <MenuItem fx:id="exit" onAction="#btn" mnemonicParsing="false" text="Exit" />
+        <MenuItem fx:id="logout" onAction="#btn" mnemonicParsing="false" text="Log out" />
       </items>
     </Menu>
-    <Menu styleClass="menu-s" mnemonicParsing="false" text="View">
+    <Menu mnemonicParsing="false" text="View">
       <items>
-            <MenuItem mnemonicParsing="false" text="widow Size">
+            <MenuItem fx:id="size" onAction="#btn" mnemonicParsing="false" text="widow Size">
                <graphic>
-                  <ToggleButton mnemonicParsing="false" text="Full Screen" />
+                  <ToggleButton fx:id="toggle" mnemonicParsing="false" text="Full Screen" />
                </graphic>
             </MenuItem>
         <MenuItem mnemonicParsing="false" text="Theme">
                <graphic>
                   <MenuButton mnemonicParsing="false" text="MenuButton">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Light" />
-                      <MenuItem mnemonicParsing="false" text="Dark" />
+                      <MenuItem fx:id="light" onAction="#btn" mnemonicParsing="false" text="Light" />
+                      <MenuItem fx:id="dark" onAction="#btn" mnemonicParsing="false" text="Dark" />
                     </items>
                   </MenuButton>
                </graphic></MenuItem>
