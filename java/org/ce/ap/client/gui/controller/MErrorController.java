@@ -23,7 +23,7 @@ public class MErrorController {
     private Label type;
     @FXML
     private VBox params;
-
+    private Label label;
     /**
      * initialize error page.
      *
@@ -34,11 +34,26 @@ public class MErrorController {
      * @param params .
      */
     public void init(String mode, int size, int code, String type, JSONArray params) {
-        this.code.getStyleClass().add(mode);
-        this.type.getStyleClass().add(mode);
-        this.params.getStyleClass().add(mode);
-        this.list.getStyleClass().add(mode);
-        this.content.getStyleClass().add(mode);
+        toggleScreen(size);
+        toggleTheme(mode);
+
+        this.code.setText(code + "");
+        this.type.setText(type);
+        if (params.length() == 0) {
+            label = new Label("No Parameters");
+            label.getStyleClass().add("label");
+            this.params.getChildren().add(label);
+        } else {
+            for (Object i : params) {
+                label = new Label((String) i);
+                label.getStyleClass().add("label");
+                this.params.getChildren().add(label);
+            }
+        }
+    }
+
+
+    public void toggleScreen(int size){
         if (size == 0) {
             this.params.getStyleClass().add("params-s");
             this.list.getStyleClass().add("list-s");
@@ -48,21 +63,14 @@ public class MErrorController {
             this.list.getStyleClass().add("list-l");
             this.content.getStyleClass().add("content-l");
         }
-        this.code.setText(code + "");
-        this.type.setText(type);
-        if (params.length() == 0) {
-            Label label = new Label("No Parameters");
-            label.getStyleClass().add("label");
-            label.getStyleClass().add(mode);
-            this.params.getChildren().add(label);
-        } else {
-            for (Object i : params) {
-                Label label = new Label((String) i);
-                label.getStyleClass().add("label");
-                label.getStyleClass().add(mode);
-                this.params.getChildren().add(label);
-            }
-        }
     }
 
+    public void toggleTheme(String mode){
+        this.code.getStyleClass().add(mode);
+        this.type.getStyleClass().add(mode);
+        this.params.getStyleClass().add(mode);
+        this.list.getStyleClass().add(mode);
+        this.content.getStyleClass().add(mode);
+        label.getStyleClass().add(mode);
+    }
 }

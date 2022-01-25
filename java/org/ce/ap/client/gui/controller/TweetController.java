@@ -106,42 +106,8 @@ public class TweetController {
      */
     public void init(int size, String mode, JSONObject info, String mainUser, Main main) {
         this.main = main;
-        String btnMode = "btn-";
-        tweet.getStyleClass().add(mode);
-        information.getStyleClass().add(mode);
-        caption.getStyleClass().add(mode);
-        textContent.getStyleClass().add(mode);
-        date.getStyleClass().add(mode);
-        name.getStyleClass().add(mode);
-        username.getStyleClass().add(mode);
-        isRetweet.getStyleClass().add(mode);
-        if (mode.equals("light")) {
-            btnMode += "l";
-        } else {
-            btnMode += "d";
-        }
-        if (size == 0) {
-            tweet.getStyleClass().add("tweet-s");
-            information.getStyleClass().add("info-s");
-            caption.getStyleClass().add("cap-s");
-            textContent.getStyleClass().add("text-s");
-            date.getStyleClass().add("date-s");
-        } else {
-            tweet.getStyleClass().add("tweet-l");
-            information.getStyleClass().add("info-l");
-            caption.getStyleClass().add("cap-l");
-            textContent.getStyleClass().add("text-l");
-            date.getStyleClass().add("date-l");
-
-        }
-        isRetweet.getStyleClass().add("name");
-        name.getStyleClass().add("name");
-        username.getStyleClass().add("name");
-        like.getStyleClass().add(btnMode);
-        likes.getStyleClass().add(btnMode);
-        retweet.getStyleClass().add(btnMode);
-        retweets.getStyleClass().add(btnMode);
-        delete.getStyleClass().add(btnMode);
+        toggleScreen(size);
+        toggleTheme(mode);
         // initialization:
         name.setText(info.getString("name"));
         username.setText(info.getString("username"));
@@ -179,5 +145,48 @@ public class TweetController {
             System.out.println(ioe.toString());
             return null;
         }
+    }
+
+    public void toggleScreen(int size){
+        if (size == 0) {
+            tweet.getStyleClass().add("tweet-s");
+            information.getStyleClass().add("info-s");
+            caption.getStyleClass().add("cap-s");
+            textContent.getStyleClass().add("text-s");
+            date.getStyleClass().add("date-s");
+        } else {
+            tweet.getStyleClass().add("tweet-l");
+            information.getStyleClass().add("info-l");
+            caption.getStyleClass().add("cap-l");
+            textContent.getStyleClass().add("text-l");
+            date.getStyleClass().add("date-l");
+
+        }
+    }
+
+    public void toggleTheme(String mode){
+        String btnMode = "btn-";
+        tweet.getStyleClass().add(mode);
+        information.getStyleClass().add(mode);
+        caption.getStyleClass().add(mode);
+        textContent.getStyleClass().add(mode);
+        date.getStyleClass().add(mode);
+        name.getStyleClass().add(mode);
+        username.getStyleClass().add(mode);
+        isRetweet.getStyleClass().add(mode);
+        if (mode.equals("light")) {
+            btnMode += "l";
+        } else {
+            btnMode += "d";
+        }
+
+        isRetweet.getStyleClass().add("name");
+        name.getStyleClass().add("name");
+        username.getStyleClass().add("name");
+        like.getStyleClass().add(btnMode);
+        likes.getStyleClass().add(btnMode);
+        retweet.getStyleClass().add(btnMode);
+        retweets.getStyleClass().add(btnMode);
+        delete.getStyleClass().add(btnMode);
     }
 }

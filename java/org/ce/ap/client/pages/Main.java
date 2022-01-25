@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import org.ce.ap.client.gui.controller.*;
 import org.ce.ap.client.impl.CommandParserServiceImpl;
 import org.ce.ap.client.impl.PageHandlerImpl;
+import org.ce.ap.client.impl.ToggleImpl;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -31,13 +32,10 @@ public class Main {
     private final String path;
     private MainController controller;
     private ArrayList<ScrollPane> pages;
-    private ArrayList<ArrayList<FXMLLoader>> newPages;
-    private int index;
-    private MenuController menuController;
-    private BarController barController;
     private ArrayList<String> currentPage;
     private String mode;
     private int size;
+    private final ToggleImpl toggle;
     /**
      * initialize some variables.
      *
@@ -45,16 +43,14 @@ public class Main {
      * @param username .
      * @param main     .
      */
-    public Main(CommandParserServiceImpl cps, String username, PageHandlerImpl main, String path) {
+    public Main(CommandParserServiceImpl cps, String username, PageHandlerImpl main, String path,ToggleImpl toggle) {
         this.cps = cps;
         this.username = username;
         this.main = main;
         this.path = path;
         pages = new ArrayList<>();
         currentPage = new ArrayList<>();
-        newPages = new ArrayList<>();
-        index = 0;
-        newPages.add(new ArrayList<>());
+        this.toggle = toggle;
     }
 
     /**
@@ -78,6 +74,7 @@ public class Main {
                 Parent root = fxmlLoader.load();
                 controller = fxmlLoader.getController();
                 controller.init(size, mode, creatMenuBar(), createMenu(size, mode, 1), getTimeLine(size, mode, response.getJSONArray("result")));
+                toggle.addController(controller);
                 scene = new Scene(root);
                 currentPage.add("home");
             } catch (IOException e) {
@@ -100,7 +97,7 @@ public class Main {
             Parent root = fxmlLoader.load();
             TimeLineController controller = fxmlLoader.getController();
             controller.init(size, mode, tweets, this);
-            newPages.get(index).add(fxmlLoader);
+            toggle.addController(controller);
             return (ScrollPane) root;
         } catch (IOException e) {
             e.printStackTrace();
@@ -120,7 +117,7 @@ public class Main {
             Parent root = fxmlLoader.load();
             TweetController controller = fxmlLoader.getController();
             controller.init(size, mode, tweet, username, this);
-            newPages.get(index).add(fxmlLoader);
+            toggle.addController(controller);
             return (VBox) root;
         } catch (IOException e) {
             e.printStackTrace();
@@ -141,8 +138,9 @@ public class Main {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
             Parent root = fxmlLoader.load();
-            menuController = fxmlLoader.getController();
-            menuController.init(size, mode, type, this);
+            MenuController controller = fxmlLoader.getController();
+            controller.init(size, mode, type, this);
+            toggle.addController(controller);
             vBox = (VBox) root;
         } catch (IOException e) {
             e.printStackTrace();
@@ -162,8 +160,7 @@ public class Main {
             MErrorController controller = fxmlLoader.getController();
             controller.init(mode, size, response.getInt("error-code"), response.getString("error-type"), response.getJSONArray("params"));
             currentPage.add("NONE_OF_THEM");
-            newPages.get(index).add(fxmlLoader);
-            incrementIndex();
+            toggle.addController(controller);
             changeContent((ScrollPane) root);
         } catch (IOException e) {
             e.printStackTrace();
@@ -175,8 +172,9 @@ public class Main {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menuBar.fxml"));
             Parent root = fxmlLoader.load();
-            barController = fxmlLoader.getController();
-            barController.init(size, mode, this);
+            BarController controller = fxmlLoader.getController();
+            controller.init(size, mode, this);
+            toggle.addController(controller);
             bar = (MenuBar) root;
         } catch (IOException e) {
             e.printStackTrace();
@@ -195,8 +193,7 @@ public class Main {
             CreateTweetController controller = fxmlLoader.getController();
             controller.init(size, mode, this);
             currentPage.add("NONE_OF_THEM");
-            newPages.get(index).add(fxmlLoader);
-            incrementIndex();
+            toggle.addController(controller);
             changeContent((ScrollPane) root);
         } catch (IOException e) {
             e.printStackTrace();
@@ -215,8 +212,7 @@ public class Main {
             ListController controller = fxmlLoader.getController();
             controller.init(size,mode,list,this);
             currentPage.add("NONE_OF_THEM");
-            newPages.get(index).add(fxmlLoader);
-            incrementIndex();
+            toggle.addController(controller);
             changeContent((ScrollPane) root);
         } catch (IOException e) {
             e.printStackTrace();
@@ -238,7 +234,7 @@ public class Main {
             error(response);
         } else {
             currentPage.add(username);
-            profile.show(size, mode, this.username, this, response);
+            profile.show(size, mode, this.username, this, response,toggle);
         }
     }
 
@@ -251,8 +247,7 @@ public class Main {
             Parent root = fxmlLoader.load();
             SearchController controller = fxmlLoader.getController();
             controller.init(size, mode, this);
-            newPages.get(index).add(fxmlLoader);
-            incrementIndex();
+            toggle.addController(controller);
             currentPage.add("NONE_OF_THEM");
             changeContent((ScrollPane) root);
         } catch (IOException e) {
@@ -365,16 +360,6 @@ public class Main {
         response.put("params", params);
         error(response);
     }
-
-    public void incrementIndex(){
-        index++;
-        newPages.add(new ArrayList<>());
-    }
-
-    public void addPages(FXMLLoader fxmlLoader){
-        newPages.get(index).add(fxmlLoader);
-    }
-
     //actions:
     //user actions:
 
@@ -476,6 +461,7 @@ public class Main {
     public void toggleScreen(){
         main.toggleScreen();
         this.size = main.getSize();
+        toggle.toggleSize(size);
     }
 
     public void toggleTheme(){

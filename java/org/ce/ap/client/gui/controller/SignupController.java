@@ -41,13 +41,9 @@ public class SignupController {
     public void init(int size, String mode, Signup main) {
         error.setVisible(false);
         this.main = main;
-        if (size == 0) {
-            form.getStyleClass().add("container-s");
-        } else {
-            form.getStyleClass().add("container-l");
-        }
-        form.getStyleClass().add(mode);
-        error.getStyleClass().add(mode);
+        toggleScreen(size);
+        toggleTheme(mode);
+
     }
 
 
@@ -95,5 +91,18 @@ public class SignupController {
         } else {
             return false;
         }
+    }
+
+    public void toggleScreen(int size){
+        if (size == 0) {
+            form.getStyleClass().add("container-s");
+        } else {
+            form.getStyleClass().add("container-l");
+        }
+    }
+
+    public void toggleTheme(String mode){
+        form.getStyleClass().add(mode);
+        error.getStyleClass().add(mode);
     }
 }

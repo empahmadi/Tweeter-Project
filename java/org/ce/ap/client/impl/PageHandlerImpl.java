@@ -30,6 +30,7 @@ public class PageHandlerImpl implements PageHandler {
     private final CommandParserServiceImpl cps;
     private String username;
     private String AppPath;
+    private ToggleImpl toggle;
 
     /**
      * this constructor will initialize our variables.
@@ -44,6 +45,7 @@ public class PageHandlerImpl implements PageHandler {
         this.cps = cps;
         this.size = size;
         this.mode = mode;
+        this.toggle = new ToggleImpl();
     }
 
     /**
@@ -65,7 +67,7 @@ public class PageHandlerImpl implements PageHandler {
      */
     @Override
     public void run() {
-        Main main = new Main(cps, username, this, AppPath);
+        Main main = new Main(cps, username, this, AppPath,toggle);
         Scene scene = main.init(size, mode);
         if (scene != null)
             stage.setScene(scene);

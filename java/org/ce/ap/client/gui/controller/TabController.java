@@ -42,14 +42,20 @@ public class TabController {
      * @param user   .
      */
     public void init(int size, String mode, ArrayList<VBox> tweets, ArrayList<VBox> likes, ArrayList<VBox> retweets, JSONObject user) {
-        content.getStyleClass().add(mode);
-        this.tweets.getStyleClass().add(mode);
-        this.likes.getStyleClass().add(mode);
-        this.retweets.getStyleClass().add(mode);
-        info.getStyleClass().add(mode);
-        list.getStyleClass().add(mode);
-        list1.getStyleClass().add(mode);
-        list2.getStyleClass().add(mode);
+        toggleScreen(size);
+        toggleTheme(mode);
+        for (VBox i : tweets) {
+            this.list.getChildren().add(i);
+        }
+        for (VBox i : likes) {
+            this.list1.getChildren().add(i);
+        }
+        for (VBox i : retweets) {
+            this.list2.getChildren().add(i);
+        }
+    }
+
+    public void toggleScreen(int size){
         if (size == 1) {
             content.getStyleClass().add("content-l");
             this.tweets.getStyleClass().add("tab-l");
@@ -69,14 +75,16 @@ public class TabController {
             list1.getStyleClass().add("list-s");
             list2.getStyleClass().add("list-s");
         }
-        for (VBox i : tweets) {
-            this.list.getChildren().add(i);
-        }
-        for (VBox i : likes) {
-            this.list1.getChildren().add(i);
-        }
-        for (VBox i : retweets) {
-            this.list2.getChildren().add(i);
-        }
+    }
+
+    public void toggleTheme(String mode){
+        content.getStyleClass().add(mode);
+        this.tweets.getStyleClass().add(mode);
+        this.likes.getStyleClass().add(mode);
+        this.retweets.getStyleClass().add(mode);
+        info.getStyleClass().add(mode);
+        list.getStyleClass().add(mode);
+        list1.getStyleClass().add(mode);
+        list2.getStyleClass().add(mode);
     }
 }

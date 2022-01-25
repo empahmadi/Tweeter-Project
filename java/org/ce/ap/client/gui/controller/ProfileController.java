@@ -25,22 +25,33 @@ public class ProfileController {
     private ScrollPane parent;
     @FXML
     private VBox list;
+    private HBox head;
+    private ImageView profileImage;
+    private Button edit;
+    private Label name;
+    private Label username;
+    private Label bio;
+    private Label doj;
+    private HBox foot;
+    private Button followers;
+    private Button follow;
+    private Button follows;
 
     public void init(int size, String mode, String main, JSONObject info, Profile mainPage, TabPane tab) {
         this.main = mainPage;
         JSONObject user, tweet;
         user = info.getJSONArray("result").getJSONObject(0);
-        HBox head = new HBox();
-        ImageView profileImage = new ImageView();
-        Button edit = new Button("Edit");
-        Label name = new Label(user.getString("name"));
-        Label username = new Label(user.getString("username"));
-        Label bio = new Label(user.getString("biography"));
-        Label doj = new Label(user.getString("date-of-join"));
-        HBox foot = new HBox();
-        Button followers = new Button("followers(" + user.getJSONArray("followers").length() + ")");
-        Button follow = new Button(user.getString("follow-state"));
-        Button follows = new Button("follows(" + user.getJSONArray("follows").length() + ")");
+        head = new HBox();
+        profileImage = new ImageView();
+        edit = new Button("Edit");
+        name = new Label(user.getString("name"));
+        username = new Label(user.getString("username"));
+        bio = new Label(user.getString("biography"));
+        doj = new Label(user.getString("date-of-join"));
+        foot = new HBox();
+        followers = new Button("followers(" + user.getJSONArray("followers").length() + ")");
+        follow = new Button(user.getString("follow-state"));
+        follows = new Button("follows(" + user.getJSONArray("follows").length() + ")");
         // initialize:
         head.getChildren().add(profileImage);
         if (main.equals(user.getString("username"))) {
@@ -51,18 +62,7 @@ public class ProfileController {
         foot.getChildren().add(1, follows);
         foot.getChildren().add(2, follow);
         //styling:
-        head.getStyleClass().add(mode);
-        edit.getStyleClass().add(mode);
-        name.getStyleClass().add(mode);
-        username.getStyleClass().add(mode);
-        bio.getStyleClass().add(mode);
-        doj.getStyleClass().add(mode);
-        foot.getStyleClass().add(mode);
-        followers.getStyleClass().add(mode);
-        follows.getStyleClass().add(mode);
-        follow.getStyleClass().add(mode);
-        parent.getStyleClass().add(mode);
-        list.getStyleClass().add(mode);
+        toggleTheme(mode);
         head.getStyleClass().add("head");
         edit.getStyleClass().add("edit");
         name.getStyleClass().add("label1");
@@ -74,13 +74,7 @@ public class ProfileController {
         follows.getStyleClass().add("btn");
         follow.getStyleClass().add("btn");
         profileImage.getStyleClass().add("image");
-        if (size == 1) {
-            parent.getStyleClass().add("content-l");
-            list.getStyleClass().add("list-l");
-        } else {
-            parent.getStyleClass().add("content-s");
-            list.getStyleClass().add("list-s");
-        }
+        toggleScreen(size);
         list.getChildren().add(0, head);
         list.getChildren().add(1, name);
         list.getChildren().add(2, username);
@@ -113,5 +107,30 @@ public class ProfileController {
                 mainPage.follow(user.getString("username"), user.getString("follow-state"));
             }
         });
+    }
+
+    public void toggleScreen(int size){
+        if (size == 1) {
+            parent.getStyleClass().add("content-l");
+            list.getStyleClass().add("list-l");
+        } else {
+            parent.getStyleClass().add("content-s");
+            list.getStyleClass().add("list-s");
+        }
+    }
+
+    public void toggleTheme(String mode){
+        head.getStyleClass().add(mode);
+        edit.getStyleClass().add(mode);
+        name.getStyleClass().add(mode);
+        username.getStyleClass().add(mode);
+        bio.getStyleClass().add(mode);
+        doj.getStyleClass().add(mode);
+        foot.getStyleClass().add(mode);
+        followers.getStyleClass().add(mode);
+        follows.getStyleClass().add(mode);
+        follow.getStyleClass().add(mode);
+        parent.getStyleClass().add(mode);
+        list.getStyleClass().add(mode);
     }
 }

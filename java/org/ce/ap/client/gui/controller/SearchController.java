@@ -23,11 +23,19 @@ public class SearchController {
     private Button search;
 
     public void init(int size, String mode, Main main){
-        content.getStyleClass().add(mode);
-        list.getStyleClass().add(mode);
-        row.getStyleClass().add(mode);
-        field.getStyleClass().add(mode);
-        search.getStyleClass().add(mode);
+        toggleScreen(size);
+        toggleTheme(mode);
+
+        search.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                main.profile(field.getText());
+            }
+        });
+    }
+
+
+    public void toggleScreen(int size){
         if (size == 1) {
             content.getStyleClass().add("content-l");
             list.getStyleClass().add("list-l");
@@ -41,12 +49,13 @@ public class SearchController {
             field.getStyleClass().add("field-s");
             search.getStyleClass().add("search-s");
         }
-        search.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                main.profile(field.getText());
-            }
-        });
     }
 
+    public void toggleTheme(String mode){
+        content.getStyleClass().add(mode);
+        list.getStyleClass().add(mode);
+        row.getStyleClass().add(mode);
+        field.getStyleClass().add(mode);
+        search.getStyleClass().add(mode);
+    }
 }

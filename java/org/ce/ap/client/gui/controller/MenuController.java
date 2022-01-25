@@ -38,4 +38,13 @@ public class MenuController {
             default -> main.error("an unexpected error occurred!!! :(", "in left side menu");
         }
     }
+
+
+    public void toggleScreen(int size){
+
+    }
+
+    public void toggleTheme(String mode){
+
+    }
 }

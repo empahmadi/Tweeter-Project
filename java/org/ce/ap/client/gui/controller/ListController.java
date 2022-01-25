@@ -82,4 +82,12 @@ public class ListController {
         });
         return item;
     }
+
+    public void toggleScreen(int size){
+
+    }
+
+    public void toggleTheme(String mode){
+
+    }
 }

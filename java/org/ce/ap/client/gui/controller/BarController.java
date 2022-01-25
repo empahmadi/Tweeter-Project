@@ -14,4 +14,12 @@ public class BarController {
     public void init(int size, String mode, Main main){
 
     }
+
+    public void toggleScreen(int size){
+
+    }
+
+    public void toggleTheme(String mode){
+
+    }
 }

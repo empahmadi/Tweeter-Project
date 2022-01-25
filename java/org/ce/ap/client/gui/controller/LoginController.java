@@ -51,6 +51,37 @@ public class LoginController {
     private Button login;
 
     public void init(int size, String mode) {
+        toggleScreen(size);
+        toggleTheme(mode);
+        error.setVisible(false);
+    }
+
+    @FXML
+    public void login() {
+        main.checkLogin(username.getText(), password.getText(), error);
+    }
+
+    @FXML
+    public void signup(ActionEvent actionEvent) {
+        main.signup();
+    }
+
+    @FXML
+    public void forgotPassword() {
+
+    }
+
+    /**
+     * set command parser service.
+     *
+     * @param main .
+     */
+    public void setMain(Login main) {
+        this.main = main;
+    }
+
+
+    public void toggleScreen(int size){
         if (size == 0) {
             parent.getStyleClass().add("container-s");
             info.getStyleClass().add("info-s");
@@ -80,6 +111,9 @@ public class LoginController {
             login.getStyleClass().add("btn-l");
             error.getStyleClass().add("error-l");
         }
+    }
+
+    public void toggleTheme(String mode){
         parent.getStyleClass().add(mode);
         info.getStyleClass().add(mode);
         box.getStyleClass().add(mode);
@@ -93,30 +127,5 @@ public class LoginController {
         space.getStyleClass().add(mode);
         login.getStyleClass().add(mode);
         error.getStyleClass().add(mode);
-        error.setVisible(false);
-    }
-
-    @FXML
-    public void login() {
-        main.checkLogin(username.getText(), password.getText(), error);
-    }
-
-    @FXML
-    public void signup(ActionEvent actionEvent) {
-        main.signup();
-    }
-
-    @FXML
-    public void forgotPassword() {
-
-    }
-
-    /**
-     * set command parser service.
-     *
-     * @param main .
-     */
-    public void setMain(Login main) {
-        this.main = main;
     }
 }

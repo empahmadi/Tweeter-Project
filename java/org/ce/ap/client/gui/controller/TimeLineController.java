@@ -29,4 +29,13 @@ public class TimeLineController {
         list.getChildren().add(last);
 
     }
+
+
+    public void toggleScreen(int size){
+
+    }
+
+    public void toggleTheme(String mode){
+
+    }
 }

@@ -37,4 +37,12 @@ public class MainController {
     public void changeContent(ScrollPane content){
         home.getChildren().set(1,content);
     }
+
+    public void toggleScreen(int size){
+
+    }
+
+    public void toggleTheme(String mode){
+
+    }
 }

@@ -23,9 +23,6 @@ public class ErrorController {
     private ImageView image;
     @FXML
     private Button back;
-    private StringProperty imageAdd = new SimpleStringProperty(this, "likeAdd", "");
-    private String path;
-    private String mode;
 
     /**
      * initialize the error page.
@@ -38,40 +35,29 @@ public class ErrorController {
      */
     public void init(int size, String mode, String caption, int type, String path) {
         parent.getStyleClass().add("container");
+        toggleScreen(size);
+        toggleTheme(mode);
+        this.caption.setText(caption);
+    }
+
+    public void toggleScreen(int size){
         if (size == 1) {
             parent.getStyleClass().add("large");
-            this.caption.getStyleClass().add("large");
+            caption.getStyleClass().add("large");
             image.getStyleClass().add("large");
             back.getStyleClass().add("large");
         } else {
             parent.getStyleClass().add("small");
-            this.caption.getStyleClass().add("caption-s");
+            caption.getStyleClass().add("caption-s");
             image.getStyleClass().add("image-s");
             back.getStyleClass().add("btn-s");
         }
+    }
+
+    public void toggleTheme(String mode){
         parent.getStyleClass().add(mode);
-        this.caption.getStyleClass().add(mode);
+        caption.getStyleClass().add(mode);
         image.getStyleClass().add(mode);
         back.getStyleClass().add(mode);
-
-        this.caption.setText(caption);
-        this.mode = mode;
-        this.path = path;
-    }
-
-    /**
-     * @return content image address.
-     */
-    public String getImageAdd() {
-        return imageAdd.getValue();
-    }
-
-    /**
-     * set content image address.
-     *
-     * @param imageAdd image address.
-     */
-    public void setImageAdd(String imageAdd) {
-        this.imageAdd.setValue(imageAdd);
     }
 }

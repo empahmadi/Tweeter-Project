@@ -33,33 +33,8 @@ public class CreateTweetController {
 
     public void init(int size, String mode, Main main) {
         this.main = main;
-        content.getStyleClass().add(mode);
-        row1.getStyleClass().add(mode);
-        row2.getStyleClass().add(mode);
-        list.getStyleClass().add(mode);
-        if (mode.equals("light")){
-            cancel.getStyleClass().add("btn-l");
-            create.getStyleClass().add("btn-l");
-        }else{
-            cancel.getStyleClass().add("btn-d");
-            create.getStyleClass().add("btn-d");
-        }
-        text.getStyleClass().add(mode);
-        if (size == 0){
-            content.getStyleClass().add("content-s");
-            list.getStyleClass().add("list-s");
-            row1.getStyleClass().add("row1-s");
-            row2.getStyleClass().add("row2-s");
-            text.getStyleClass().add("text-s");
-            error.getStyleClass().add("error-s");
-        }else{
-            content.getStyleClass().add("content-l");
-            list.getStyleClass().add("list-l");
-            row1.getStyleClass().add("row1-l");
-            row2.getStyleClass().add("row2-l");
-            text.getStyleClass().add("text-l");
-            error.getStyleClass().add("error-l");
-        }
+        toggleScreen(size);
+        toggleTheme(mode);
         error.setVisible(false);
     }
 
@@ -80,5 +55,38 @@ public class CreateTweetController {
         } else {
             main.home();
         }
+    }
+
+    public void toggleScreen(int size){
+        if (size == 0){
+            content.getStyleClass().add("content-s");
+            list.getStyleClass().add("list-s");
+            row1.getStyleClass().add("row1-s");
+            row2.getStyleClass().add("row2-s");
+            text.getStyleClass().add("text-s");
+            error.getStyleClass().add("error-s");
+        }else{
+            content.getStyleClass().add("content-l");
+            list.getStyleClass().add("list-l");
+            row1.getStyleClass().add("row1-l");
+            row2.getStyleClass().add("row2-l");
+            text.getStyleClass().add("text-l");
+            error.getStyleClass().add("error-l");
+        }
+    }
+
+    public void toggleTheme(String mode){
+        content.getStyleClass().add(mode);
+        row1.getStyleClass().add(mode);
+        row2.getStyleClass().add(mode);
+        list.getStyleClass().add(mode);
+        if (mode.equals("light")){
+            cancel.getStyleClass().add("btn-l");
+            create.getStyleClass().add("btn-l");
+        }else{
+            cancel.getStyleClass().add("btn-d");
+            create.getStyleClass().add("btn-d");
+        }
+        text.getStyleClass().add(mode);
     }
 }
