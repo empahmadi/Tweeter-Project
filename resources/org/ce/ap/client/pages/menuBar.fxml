@@ -6,7 +6,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ToggleButton?>
 
-<MenuBar fx:id="content" stylesheets="@style/menuBar.css" styleClass="container" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.ce.ap.client.gui.controller.BarController">
+<MenuBar fx:id="content" stylesheets="@style/menuBar.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.ce.ap.client.gui.controller.BarController">
   <menus>
     <Menu mnemonicParsing="false" text="Application">
       <items>

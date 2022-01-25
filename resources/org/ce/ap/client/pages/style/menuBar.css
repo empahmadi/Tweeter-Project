@@ -1,5 +1,10 @@
-.container{
-    -fx-pref-width: 900;
+.content-s{
+    -fx-pref-width: 940;
+    -fx-min-height: 27;
+}
+
+.content-l{
+    -fx-pref-width: 1350;
     -fx-min-height: 27;
 }
 

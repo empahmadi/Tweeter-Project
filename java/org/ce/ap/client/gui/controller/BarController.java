@@ -62,7 +62,11 @@ public class BarController {
      * @param size .
      */
     public void toggleScreen(int size) {
-
+        if (size == 0){
+            content.getStyleClass().add("content-s");
+        }else{
+            content.getStyleClass().add("content-l");
+        }
     }
 
     /**
