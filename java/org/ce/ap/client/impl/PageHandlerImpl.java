@@ -25,8 +25,8 @@ import java.util.Properties;
 public class PageHandlerImpl implements PageHandler {
     private final Stage stage;
     private final Scene load;
-    private final int size;
-    private final int mode;
+    private int size;
+    private String mode;
     private final CommandParserServiceImpl cps;
     private String username;
     private String AppPath;
@@ -38,12 +38,12 @@ public class PageHandlerImpl implements PageHandler {
      * @param stage .
      * @param load  .
      */
-    public PageHandlerImpl(CommandParserServiceImpl cps, Stage stage, Scene load) {
+    public PageHandlerImpl(CommandParserServiceImpl cps, Stage stage, Scene load, String mode, int size) {
         this.stage = stage;
         this.load = load;
         this.cps = cps;
-        size = 0;
-        mode = 1;
+        this.size = size;
+        this.mode = mode;
     }
 
     /**
@@ -149,6 +149,22 @@ public class PageHandlerImpl implements PageHandler {
     public void error() {
         Error error = new Error();
         error.show(stage, 561, size, mode);
+    }
+
+    public void toggleScreen(){
+        if (size == 1){
+            size = 2;
+        }else{
+            size = 1;
+        }
+    }
+
+    public void toggleTheme(){
+        if(mode.equals("light")){
+            mode = "dark";
+        }else{
+            mode = "light";
+        }
     }
 
 }

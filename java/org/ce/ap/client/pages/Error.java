@@ -22,7 +22,7 @@ public class Error {
      *
      * @return scene.
      */
-    private Scene init(int size, int code, int mode) {
+    private Scene init(int size, int code, String mode) {
         String path = null, caption;
         Scene scene = null;
         try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/client-application.properties")) {
@@ -55,7 +55,7 @@ public class Error {
      * @param stage our stage.
      * @param code  error code.
      */
-    public Scene show(Stage stage, int code, int size, int mode) {
+    public Scene show(Stage stage, int code, int size, String mode) {
         return init(size, code, mode);
     }
 

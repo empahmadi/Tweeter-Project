@@ -14,6 +14,8 @@ import java.net.Socket;
 import java.util.Properties;
 
 public class Twitter extends Application {
+    private String mode;
+    private int size;
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("loading.fxml"));
@@ -24,6 +26,7 @@ public class Twitter extends Application {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+        initSetting();
         connectToServer(stage);
     }
 
@@ -45,11 +48,16 @@ public class Twitter extends Application {
              DataInputStream input = new DataInputStream(socket.getInputStream());
              DataOutputStream output = new DataOutputStream(socket.getOutputStream());
             System.out.println("Connection Established :)");
-            ConnectionServiceImpl cs = new ConnectionServiceImpl(output, input, stage,socket);
+            ConnectionServiceImpl cs = new ConnectionServiceImpl(output, input, stage,socket,mode,size);
             cs.run();
         } catch (IOException ioe) {
-            stage.setScene(error.show(stage, 1, 0, 0));
+            stage.setScene(error.show(stage, 1, 0, mode));
             System.out.println(ioe.toString());
         }
+    }
+
+    public void initSetting(){
+        mode = "light";
+        size = 0;
     }
 }

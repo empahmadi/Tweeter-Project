@@ -38,7 +38,7 @@ public class SignupController {
     @FXML
     private Button submit;
 
-    public void init(int size, int mode, Signup main) {
+    public void init(int size, String mode, Signup main) {
         error.setVisible(false);
         this.main = main;
         if (size == 0) {
@@ -46,13 +46,8 @@ public class SignupController {
         } else {
             form.getStyleClass().add("container-l");
         }
-        if (mode == 0) {
-            form.getStyleClass().add("dark");
-            error.getStyleClass().add("dark");
-        } else {
-            form.getStyleClass().add("light");
-            error.getStyleClass().add("light");
-        }
+        form.getStyleClass().add(mode);
+        error.getStyleClass().add(mode);
     }
 
 
@@ -64,7 +59,7 @@ public class SignupController {
                 error.setText("password is not the same of confirm");
                 error.setVisible(true);
             }
-        }else{
+        } else {
             error.setVisible(true);
         }
     }

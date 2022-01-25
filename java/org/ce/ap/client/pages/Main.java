@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import org.ce.ap.client.gui.impl.*;
@@ -31,9 +32,8 @@ public class Main {
     private MainControllerImpl controller;
     private ArrayList<ScrollPane> pages;
     private ArrayList<String> currentPage;
-    private int size, mode;
-    private String modeS;
-
+    private String mode;
+    private int size;
     /**
      * initialize some variables.
      *
@@ -57,13 +57,9 @@ public class Main {
      * @param mode .
      * @return main scene.
      */
-    public Scene init(int size, int mode) {
+    public Scene init(int size, String mode) {
         this.size = size;
         this.mode = mode;
-        if (mode == 0)
-            modeS = "dark";
-        else
-            modeS = "light";
         Scene scene = null;
         JSONObject response = new JSONObject(cps.main());
         if (response.getBoolean("has-error")) {
@@ -74,7 +70,7 @@ public class Main {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
                 Parent root = fxmlLoader.load();
                 controller = fxmlLoader.getController();
-                controller.init(size, mode, createMenu(size, mode, 1), getTimeLine(size, mode, response.getJSONArray("result")));
+                controller.init(size, mode, creatMenuBar(), createMenu(size, mode, 1), getTimeLine(size, mode, response.getJSONArray("result")));
                 scene = new Scene(root);
                 currentPage.add("home");
             } catch (IOException e) {
@@ -91,7 +87,7 @@ public class Main {
      * @param tweets .
      * @return a set of graphical user interface tweets.
      */
-    private ScrollPane getTimeLine(int size, int mode, JSONArray tweets) {
+    private ScrollPane getTimeLine(int size, String mode, JSONArray tweets) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("timeLine.fxml"));
             Parent root = fxmlLoader.load();
@@ -115,7 +111,7 @@ public class Main {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("tweet.fxml"));
             Parent root = fxmlLoader.load();
             TweetControllerImpl controller = fxmlLoader.getController();
-            controller.init(size, modeS, tweet, username, this);
+            controller.init(size, mode, tweet, username, this);
             return (VBox) root;
         } catch (IOException e) {
             e.printStackTrace();
@@ -131,7 +127,7 @@ public class Main {
      * @param type .
      * @return menu.
      */
-    private VBox createMenu(int size, int mode, int type) {
+    private VBox createMenu(int size, String mode, int type) {
         VBox vBox = null;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
@@ -155,12 +151,26 @@ public class Main {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MError.fxml"));
             Parent root = fxmlLoader.load();
             MErrorController controller = fxmlLoader.getController();
-            controller.init(modeS, size, response.getInt("error-code"), response.getString("error-type"), response.getJSONArray("params"));
+            controller.init(mode, size, response.getInt("error-code"), response.getString("error-type"), response.getJSONArray("params"));
             currentPage.add("NONE_OF_THEM");
             changeContent((ScrollPane) root);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public MenuBar creatMenuBar() {
+        MenuBar bar = null;
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menuBar.fxml"));
+            Parent root = fxmlLoader.load();
+            BarController controller = fxmlLoader.getController();
+            controller.init(size, mode, this);
+            bar = (MenuBar) root;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bar;
     }
     // menu options:
 
@@ -172,7 +182,7 @@ public class Main {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("createTweet.fxml"));
             Parent root = fxmlLoader.load();
             CreateTweetController controller = fxmlLoader.getController();
-            controller.init(size, modeS, this);
+            controller.init(size, mode, this);
             currentPage.add("NONE_OF_THEM");
             changeContent((ScrollPane) root);
         } catch (IOException e) {
@@ -209,7 +219,7 @@ public class Main {
             error(response);
         } else {
             currentPage.add(username);
-            profile.show(size, modeS, this.username, this, response);
+            profile.show(size, mode, this.username, this, response);
         }
     }
 
@@ -221,7 +231,7 @@ public class Main {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("search.fxml"));
             Parent root = fxmlLoader.load();
             SearchController controller = fxmlLoader.getController();
-            controller.init(size, modeS, this);
+            controller.init(size, mode, this);
             currentPage.add("NONE_OF_THEM");
             changeContent((ScrollPane) root);
         } catch (IOException e) {
@@ -250,11 +260,11 @@ public class Main {
      * this methode will update a page.
      */
     public void update() {
-        int size = currentPage.size()-1;
-        if (currentPage.get(size).equals("home")){
+        int size = currentPage.size() - 1;
+        if (currentPage.get(size).equals("home")) {
             home();
-        }else if(currentPage.get(size).equals("NONE_OF_THEM")){
-        }else{
+        } else if (currentPage.get(size).equals("NONE_OF_THEM")) {
+        } else {
             profile(currentPage.get(size));
         }
     }
@@ -263,10 +273,10 @@ public class Main {
      * this method returns our page to its previous page.
      */
     public void back() {
-        int size = pages.size(),size1 = currentPage.size();
+        int size = pages.size(), size1 = currentPage.size();
         controller.changeContent(pages.get(size - 2));
         pages.remove(size - 1);
-        currentPage.remove(size1-1);
+        currentPage.remove(size1 - 1);
     }
 
     /**

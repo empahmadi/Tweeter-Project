@@ -1,5 +1,6 @@
 package org.ce.ap.client.gui.controllers;
 
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import org.json.JSONArray;
@@ -16,10 +17,11 @@ public interface MainController {
      *
      * @param size     .
      * @param mode     .
+     * @param bar      .
      * @param timeline .
-     * @param menu .
+     * @param menu     .
      * @return code.
      */
-    int init(int size, int mode, VBox menu, ScrollPane timeline);
+    int init(int size, String mode, MenuBar bar, VBox menu, ScrollPane timeline);
 
 }

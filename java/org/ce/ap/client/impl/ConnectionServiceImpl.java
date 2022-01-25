@@ -29,12 +29,12 @@ public class ConnectionServiceImpl implements ConnectionService {
      * @param input server.
      * @param output .
      */
-    public ConnectionServiceImpl(DataOutputStream output, DataInputStream input, Stage window, Socket server) {
+    public ConnectionServiceImpl(DataOutputStream output, DataInputStream input, Stage window, Socket server,String mode, int size) {
         CommandParserServiceImpl cps = new CommandParserServiceImpl(this);
         this.input = input;
         this.output = output;
         this.server = server;
-        main = new PageHandlerImpl(cps,window,window.getScene());
+        main = new PageHandlerImpl(cps,window,window.getScene(),mode,size);
     }
 
     /**

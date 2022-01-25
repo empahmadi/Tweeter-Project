@@ -17,7 +17,7 @@ import java.io.IOException;
 public class Signup {
     private PageHandlerImpl main;
     private Scene scene;
-    public Scene init(int size, int mode, PageHandlerImpl main){
+    public Scene init(int size, String mode, PageHandlerImpl main){
         this.main = main;
         Scene scene = null;
         try {

@@ -34,7 +34,7 @@ public class ListController {
      * @param items .
      * @param main  .
      */
-    public void init(int size, int mode, JSONArray items, List main) {
+    public void init(int size, String mode, JSONArray items, List main) {
         this.main = main;
         notFound.setVisible(false);
         if (size == 0) {
@@ -61,7 +61,7 @@ public class ListController {
      * @param user .
      * @return item of list
      */
-    private HBox createItem(int size, int mode, String user) {
+    private HBox createItem(int size, String mode, String user) {
         HBox item = new HBox();
         Button username = new Button(user);
         username.getStyleClass().add("username");
@@ -70,13 +70,9 @@ public class ListController {
         } else {
             item.getStyleClass().add("item-l");
         }
-        if (mode == 0) {
-            item.getStyleClass().add("dark");
-            username.getStyleClass().add("dark");
-        } else {
-            item.getStyleClass().add("light");
-            username.getStyleClass().add("light");
-        }
+        item.getStyleClass().add(mode);
+        username.getStyleClass().add(mode);
+
         item.getChildren().add(username);
         item.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override

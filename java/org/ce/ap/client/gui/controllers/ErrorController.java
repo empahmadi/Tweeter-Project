@@ -16,7 +16,7 @@ public interface ErrorController {
      * @param type .
      * @param path the path of icons.
      */
-    void init(int size,int mode,String caption,int type,String path);
+    void init(int size,String mode,String caption,int type,String path);
 
     /**
      * set content image address.

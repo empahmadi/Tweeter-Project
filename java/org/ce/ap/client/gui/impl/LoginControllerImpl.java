@@ -51,7 +51,7 @@ public class LoginControllerImpl implements LoginController {
     @FXML
     private Button login;
 
-    public void init(int size, int mode) {
+    public void init(int size, String mode) {
         if (size == 0) {
             parent.getStyleClass().add("container-s");
             info.getStyleClass().add("info-s");
@@ -81,41 +81,25 @@ public class LoginControllerImpl implements LoginController {
             login.getStyleClass().add("btn-l");
             error.getStyleClass().add("error-l");
         }
-        if (mode == 1){
-            parent.getStyleClass().add("light");
-            info.getStyleClass().add("light");
-            box.getStyleClass().add("light");
-            username.getStyleClass().add("light");
-            password.getStyleClass().add("light");
-            signup.getStyleClass().add("light");
-            forgotPassword.getStyleClass().add("light");
-            rememberMe.getStyleClass().add("light");
-            welcome.getStyleClass().add("light");
-            guid.getStyleClass().add("light");
-            space.getStyleClass().add("light");
-            login.getStyleClass().add("light");
-            error.getStyleClass().add("light");
-        }else{
-            parent.getStyleClass().add("dark");
-            info.getStyleClass().add("dark");
-            box.getStyleClass().add("dark");
-            username.getStyleClass().add("dark");
-            password.getStyleClass().add("dark");
-            signup.getStyleClass().add("dark");
-            forgotPassword.getStyleClass().add("dark");
-            rememberMe.getStyleClass().add("dark");
-            welcome.getStyleClass().add("dark");
-            guid.getStyleClass().add("dark");
-            space.getStyleClass().add("dark");
-            login.getStyleClass().add("dark");
-            error.getStyleClass().add("dark");
-        }
+        parent.getStyleClass().add(mode);
+        info.getStyleClass().add(mode);
+        box.getStyleClass().add(mode);
+        username.getStyleClass().add(mode);
+        password.getStyleClass().add(mode);
+        signup.getStyleClass().add(mode);
+        forgotPassword.getStyleClass().add(mode);
+        rememberMe.getStyleClass().add(mode);
+        welcome.getStyleClass().add(mode);
+        guid.getStyleClass().add(mode);
+        space.getStyleClass().add(mode);
+        login.getStyleClass().add(mode);
+        error.getStyleClass().add(mode);
         error.setVisible(false);
     }
 
     @FXML
     public void login() {
-        main.checkLogin(username.getText(),password.getText(),error);
+        main.checkLogin(username.getText(), password.getText(), error);
     }
 
     @FXML
@@ -130,6 +114,7 @@ public class LoginControllerImpl implements LoginController {
 
     /**
      * set command parser service.
+     *
      * @param main .
      */
     public void setMain(Login main) {

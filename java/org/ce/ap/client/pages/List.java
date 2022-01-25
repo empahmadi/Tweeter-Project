@@ -11,7 +11,7 @@ import java.io.IOException;
 public class List {
     private Main main;
 
-    public ScrollPane show(int mode, int size, JSONArray users, Main main){
+    public ScrollPane show(String mode, int size, JSONArray users, Main main){
         this.main = main;
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("list.fxml"));

@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.ce.ap.client.gui.controllers.ErrorController;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -18,7 +19,7 @@ import java.util.ResourceBundle;
  * @author Eid Mohammad Ahmadi
  * @version 1.0
  */
-public class ErrorControllerImpl implements ErrorController, Initializable {
+public class ErrorControllerImpl implements ErrorController {
     @FXML
     private Pane parent;
     @FXML
@@ -29,7 +30,7 @@ public class ErrorControllerImpl implements ErrorController, Initializable {
     private Button back;
     private StringProperty imageAdd = new SimpleStringProperty(this, "likeAdd", "");
     private String path;
-    private int mode;
+    private String mode;
 
     /**
      * initialize the error page.
@@ -38,10 +39,10 @@ public class ErrorControllerImpl implements ErrorController, Initializable {
      * @param mode    .
      * @param caption .
      * @param type    .
-     * @param path path of icons.
+     * @param path    path of icons.
      */
     @Override
-    public void init(int size, int mode, String caption, int type,String path) {
+    public void init(int size, String mode, String caption, int type, String path) {
         parent.getStyleClass().add("container");
         if (size == 1) {
             parent.getStyleClass().add("large");
@@ -54,17 +55,11 @@ public class ErrorControllerImpl implements ErrorController, Initializable {
             image.getStyleClass().add("image-s");
             back.getStyleClass().add("btn-s");
         }
-        if (mode == 1) {
-            parent.getStyleClass().add("dark");
-            this.caption.getStyleClass().add("dark");
-            image.getStyleClass().add("dark");
-            back.getStyleClass().add("dark");
-        } else {
-            parent.getStyleClass().add("light");
-            this.caption.getStyleClass().add("light");
-            image.getStyleClass().add("light");
-            back.getStyleClass().add("light");
-        }
+        parent.getStyleClass().add(mode);
+        this.caption.getStyleClass().add(mode);
+        image.getStyleClass().add(mode);
+        back.getStyleClass().add(mode);
+
         this.caption.setText(caption);
         this.mode = mode;
         this.path = path;
@@ -86,14 +81,5 @@ public class ErrorControllerImpl implements ErrorController, Initializable {
     @Override
     public void setImageAdd(String imageAdd) {
         this.imageAdd.setValue(imageAdd);
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (mode == 1) {
-            setImageAdd("connection-error.png");
-        } else {
-            setImageAdd("application-error.png");
-        }
     }
 }
