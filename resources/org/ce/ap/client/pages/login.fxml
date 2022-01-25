@@ -10,53 +10,53 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane fx:id="parent" styleClass="container-s" stylesheets="@style/loginPage.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.controller.LoginController">
+<Pane fx:id="parent" styleClass="container" stylesheets="@style/loginPage.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.controller.LoginController">
    <children>
-      <VBox fx:id="info" layoutX="125.0" styleClass="info-s">
+      <VBox fx:id="info" layoutY="10" styleClass="info">
          <children>
             <ImageView fx:id="logo" pickOnBounds="true" preserveRatio="true">
                <Image requestedHeight="60" requestedWidth="60" url="@icons/twitter.png" />
             </ImageView>
-            <Label fx:id="welcome" styleClass="first-s" text="Welcome to Twitter" />
-            <Label fx:id="guid" styleClass="first-s" text="Sign in page" />
-            <Label fx:id="space" styleClass="break-s" text="Fill your information" />
+            <Label fx:id="welcome" styleClass="first" text="Welcome to Twitter" />
+            <Label fx:id="guid" styleClass="first" text="Sign in page" />
+            <Label fx:id="space" styleClass="break" text="Fill your information" />
          </children>
       </VBox>
-      <VBox fx:id="box" layoutX="125.0" layoutY="220.0" styleClass="fields-s" stylesheets="@style/loginPage.css">
+      <VBox fx:id="box" layoutY="230.0" styleClass="fields" stylesheets="@style/loginPage.css">
          <children>
             <HBox styleClass="row">
                <children>
-                  <TextField fx:id="username" promptText="username" styleClass="field-s" />
+                  <TextField fx:id="username" promptText="username" styleClass="field" />
                </children>
             </HBox>
             <HBox styleClass="row">
                <children>
-                  <TextField fx:id="password" promptText="password" styleClass="field-s" />
+                  <TextField fx:id="password" promptText="password" styleClass="field" />
                </children>
             </HBox>
             <HBox fx:id="except" styleClass="row">
                <children>
-                  <Label fx:id="rememberMe" styleClass="label-s" text="Remember me!" />
+                  <Label fx:id="rememberMe" styleClass="rem" text="Remember me!" />
                   <CheckBox fx:id="check" />
                </children>
             </HBox>
             <HBox styleClass="row">
                <children>
-                  <Button fx:id="login" onAction="#login" styleClass="btn-s" text="Sign in" />
+                  <Button fx:id="login" onAction="#login" styleClass="btn" text="Sign in" />
                </children>
             </HBox>
             <HBox styleClass="row">
                <children>
-                  <Button fx:id="forgotPassword" onAction="#forgotPassword" styleClass="btn-s" text="Forgot Password?" />
+                  <Button fx:id="forgotPassword" onAction="#forgotPassword" styleClass="btn" text="Forgot Password?" />
                </children>
             </HBox>
             <HBox styleClass="row">
                <children>
-                  <Button fx:id="signup" onAction="#signup" styleClass="btn-s" text="Register" />
+                  <Button fx:id="signup" onAction="#signup" styleClass="btn" text="Register" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <Label fx:id="error" styleClass="error-s" layoutX="14.0" layoutY="14.0" prefHeight="37.0" prefWidth="208.0" text="password or username is incorrect!!!" />
+      <Label fx:id="error" styleClass="error" layoutY="14.0" prefHeight="37.0" prefWidth="208.0" text="password or username is incorrect!!!" />
    </children>
 </Pane>

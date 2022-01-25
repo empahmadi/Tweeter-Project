@@ -83,40 +83,18 @@ public class LoginController {
 
     public void toggleScreen(int size){
         if (size == 0) {
-            parent.getStyleClass().add("container-s");
-            info.getStyleClass().add("info-s");
-            box.getStyleClass().add("fields-s");
-            username.getStyleClass().add("field-s");
-            password.getStyleClass().add("field-s");
-            signup.getStyleClass().add("btn-s");
-            forgotPassword.getStyleClass().add("btn-s");
-            rememberMe.getStyleClass().add("label-s");
-            welcome.getStyleClass().add("first-s");
-            guid.getStyleClass().add("first-s");
-            space.getStyleClass().add("break-s");
-            login.getStyleClass().add("btn-s");
-            error.getStyleClass().add("error-s");
+            info.setLayoutX(125);
+            box.setLayoutX(125);
+            error.setLayoutX(14);
         } else {
-            parent.getStyleClass().add("container-l");
-            info.getStyleClass().add("info-l");
-            box.getStyleClass().add("fields-l");
-            username.getStyleClass().add("field-l");
-            password.getStyleClass().add("field-l");
-            signup.getStyleClass().add("btn-l");
-            forgotPassword.getStyleClass().add("btn-l");
-            rememberMe.getStyleClass().add("label-l");
-            welcome.getStyleClass().add("first-l");
-            guid.getStyleClass().add("first-l");
-            space.getStyleClass().add("break-l");
-            login.getStyleClass().add("btn-l");
-            error.getStyleClass().add("error-l");
+            info.setLayoutX(375);
+            box.setLayoutX(375);
+            error.setLayoutX(150);
         }
     }
 
     public void toggleTheme(String mode){
         parent.getStyleClass().add(mode);
-        info.getStyleClass().add(mode);
-        box.getStyleClass().add(mode);
         username.getStyleClass().add(mode);
         password.getStyleClass().add(mode);
         signup.getStyleClass().add(mode);
@@ -126,6 +104,5 @@ public class LoginController {
         guid.getStyleClass().add(mode);
         space.getStyleClass().add(mode);
         login.getStyleClass().add(mode);
-        error.getStyleClass().add(mode);
     }
 }
