@@ -7,6 +7,6 @@ module org.ce.ap.client {
 
     exports org.ce.ap.client.pages;
     opens org.ce.ap.client.pages to javafx.fxml;
-    exports org.ce.ap.client.gui.impl;
-    opens org.ce.ap.client.gui.impl to javafx.fxml;
+    exports org.ce.ap.client.gui.controller;
+    opens org.ce.ap.client.gui.controller to javafx.fxml;
 }

@@ -1,4 +1,4 @@
-package org.ce.ap.client.gui.impl;
+package org.ce.ap.client.gui.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import org.ce.ap.client.gui.controllers.LoginController;
 import org.ce.ap.client.pages.Login;
 
 /**
@@ -18,7 +17,7 @@ import org.ce.ap.client.pages.Login;
  * @author Eid Mohammad Ahmadi
  * @version 1.0
  */
-public class LoginControllerImpl implements LoginController {
+public class LoginController {
     private Login main;
     @FXML
     private Label error;

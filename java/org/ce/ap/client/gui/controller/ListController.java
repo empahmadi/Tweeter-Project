@@ -1,4 +1,4 @@
-package org.ce.ap.client.gui.impl;
+package org.ce.ap.client.gui.controller;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -8,7 +8,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.ce.ap.client.pages.List;
+import org.ce.ap.client.pages.Main;
 import org.json.JSONArray;
 
 /**
@@ -18,7 +18,7 @@ import org.json.JSONArray;
  * @version 1.0
  */
 public class ListController {
-    private List main;
+    private Main main;
     @FXML
     private Label notFound;
     @FXML
@@ -34,7 +34,7 @@ public class ListController {
      * @param items .
      * @param main  .
      */
-    public void init(int size, String mode, JSONArray items, List main) {
+    public void init(int size, String mode, JSONArray items, Main main) {
         this.main = main;
         notFound.setVisible(false);
         if (size == 0) {
@@ -77,7 +77,7 @@ public class ListController {
         item.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                main.showProfile(username.getText());
+                main.profile(username.getText());
             }
         });
         return item;

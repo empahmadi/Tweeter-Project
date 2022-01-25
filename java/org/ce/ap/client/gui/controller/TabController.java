@@ -1,4 +1,4 @@
-package org.ce.ap.client.gui.impl;
+package org.ce.ap.client.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;

@@ -167,4 +167,12 @@ public class PageHandlerImpl implements PageHandler {
         }
     }
 
+    public String getMode(){
+        return mode;
+    }
+
+    public int getSize(){
+        return size;
+    }
+
 }

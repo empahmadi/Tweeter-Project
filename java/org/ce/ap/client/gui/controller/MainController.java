@@ -1,4 +1,4 @@
-package org.ce.ap.client.gui.impl;
+package org.ce.ap.client.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
@@ -6,11 +6,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import org.ce.ap.client.gui.controllers.MainController;
 
-import java.util.ArrayList;
-
-public class MainControllerImpl implements MainController {
+public class MainController {
     @FXML
     private Pane container;
     @FXML
@@ -26,7 +23,6 @@ public class MainControllerImpl implements MainController {
      * @param menu     .
      * @return code.
      */
-    @Override
     public int init(int size, String mode, MenuBar bar, VBox menu, ScrollPane timeline) {
         container.getChildren().add(0,bar);
         home.getChildren().add(0,menu);

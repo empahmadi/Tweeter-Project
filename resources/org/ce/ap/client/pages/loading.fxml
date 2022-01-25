@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane styleClass="page-l" stylesheets="@style/loading.css" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.impl.LoadingControllerImpl">
+<Pane styleClass="page-l" stylesheets="@style/loading.css" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.controller.LoadingController">
    <children>
        <ImageView fitHeight="192" fitWidth="192" layoutX="200.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">
            <Image url="@icons/loading.gif" />

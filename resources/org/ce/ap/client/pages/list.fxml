@@ -9,7 +9,7 @@
 <?import javafx.scene.control.Label?>
 <ScrollPane fx:id="parent" styleClass="parent, scroll-bar, light" stylesheets="@style/list.css"
             xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.ce.ap.client.gui.impl.ListController">
+            fx:controller="org.ce.ap.client.gui.controller.ListController">
     <VBox fx:id="list" styleClass="list, light">
         <children>
             <Label fx:id="notFound" styleClass="label" text="Theres no user to show :("/>

@@ -1,4 +1,4 @@
-package org.ce.ap.client.gui.impl;
+package org.ce.ap.client.gui.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,7 +22,7 @@ import java.util.Properties;
  * @author Eid Mohammad Ahmadi
  * @version 1.0
  */
-public class TweetControllerImpl {
+public class TweetController {
     private Main main;
     private JSONArray jLikes;
     private JSONArray jRetweets;

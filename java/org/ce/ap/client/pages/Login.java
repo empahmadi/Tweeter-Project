@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import org.ce.ap.client.gui.impl.LoginControllerImpl;
+import org.ce.ap.client.gui.controller.LoginController;
 import org.ce.ap.client.impl.PageHandlerImpl;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class Login {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
             Parent root = fxmlLoader.load();
-            LoginControllerImpl controller = fxmlLoader.getController();
+            LoginController controller = fxmlLoader.getController();
             controller.init(size, mode);
             controller.setMain(this);
             scene = new Scene(root, 900, 650);

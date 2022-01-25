@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane fx:id="parent" styleClass="container-s" stylesheets="@style/loginPage.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.impl.LoginControllerImpl">
+<Pane fx:id="parent" styleClass="container-s" stylesheets="@style/loginPage.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.controller.LoginController">
    <children>
       <VBox fx:id="info" layoutX="125.0" styleClass="info-s">
          <children>

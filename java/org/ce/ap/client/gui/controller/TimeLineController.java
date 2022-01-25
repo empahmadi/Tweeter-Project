@@ -1,4 +1,4 @@
-package org.ce.ap.client.gui.impl;
+package org.ce.ap.client.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -8,7 +8,7 @@ import org.ce.ap.client.pages.Main;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class TimeLineControllerImpl {
+public class TimeLineController {
     @FXML
     private ScrollPane parent;
     @FXML
@@ -18,6 +18,7 @@ public class TimeLineControllerImpl {
         for (Object i: tweets){
             list.getChildren().add(main.getTweet((JSONObject) i));
         }
+        main.incrementIndex();
         Label last = new Label();
         last.setMaxHeight(100);
         last.setMinHeight(100);

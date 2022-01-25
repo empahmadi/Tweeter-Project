@@ -9,7 +9,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <ScrollPane fx:id="content" stylesheets="@style/createTweet.css, @style/general.css"
             xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.ce.ap.client.gui.impl.CreateTweetController">
+            fx:controller="org.ce.ap.client.gui.controller.CreateTweetController">
     <VBox fx:id="list">
         <children>
             <HBox fx:id="row1" styleClass="row1-s">

@@ -6,7 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="parent" stylesheets="@style/error.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.impl.ErrorControllerImpl">
+<Pane fx:id="parent" stylesheets="@style/error.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.controller.ErrorController">
     <children>
         <Label fx:id="caption" layoutX="228.0" layoutY="525.0"/>
         <ImageView fx:id="image" layoutX="228.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">

@@ -1,4 +1,4 @@
-package org.ce.ap.client.gui.impl;
+package org.ce.ap.client.gui.controller;
 
 import com.jfoenix.controls.JFXTextArea;
 import javafx.event.ActionEvent;

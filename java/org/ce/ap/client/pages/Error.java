@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.ce.ap.client.gui.impl.ErrorControllerImpl;
+import org.ce.ap.client.gui.controller.ErrorController;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class Error {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("error.fxml"));
             Parent root = fxmlLoader.load();
-            ErrorControllerImpl controller = fxmlLoader.getController();
+            ErrorController controller = fxmlLoader.getController();
             controller.init(size, mode, caption, code, path);
             scene = new Scene(root, 900, 650);
         } catch (IOException | NullPointerException ioe) {

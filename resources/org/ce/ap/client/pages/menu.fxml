@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <VBox prefHeight="400.0" prefWidth="120.0" styleClass="menu" stylesheets="@style/menu.css"
       xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.impl.MenuController">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.controller.MenuController">
     <children>
         <ImageView pickOnBounds="true" preserveRatio="true" styleClass="logo">
             <Image requestedHeight="48" requestedWidth="48" url="@icons/twitter1.png"/>

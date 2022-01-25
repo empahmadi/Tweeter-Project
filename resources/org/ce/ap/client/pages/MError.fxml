@@ -4,7 +4,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fx:id="content" styleClass="scroll-bar" stylesheets="@style/general.css, @style/MError.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.impl.MErrorController">
+<ScrollPane fx:id="content" styleClass="scroll-bar" stylesheets="@style/general.css, @style/MError.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.controller.MErrorController">
    <content>
       <VBox fx:id="list" styleClass="list-s, CList">
          <Label fx:id="code" styleClass="label" text="20" />

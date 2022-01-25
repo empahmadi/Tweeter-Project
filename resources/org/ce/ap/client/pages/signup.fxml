@@ -15,7 +15,7 @@
 
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<Pane fx:id="form" styleClass="container-s" stylesheets="@style/signup.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.impl.SignupController">
+<Pane fx:id="form" styleClass="container-s" stylesheets="@style/signup.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.controller.SignupController">
     <children>
       <TextArea fx:id="error" styleClass="errors" layoutX="10" layoutY="10" />
         <VBox layoutX="25.0" styleClass="info">

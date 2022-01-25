@@ -5,8 +5,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
-import org.ce.ap.client.gui.impl.ProfileController;
-import org.ce.ap.client.gui.impl.TabController;
+import org.ce.ap.client.gui.controller.ProfileController;
+import org.ce.ap.client.gui.controller.TabController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -35,10 +35,12 @@ public class Profile {
         this.main = main;
         TabPane tab = getTabPane(size, mode, info.getJSONArray("result"));
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("profile.fxml"));
-            Parent root = loader.load();
-            ProfileController controller = loader.getController();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile.fxml"));
+            Parent root = fxmlLoader.load();
+            ProfileController controller = fxmlLoader.getController();
             controller.init(size, mode, username, info, this,tab);
+            main.addPages(fxmlLoader);
+            main.incrementIndex();
             main.changeContent((ScrollPane) root);
         } catch (IOException e) {
             e.printStackTrace();
@@ -63,6 +65,7 @@ public class Profile {
             Parent root = fxmlLoader.load();
             TabController controller = fxmlLoader.getController();
             controller.init(size, mode,tweets,likes,retweets,info.getJSONObject(0));
+            main.addPages(fxmlLoader);
             return (TabPane) root;
         } catch (IOException e) {
             e.printStackTrace();
