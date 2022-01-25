@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TabPane?>
 
 <?import javafx.scene.layout.VBox?>
-<TabPane fx:id="content" stylesheets="@style/tab.css" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.ce.ap.client.gui.impl.TabController">
+<TabPane fx:id="content" minHeight="-Infinity" stylesheets="@style/tab.css" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.ce.ap.client.gui.impl.TabController">
   <tabs>
     <Tab fx:id="tweets" text="Tweets" >
       <VBox fx:id="list">

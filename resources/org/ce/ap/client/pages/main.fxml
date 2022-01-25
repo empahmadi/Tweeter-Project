@@ -5,7 +5,7 @@
 <Pane fx:id="container" styleClass="body-s" stylesheets="@style/main.css" xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.impl.MainControllerImpl">
     <children>
-        <HBox fx:id="home" styleClass="sep-s">
+        <HBox fx:id="home" layoutY="27" styleClass="sep-s">
         </HBox>
     </children>
 </Pane>

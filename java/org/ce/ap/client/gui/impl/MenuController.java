@@ -14,7 +14,7 @@ public class MenuController {
     private Main main;
 
 
-    public void init(int size, int mode, int main, Main page) {
+    public void init(int size, String mode, int main, Main page) {
         this.main = page;
     }
 

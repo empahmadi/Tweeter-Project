@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ToggleButton?>
+
+<MenuBar stylesheets="@style/menuBar.css" styleClass="container-s" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.ce.ap.client.gui.impl.BarController">
+  <menus>
+    <Menu styleClass="menu-s" mnemonicParsing="false" text="Application">
+      <items>
+        <MenuItem styleClass="menu-item" mnemonicParsing="false" text="Exit" />
+        <MenuItem styleClass="menu-item" mnemonicParsing="false" text="Log out" />
+      </items>
+    </Menu>
+    <Menu styleClass="menu-s" mnemonicParsing="false" text="View">
+      <items>
+            <MenuItem mnemonicParsing="false" text="widow Size">
+               <graphic>
+                  <ToggleButton mnemonicParsing="false" text="Full Screen" />
+               </graphic>
+            </MenuItem>
+        <MenuItem mnemonicParsing="false" text="Theme">
+               <graphic>
+                  <MenuButton mnemonicParsing="false" text="MenuButton">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Light" />
+                      <MenuItem mnemonicParsing="false" text="Dark" />
+                    </items>
+                  </MenuButton>
+               </graphic></MenuItem>
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Options" />
+      <Menu mnemonicParsing="false" text="Help">
+         <items>
+            <MenuItem mnemonicParsing="false" text="About" />
+            <MenuItem mnemonicParsing="false" text="Help" />
+         </items>
+      </Menu>
+  </menus>
+</MenuBar>
