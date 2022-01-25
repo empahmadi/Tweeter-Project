@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.ce.ap.client.pages.Main;
 import org.json.JSONArray;
@@ -23,6 +24,7 @@ import java.util.Properties;
  * @version 1.0
  */
 public class TweetController {
+    public Pane userPanel;
     private Main main;
     private JSONArray jLikes;
     private JSONArray jRetweets;
@@ -58,6 +60,12 @@ public class TweetController {
     private Button retweets;
     @FXML
     private Button retweet;
+    @FXML
+    private Pane cap1;
+    @FXML
+    private Pane cap2;
+    @FXML
+    private Pane cap3;
 
 
     /**
@@ -117,6 +125,7 @@ public class TweetController {
         retweets.setText("Retweets(" + info.getJSONArray("retweets").length() + ")");
         date.setText(info.getString("creationDate"));
         textContent.setText(info.getString("content"));
+        textContent.setWrapText(true);
         delete.setVisible(mainUser.equals(info.getString("username")));
         if (info.getBoolean("is-retweet")){
             isRetweet.setText("this tweet is a retweet from "+info.getString("main"));
@@ -150,43 +159,47 @@ public class TweetController {
     public void toggleScreen(int size){
         if (size == 0) {
             tweet.getStyleClass().add("tweet-s");
-            information.getStyleClass().add("info-s");
-            caption.getStyleClass().add("cap-s");
-            textContent.getStyleClass().add("text-s");
-            date.getStyleClass().add("date-s");
+            information.getStyleClass().add("row1-s");
+            userPanel.getStyleClass().add("user-pane-s");
+            textContent.getStyleClass().add("content-s");
+            caption.getStyleClass().add("row4-s");
+            cap1.getStyleClass().add("caption-wrapper-s");
+            cap2.getStyleClass().add("caption-wrapper-s");
+            cap3.getStyleClass().add("caption-wrapper-s");
         } else {
             tweet.getStyleClass().add("tweet-l");
-            information.getStyleClass().add("info-l");
-            caption.getStyleClass().add("cap-l");
-            textContent.getStyleClass().add("text-l");
-            date.getStyleClass().add("date-l");
+            information.getStyleClass().add("row1-l");
+            userPanel.getStyleClass().add("user-pane-l");
+            textContent.getStyleClass().add("content-l");
+            caption.getStyleClass().add("row4-l");
+            cap1.getStyleClass().add("caption-wrapper-l");
+            cap2.getStyleClass().add("caption-wrapper-l");
+            cap3.getStyleClass().add("caption-wrapper-l");
 
         }
     }
 
     public void toggleTheme(String mode){
-        String btnMode = "btn-";
+        String idnMode = "idn-";
+        String icon = "user-icon-";
         tweet.getStyleClass().add(mode);
-        information.getStyleClass().add(mode);
-        caption.getStyleClass().add(mode);
         textContent.getStyleClass().add(mode);
         date.getStyleClass().add(mode);
-        name.getStyleClass().add(mode);
-        username.getStyleClass().add(mode);
         isRetweet.getStyleClass().add(mode);
+        like.getStyleClass().add(mode);
+        likes.getStyleClass().add(mode);
+        retweet.getStyleClass().add(mode);
+        retweets.getStyleClass().add(mode);
+        delete.getStyleClass().add(mode);
         if (mode.equals("light")) {
-            btnMode += "l";
+            idnMode += "l";
+            icon += "l";
         } else {
-            btnMode += "d";
+            idnMode += "d";
+            icon += "d";
         }
-
-        isRetweet.getStyleClass().add("name");
-        name.getStyleClass().add("name");
-        username.getStyleClass().add("name");
-        like.getStyleClass().add(btnMode);
-        likes.getStyleClass().add(btnMode);
-        retweet.getStyleClass().add(btnMode);
-        retweets.getStyleClass().add(btnMode);
-        delete.getStyleClass().add(btnMode);
+        name.getStyleClass().add(idnMode);
+        username.getStyleClass().add(idnMode);
+        profile.getStyleClass().add(icon);
     }
 }
