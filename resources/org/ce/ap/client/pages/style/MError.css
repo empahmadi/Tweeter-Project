@@ -1,7 +1,5 @@
 .params-s{
-    -fx-pref-width: 706.5;
-    -fx-min-width: 706.5;
-    -fx-max-width: 706.5;
+    -fx-fit-to-width: true;
     -fx-min-height: 620;
     -fx-padding: 20 0 0 0;
     -fx-alignment: top-center;
@@ -13,4 +11,13 @@
 .label{
     -fx-text-alignment: left;
     -fx-font-size: 17;
+}
+
+.light{
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+.dark{
+    -fx-background-color: black;
+    -fx-text-fill: white;
 }

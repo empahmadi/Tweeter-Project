@@ -6,6 +6,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+
 /**
  * this class is a controller for mini error page.
  *
@@ -23,7 +25,7 @@ public class MErrorController {
     private Label type;
     @FXML
     private VBox params;
-    private Label label;
+    private ArrayList<Label> labels;
     /**
      * initialize error page.
      *
@@ -35,21 +37,23 @@ public class MErrorController {
      */
     public void init(String mode, int size, int code, String type, JSONArray params) {
         toggleScreen(size);
-        toggleTheme(mode);
-
+        labels = new ArrayList<>();
         this.code.setText(code + "");
         this.type.setText(type);
         if (params.length() == 0) {
-            label = new Label("No Parameters");
+            Label label = new Label("No Parameters");
             label.getStyleClass().add("label");
             this.params.getChildren().add(label);
+            labels.add(label);
         } else {
             for (Object i : params) {
-                label = new Label((String) i);
+                Label label = new Label((String) i);
                 label.getStyleClass().add("label");
                 this.params.getChildren().add(label);
+                labels.add(label);
             }
         }
+        toggleTheme(mode);
     }
 
 
@@ -66,11 +70,17 @@ public class MErrorController {
     }
 
     public void toggleTheme(String mode){
-        this.code.getStyleClass().add(mode);
-        this.type.getStyleClass().add(mode);
-        this.params.getStyleClass().add(mode);
-        this.list.getStyleClass().add(mode);
-        this.content.getStyleClass().add(mode);
-        label.getStyleClass().add(mode);
+        code.getStyleClass().add(mode);
+        type.getStyleClass().add(mode);
+        params.getStyleClass().add(mode);
+        list.getStyleClass().add(mode);
+        content.getStyleClass().add(mode);
+        setLabelTheme(mode);
+    }
+
+    private void setLabelTheme(String mode){
+        for (Label i: labels){
+            i.getStyleClass().add(mode);
+        }
     }
 }
