@@ -145,7 +145,6 @@ public class TweeterSystem {
         int value = au.signup(request);
         if (value == 30) {
             user = au.findUser(username);
-            isLogin = true;
             return response.responseCode(value, "signup");
         }
         return response.error(value, "serverError", null);

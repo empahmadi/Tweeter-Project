@@ -17,45 +17,45 @@ import java.io.IOException;
  */
 public class Login {
     private PageHandlerImpl main;
-    private Scene scene;
+
     /**
      * initializing our login page.
+     *
      * @param size .
      * @param mode .
      * @param main .
      * @return scene.
      */
-    public Scene init(int size, String mode,PageHandlerImpl main){
+    public Parent init(int size, String mode, PageHandlerImpl main) {
         this.main = main;
-        Scene scene = null;
+        Parent root = null;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
-            Parent root = fxmlLoader.load();
+            root = fxmlLoader.load();
             LoginController controller = fxmlLoader.getController();
             controller.init(size, mode);
             controller.setMain(this);
-            scene = new Scene(root, 900, 650);
         } catch (IOException | NullPointerException ioe) {
             System.out.println(ioe.toString());
         }
-        this.scene = scene;
-        return scene;
+        return root;
     }
 
     /**
      * this method check user input
+     *
      * @param username .
      * @param password .
-     * @param error .
+     * @param error    .
      */
-    public void checkLogin(String username, String password, Label error){
-        main.checkLogin(username,password,error,scene);
+    public void checkLogin(String username, String password, Label error, boolean rememberMe) {
+        main.checkLogin(username, password, error, rememberMe);
     }
 
     /**
      * this method is for signup new users.
      */
-    public void signup(){
+    public void signup() {
         main.signup();
     }
 }

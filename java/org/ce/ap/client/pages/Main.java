@@ -8,7 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.ce.ap.client.gui.controller.*;
 import org.ce.ap.client.impl.CommandParserServiceImpl;
 import org.ce.ap.client.impl.PageHandlerImpl;
@@ -29,13 +33,14 @@ public class Main {
     private final CommandParserServiceImpl cps;
     private final String username;
     private final PageHandlerImpl main;
-    private final String path;
     private MainController controller;
-    private ArrayList<ScrollPane> pages;
     private ArrayList<String> currentPage;
     private String mode;
+    private Stage stage;
     private int size;
+    private int exitMode;
     private final ToggleImpl toggle;
+
     /**
      * initialize some variables.
      *
@@ -43,14 +48,14 @@ public class Main {
      * @param username .
      * @param main     .
      */
-    public Main(CommandParserServiceImpl cps, String username, PageHandlerImpl main, String path,ToggleImpl toggle) {
+    public Main(CommandParserServiceImpl cps, String username, PageHandlerImpl main, ToggleImpl toggle, int exitMode, Stage stage) {
         this.cps = cps;
         this.username = username;
         this.main = main;
-        this.path = path;
-        pages = new ArrayList<>();
         currentPage = new ArrayList<>();
         this.toggle = toggle;
+        this.exitMode = exitMode;
+        this.stage = stage;
     }
 
     /**
@@ -60,10 +65,10 @@ public class Main {
      * @param mode .
      * @return main scene.
      */
-    public Scene init(int size, String mode) {
+    public Parent init(int size, String mode) {
         this.size = size;
         this.mode = mode;
-        Scene scene = null;
+        Parent root = null;
         JSONObject response = new JSONObject(cps.main());
         if (response.getBoolean("has-error")) {
             main.error();
@@ -71,16 +76,15 @@ public class Main {
         } else {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
-                Parent root = fxmlLoader.load();
+                root = fxmlLoader.load();
                 controller = fxmlLoader.getController();
                 controller.init(size, mode, creatMenuBar(), createMenu(size, mode, 1), getTimeLine(size, mode, response.getJSONArray("result")));
                 toggle.addController(controller);
-                scene = new Scene(root);
                 currentPage.add("home");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return scene;
+            return root;
         }
     }
     // helper methods for creating mini pages:
@@ -116,7 +120,7 @@ public class Main {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("tweet.fxml"));
             Parent root = fxmlLoader.load();
             TweetController controller = fxmlLoader.getController();
-            controller.init(size, mode, tweet, username, this);
+            controller.init(size, mode, tweet, username, this, getClass().getResource("style/").toExternalForm());
             toggle.addController(controller);
             return (VBox) root;
         } catch (IOException e) {
@@ -173,7 +177,7 @@ public class Main {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menuBar.fxml"));
             Parent root = fxmlLoader.load();
             BarController controller = fxmlLoader.getController();
-            controller.init(size, mode, this);
+            controller.init(size, mode, this, getClass().getResource("style/").toExternalForm());
             toggle.addController(controller);
             bar = (MenuBar) root;
         } catch (IOException e) {
@@ -206,11 +210,11 @@ public class Main {
      * @param list .
      */
     public void userList(JSONArray list) {
-        try{
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("list.fxml"));
             Parent root = fxmlLoader.load();
             ListController controller = fxmlLoader.getController();
-            controller.init(size,mode,list,this);
+            controller.init(size, mode, list, this);
             currentPage.add("NONE_OF_THEM");
             toggle.addController(controller);
             changeContent((ScrollPane) root);
@@ -234,7 +238,7 @@ public class Main {
             error(response);
         } else {
             currentPage.add(username);
-            profile.show(size, mode, this.username, this, response,toggle);
+            profile.show(size, mode, this.username, this, response, toggle);
         }
     }
 
@@ -267,9 +271,14 @@ public class Main {
      * this method for exiting from application.
      */
     public void exit() {
-        cps.exit();
-        Platform.exit();
-        System.exit(0);
+        if (exitMode == 0) {
+            cps.exit();
+            main.saveSetting();
+            Platform.exit();
+            System.exit(0);
+        }else{
+            stage.hide();
+        }
     }
 
     /**
@@ -283,16 +292,6 @@ public class Main {
         } else {
             profile(currentPage.get(size));
         }
-    }
-
-    /**
-     * this method returns our page to its previous page.
-     */
-    public void back() {
-        int size = pages.size(), size1 = currentPage.size();
-        controller.changeContent(pages.get(size - 2));
-        pages.remove(size - 1);
-        currentPage.remove(size1 - 1);
     }
 
     /**
@@ -332,7 +331,6 @@ public class Main {
      * @param root .
      */
     public void changeContent(ScrollPane root) {
-        pages.add(root);
         controller.changeContent(root);
     }
 
@@ -359,6 +357,15 @@ public class Main {
         response.put("error-type", "Exception Error");
         response.put("params", params);
         error(response);
+    }
+
+    public void setAccelerators(Scene scene){
+        scene.getAccelerators().put(new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN), new Runnable() {
+            @Override
+            public void run() {
+                exit();
+            }
+        });
     }
     //actions:
     //user actions:
@@ -458,15 +465,34 @@ public class Main {
 
     // change setting:
 
-    public void toggleScreen(){
+    /**
+     * toggle screen size.
+     */
+    public void toggleScreen() {
         main.toggleScreen();
         this.size = main.getSize();
         toggle.toggleSize(size);
     }
 
-    public void toggleTheme(String mode){
-        main.toggleTheme();
+    /**
+     * toggle theme.
+     */
+    public void toggleTheme(String mode) {
+        main.toggleTheme(mode);
         this.mode = main.getMode();
+        toggle.toggleTheme(this.mode);
+    }
+    /**
+     * toggle theme.
+     */
+    public void toggleExit() {
+        main.toggleTheme(mode);
+        this.mode = main.getMode();
+        toggle.toggleTheme(this.mode);
+    }
+
+    public Scene getScene(){
+        return stage.getScene();
     }
 
 }

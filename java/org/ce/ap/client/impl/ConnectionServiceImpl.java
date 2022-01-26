@@ -1,6 +1,7 @@
 package org.ce.ap.client.impl;
 
 
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.ce.ap.client.services.ConnectionService;
 import org.json.JSONArray;
@@ -26,15 +27,15 @@ public class ConnectionServiceImpl implements ConnectionService {
     /**
      * this constructor is for initialize something.
      *
-     * @param input server.
+     * @param input  server.
      * @param output .
      */
-    public ConnectionServiceImpl(DataOutputStream output, DataInputStream input, Stage window, Socket server,String mode, int size) {
+    public ConnectionServiceImpl(DataOutputStream output, DataInputStream input, Stage window, Socket server, String mode, int size, int exitMode, Scene mainScene) {
         CommandParserServiceImpl cps = new CommandParserServiceImpl(this);
         this.input = input;
         this.output = output;
         this.server = server;
-        main = new PageHandlerImpl(cps,window,window.getScene(),mode,size);
+        main = new PageHandlerImpl(cps, window, window.getScene(), mode, size, exitMode, mainScene);
     }
 
     /**
@@ -42,7 +43,7 @@ public class ConnectionServiceImpl implements ConnectionService {
      */
     @Override
     public void run() {
-        main.login();
+        main.main();
     }
 
     /**
@@ -57,7 +58,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         try {
             output.writeUTF(request);
             output.flush();
-            if (request.contains("exit")){
+            if (request.contains("exit")) {
                 output.close();
                 input.close();
                 server.close();
@@ -71,10 +72,10 @@ public class ConnectionServiceImpl implements ConnectionService {
             JSONObject response = new JSONObject();
             JSONArray params = new JSONArray();
             params.put(ioe.toString());
-            response.put("has-error",true);
-            response.put("error-code",50);
-            response.put("error-type","interact with server");
-            response.put("params",params);
+            response.put("has-error", true);
+            response.put("error-code", 50);
+            response.put("error-type", "interact with server");
+            response.put("params", params);
             return response.toString();
         }
     }

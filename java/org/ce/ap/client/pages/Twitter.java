@@ -2,6 +2,7 @@ package org.ce.ap.client.pages;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.ce.ap.client.impl.ConnectionServiceImpl;
@@ -13,28 +14,47 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Properties;
 
+/**
+ * this class is that class that our application will start.
+ *
+ * @author Eid Mohammad Ahmadi
+ * @version 1.0
+ */
 public class Twitter extends Application {
     private String mode;
     private int size;
+    private Scene scene;
+    private int exitMode;
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("loading.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 900, 650);
         stage.setTitle("Tweeter");
-        stage.setWidth(900);
-        stage.setHeight(650);
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.show();
         initSetting();
-        connectToServer(stage);
+        if (size == 0) {
+            scene = new Scene(fxmlLoader.load(), 900, 650);
+            stage.setWidth(940);
+            stage.setHeight(650);
+            stage.setScene(scene);
+        } else {
+            scene = new Scene(fxmlLoader.load(), 1800, 900);
+            stage.setMaximized(true);
+            stage.setScene(scene);
+        }
+        stage.show();
+        connectToServer(stage, scene);
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    private void connectToServer(Stage stage) {
+    /**
+     * established connect.
+     *
+     * @param stage .
+     */
+    private void connectToServer(Stage stage, Scene scene) {
         Error error = new Error();
         int port = 1111;
         try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/client-application.properties")) {
@@ -42,22 +62,43 @@ public class Twitter extends Application {
             config.load(file);
             port = Integer.parseInt(config.get("server.port").toString());
         } catch (IOException ioe) {
-            System.out.println(ioe.toString());
+            Parent root = error.show(2, 0, mode);
+            if (root != null)
+                scene.setRoot(root);
+            System.out.println(ioe);
         }
-        try{ Socket socket = new Socket("localhost", port);
-             DataInputStream input = new DataInputStream(socket.getInputStream());
-             DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+        try {
+            Socket socket = new Socket("localhost", port);
+            DataInputStream input = new DataInputStream(socket.getInputStream());
+            DataOutputStream output = new DataOutputStream(socket.getOutputStream());
             System.out.println("Connection Established :)");
-            ConnectionServiceImpl cs = new ConnectionServiceImpl(output, input, stage,socket,mode,size);
+            ConnectionServiceImpl cs = new ConnectionServiceImpl(output, input, stage, socket, mode, size, exitMode, scene);
             cs.run();
         } catch (IOException ioe) {
-            stage.setScene(error.show(stage, 1, 0, mode));
+            Parent root = error.show(1, 0, mode);
+            if (root != null)
+                scene.setRoot(root);
             System.out.println(ioe.toString());
         }
     }
 
-    public void initSetting(){
-        mode = "light";
-        size = 0;
+    /**
+     * init our setting.
+     *
+     */
+    public void initSetting() {
+        Error error = new Error();
+        try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/client-setting.properties")) {
+            Properties config = new Properties();
+            config.load(file);
+            mode = config.get("client.screen.mode").toString();
+            size = Integer.parseInt(config.get("client.screen.size").toString());
+            exitMode = Integer.parseInt(config.get("client.screen.exit").toString());
+        } catch (IOException ioe) {
+            Parent root = error.show(2, 0, mode);
+            if (root != null)
+                scene.setRoot(root);
+            System.out.println(ioe.toString());
+        }
     }
 }

@@ -6,38 +6,40 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ToggleButton?>
 
-<MenuBar fx:id="content" stylesheets="@style/menuBar.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.ce.ap.client.gui.controller.BarController">
-  <menus>
-    <Menu mnemonicParsing="false" text="Application">
-      <items>
-        <MenuItem fx:id="exit" onAction="#btn" mnemonicParsing="false" text="Exit" />
-        <MenuItem fx:id="logout" onAction="#btn" mnemonicParsing="false" text="Log out" />
-      </items>
-    </Menu>
-    <Menu mnemonicParsing="false" text="View">
-      <items>
-            <MenuItem fx:id="size" onAction="#btn" mnemonicParsing="false" text="widow Size">
-               <graphic>
-                  <ToggleButton fx:id="toggle" mnemonicParsing="false" text="Full Screen" />
-               </graphic>
-            </MenuItem>
-        <MenuItem mnemonicParsing="false" text="Theme">
-               <graphic>
-                  <MenuButton mnemonicParsing="false" text="MenuButton">
-                    <items>
-                      <MenuItem fx:id="light" onAction="#btn" mnemonicParsing="false" text="Light" />
-                      <MenuItem fx:id="dark" onAction="#btn" mnemonicParsing="false" text="Dark" />
-                    </items>
-                  </MenuButton>
-               </graphic></MenuItem>
-      </items>
-    </Menu>
-    <Menu mnemonicParsing="false" text="Options" />
-      <Menu mnemonicParsing="false" text="Help">
-         <items>
-            <MenuItem mnemonicParsing="false" text="About" />
-            <MenuItem mnemonicParsing="false" text="Help" />
-         </items>
-      </Menu>
-  </menus>
+<MenuBar fx:id="content" styleClass="content-trr" xmlns:fx="http://javafx.com/fxml/1"
+         xmlns="http://javafx.com/javafx/17" fx:controller="org.ce.ap.client.gui.controller.BarController">
+    <menus>
+        <Menu fx:id="application" mnemonicParsing="false" text="Application">
+            <items>
+                <MenuItem fx:id="exit" mnemonicParsing="false" text="Exit"/>
+                <MenuItem fx:id="logout" mnemonicParsing="false" text="Log out"/>
+            </items>
+        </Menu>
+        <Menu fx:id="view" mnemonicParsing="false" text="View">
+            <items>
+                <MenuItem fx:id="size" mnemonicParsing="false" text="widow Size">
+                    <graphic>
+                        <ToggleButton fx:id="toggle" mnemonicParsing="false" text="Full Screen"/>
+                    </graphic>
+                </MenuItem>
+                <MenuItem mnemonicParsing="false" text="Theme">
+                    <graphic>
+                        <MenuButton mnemonicParsing="false" text="MenuButton">
+                            <items>
+                                <MenuItem fx:id="light" mnemonicParsing="false" text="Light"/>
+                                <MenuItem fx:id="dark" mnemonicParsing="false" text="Dark"/>
+                            </items>
+                        </MenuButton>
+                    </graphic>
+                </MenuItem>
+            </items>
+        </Menu>
+        <Menu fx:id="options" mnemonicParsing="false" text="Options"/>
+        <Menu fx:id="help" mnemonicParsing="false" text="Help">
+            <items>
+                <MenuItem mnemonicParsing="false" text="About"/>
+                <MenuItem mnemonicParsing="false" text="Help"/>
+            </items>
+        </Menu>
+    </menus>
 </MenuBar>

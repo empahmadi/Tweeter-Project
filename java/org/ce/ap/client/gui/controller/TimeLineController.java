@@ -50,12 +50,14 @@ public class TimeLineController {
      * @param size .
      */
     public void toggleScreen(int size) {
+        parent.getStyleClass().remove(1);
+        list.getStyleClass().remove(0);
         if (size == 0) {
-            parent.getStyleClass().add("content-s");
-            list.getStyleClass().add("list-s");
+            parent.getStyleClass().add(1,"content-s");
+            list.getStyleClass().add(0,"list-s");
         } else {
-            parent.getStyleClass().add("content-l");
-            list.getStyleClass().add("list-l");
+            parent.getStyleClass().add(1,"content-l");
+            list.getStyleClass().add(0,"list-l");
         }
     }
 
@@ -65,7 +67,9 @@ public class TimeLineController {
      * @param mode .
      */
     public void toggleTheme(String mode) {
-        parent.getStyleClass().add(mode);
-        list.getStyleClass().add(mode);
+        parent.getStyleClass().remove(2);
+        parent.getStyleClass().add(2,mode);
+        list.getStyleClass().remove(1);
+        list.getStyleClass().add(1,mode);
     }
 }

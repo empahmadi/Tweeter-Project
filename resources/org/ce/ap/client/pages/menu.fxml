@@ -5,20 +5,20 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<VBox fx:id="menu" stylesheets="@style/menu.css"
+<VBox fx:id="menu" styleClass="menu-s, light" stylesheets="@style/menu.css"
       xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.controller.MenuController">
     <children>
         <ImageView fx:id="logo" pickOnBounds="true" preserveRatio="true" styleClass="logo">
             <Image requestedHeight="48" requestedWidth="48" url="@icons/twitter1.png"/>
         </ImageView>
-        <Button fx:id="home" onAction="#btn" text="Home"/>
-        <Button fx:id="create" onAction="#btn" text="Send Tweet"/>
-        <Button fx:id="notifications" onAction="#btn" text="Notifications"/>
-        <Button fx:id="profile" onAction="#btn" text="Profile"/>
-        <Button fx:id="search" onAction="#btn" text="Search"/>
-        <Button fx:id="logout" onAction="#btn" text="Logout"/>
-        <Button fx:id="exit" onAction="#btn" text="Exit"/>
+        <Button fx:id="home" styleClass="btn-s, home-d, btn-d" onAction="#btn" text="Home"/>
+        <Button fx:id="create" styleClass="btn-s, home-d, btn-d" onAction="#btn" text="Send Tweet"/>
+        <Button fx:id="notifications" styleClass="btn-s, home-d, btn-d" onAction="#btn" text="Notifications"/>
+        <Button fx:id="profile" styleClass="btn-s, home-d, btn-d" onAction="#btn" text="Profile"/>
+        <Button fx:id="search" styleClass="btn-s, home-d, btn-d" onAction="#btn" text="Search"/>
+        <Button fx:id="logout" styleClass="btn-s, home-d, btn-d" onAction="#btn" text="Logout"/>
+        <Button fx:id="exit" styleClass="btn-s, home-d, btn-d" onAction="#btn" text="Exit"/>
         <Pane prefHeight="219.0" prefWidth="144.0"/>
         <Label fx:id="copyRight" styleClass="label" text="©EMP Twitter"/>
     </children>

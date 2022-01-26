@@ -22,9 +22,9 @@ public class Error {
      *
      * @return scene.
      */
-    private Scene init(int size, int code, String mode) {
+    private Parent init(int size, int code, String mode) {
         String path = null, caption;
-        Scene scene = null;
+        Parent root = null;
         try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/client-application.properties")) {
             Properties config = new Properties();
             config.load(file);
@@ -39,23 +39,21 @@ public class Error {
         }
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("error.fxml"));
-            Parent root = fxmlLoader.load();
+            root = fxmlLoader.load();
             ErrorController controller = fxmlLoader.getController();
             controller.init(size, mode, caption, code, path);
-            scene = new Scene(root, 900, 650);
         } catch (IOException | NullPointerException ioe) {
             System.out.println(ioe.toString());
         }
-        return scene;
+        return root;
     }
 
     /**
      * show our error page.
      *
-     * @param stage our stage.
      * @param code  error code.
      */
-    public Scene show(Stage stage, int code, int size, String mode) {
+    public Parent show(int code, int size, String mode) {
         return init(size, code, mode);
     }
 

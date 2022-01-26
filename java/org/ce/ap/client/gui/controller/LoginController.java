@@ -58,7 +58,7 @@ public class LoginController {
 
     @FXML
     public void login() {
-        main.checkLogin(username.getText(), password.getText(), error);
+        main.checkLogin(username.getText(), password.getText(), error, check.isSelected());
     }
 
     @FXML

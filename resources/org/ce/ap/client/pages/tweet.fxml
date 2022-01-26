@@ -4,23 +4,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<VBox fx:id="tweet" stylesheets="@style/tweet.css" xmlns="http://javafx.com/javafx/17"
+<VBox fx:id="tweet" styleClass="tweet" xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.controller.TweetController">
     <children>
-        <HBox fx:id="information">
+        <HBox fx:id="information" styleClass="row1">
             <children>
-                <Button fx:id="profile" styleClass="user-icon" onAction="#click"/>
-                <Pane fx:id="userPanel">
+                <Button fx:id="profile" styleClass="user-icon, logo" onAction="#click"/>
+                <Pane fx:id="userPanel" styleClass="user-pane">
                     <children>
-                        <Button fx:id="name" onAction="#click" style="-fx-font-size: 15;-fx-pref-height: 30" mnemonicParsing="false" text="Name"/>
-                        <Button fx:id="username" onAction="#click" style="-fx-font-size: 11;-fx-pref-height: 20" layoutY="30.0" mnemonicParsing="false" text="username"/>
+                        <Button fx:id="name" styleClass="idn" onAction="#click" style="-fx-font-size: 15;-fx-pref-height: 30" mnemonicParsing="false" text="Name"/>
+                        <Button fx:id="username" styleClass="idn" onAction="#click" style="-fx-font-size: 11;-fx-pref-height: 20" layoutY="30.0" mnemonicParsing="false" text="username"/>
                     </children>
                 </Pane>
-                <Label fx:id="date" text="12-3-2020"/>
+                <Label fx:id="date" styleClass="date" text="12-3-2020"/>
             </children>
         </HBox>
         <Button fx:id="isRetweet" onAction="#click" mnemonicParsing="false"/>
-        <Label fx:id="textContent" text="content of tweet. . ."/>
+        <Label fx:id="textContent" styleClass="content" text="content of tweet. . ."/>
         <ImageView fx:id="imageContent" fitHeight="380" fitWidth="250.0" pickOnBounds="true" preserveRatio="true"
                    styleClass="image" VBox.vgrow="ALWAYS">
             <Image requestedHeight="430" requestedWidth="380" url="@icons/twitter.png"/>
@@ -28,18 +28,18 @@
                 <Insets left="53.0"/>
             </VBox.margin>
         </ImageView>
-        <HBox fx:id="caption">
+        <HBox fx:id="caption" styleClass="row4">
             <children>
-                <Pane fx:id="cap1">
-                    <Button fx:id="like" onAction="#click" text="Like"/>
-                    <Button fx:id="likes" onAction="#click" layoutX="45" text="Likes(12)"/>
+                <Pane fx:id="cap1" styleClass="caption-wrapper">
+                    <Button fx:id="like" styleClass="btn" onAction="#click" text="Like"/>
+                    <Button fx:id="likes" styleClass="btn" onAction="#click" layoutX="45" text="Likes(12)"/>
                 </Pane>
-                <Pane fx:id="cap2">
-                    <Button fx:id="retweet" onAction="#click" text="Retweet"/>
-                    <Button fx:id="retweets" onAction="#click" layoutX="60" text="Retweets(22)"/>
+                <Pane fx:id="cap2" styleClass="caption-wrapper">
+                    <Button fx:id="retweet" styleClass="btn" onAction="#click" text="Retweet"/>
+                    <Button fx:id="retweets" styleClass="btn" onAction="#click" layoutX="60" text="Retweets(22)"/>
                 </Pane>
-                <Pane fx:id="cap3">
-                    <Button fx:id="delete" style="-fx-pref-width: 53" onAction="#click" layoutX="30" text="delete"/>
+                <Pane fx:id="cap3" styleClass="caption-wrapper">
+                    <Button fx:id="delete" styleClass="btn" style="-fx-pref-width: 53" onAction="#click" layoutX="30" text="delete"/>
                 </Pane>
             </children>
         </HBox>

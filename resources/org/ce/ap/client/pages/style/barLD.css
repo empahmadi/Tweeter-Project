@@ -1,0 +1,18 @@
+.content-trr{
+    -fx-pref-width: 1350;
+    -fx-min-height: 27;
+    -fx-base: black;
+    -fx-accent: #55aced;
+    -fx-default-button: black ;
+    -fx-focus-color: #efefef;
+    -fx-faint-focus-color: black;
+    -fx-focused-text-base-color : ladder(
+            -fx-selection-bar,
+            -fx-light-text-color 45%,
+            -fx-dark-text-color 46%,
+            -fx-dark-text-color 59%,
+            -fx-mid-text-color 60%
+    );
+    -fx-focused-mark-color : -fx-focused-text-base-color ;
+}
+

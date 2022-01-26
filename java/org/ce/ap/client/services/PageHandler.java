@@ -27,9 +27,9 @@ public interface PageHandler {
      * @param username .
      * @param password .
      * @param error    .
-     * @param login    .
+     * @param rememberMe .
      */
-    void checkLogin(String username, String password, Label error, Scene login);
+    void checkLogin(String username, String password, Label error, boolean rememberMe);
 
     /**
      * run signup page.

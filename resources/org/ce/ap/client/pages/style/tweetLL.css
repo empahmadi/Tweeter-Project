@@ -1,0 +1,134 @@
+
+.date {
+    -fx-pref-width: 180;
+    -fx-max-width: 180;
+    -fx-min-width: 180;
+    -fx-pref-height: 50;
+    -fx-max-height: 50;
+    -fx-min-height: 50;
+    -fx-font-size: 11;
+    -fx-padding: 0 8 0 0;
+    -fx-alignment: center-right;
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.image {
+    -fx-pref-width: 380;
+    -fx-max-width: 380;
+    -fx-min-width: 380;
+    -fx-pref-height: 250;
+    -fx-max-height: 250;
+    -fx-min-height: 250;
+}
+
+
+.user-icon {
+    -fx-pref-width: 50;
+    -fx-max-width: 50;
+    -fx-min-width: 50;
+    -fx-pref-height: 50;
+    -fx-max-height: 50;
+    -fx-min-height: 50;
+}
+
+.tweet {
+    -fx-pref-width: 1012;
+    -fx-min-width: 1012;
+    -fx-max-width: 1012;
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.row1 {
+    -fx-pref-width: 1012;
+    -fx-max-width: 1012;
+    -fx-min-width: 1012;
+    -fx-pref-height: 50;
+    -fx-max-height: 50;
+    -fx-min-height: 50;
+    -fx-alignment: center-left;
+}
+
+
+.user-pane {
+    -fx-pref-width: 615;
+    -fx-max-width: 615;
+    -fx-min-width: 615;
+    -fx-pref-height: 50;
+    -fx-max-height: 50;
+    -fx-min-height: 50;
+    -fx-alignment: center-left;
+    -fx-padding: 10 0 0 0;
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.content {
+    -fx-pref-width: 765;
+    -fx-max-width: 765;
+    -fx-min-width: 765;
+    -fx-min-height: 150;
+    -fx-max-height: 150;
+    -fx-alignment: top-left;
+    -fx-font-size: 13;
+    -fx-padding: 5 0 0 54;
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.row4 {
+    -fx-pref-width: 1012;
+    -fx-max-width: 1012;
+    -fx-min-width: 1012;
+    -fx-pref-height: 40;
+    -fx-max-height: 40;
+    -fx-min-height: 40;
+    -fx-padding: 0 0 0 50;
+}
+
+.caption-wrapper {
+    -fx-pref-width: 320.66;
+    -fx-max-width: 320.66;
+    -fx-min-width: 320.66;
+    -fx-pref-height: 30;
+    -fx-max-height: 30;
+    -fx-min-height: 30;
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+
+.btn {
+    -fx-background-color: #e1e1e1;
+    -fx-text-fill: black;
+}
+
+.btn:hover {
+    -fx-background-color: #bebdbd;
+    -fx-cursor: hand;
+}
+
+.user-icon {
+    -fx-background-image: url(../icons/userB.png);
+    -fx-background-size: 40px 40px;
+    -fx-background-radius: 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: #e1e1e1;
+    -fx-background-position: center;
+}
+
+.user-icon:hover {
+    -fx-background-color: #bebdbd;
+    -fx-cursor: hand;
+}
+
+.idn {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.idn:hover {
+    -fx-text-fill: #55aced;
+    -fx-cursor: hand;
+}

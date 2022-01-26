@@ -43,6 +43,13 @@ public class MenuController {
         this.main = page;
         toggleTheme(mode);
         toggleScreen(size);
+        setAccelerator();
+    }
+
+
+
+    private void setAccelerator(){
+
     }
 
     public void changeActive(String active) {
@@ -60,11 +67,11 @@ public class MenuController {
             case "logout" -> main.logout();
             case "exit" -> main.exit();
             case "update" -> main.update();
-            case "back" -> main.back();
             case "home" -> main.home();
             default -> main.error("an unexpected error occurred!!! :(", "in left side menu");
         }
     }
+
 
     /**
      * change the size of screen.
@@ -72,21 +79,29 @@ public class MenuController {
      * @param size .
      */
     public void toggleScreen(int size) {
+        menu.getStyleClass().remove(0);
+        home.getStyleClass().remove(0);
+        create.getStyleClass().remove(0);
+        profile.getStyleClass().remove(0);
+        notifications.getStyleClass().remove(0);
+        search.getStyleClass().remove(0);
+        logout.getStyleClass().remove(0);
+        exit.getStyleClass().remove(0);
         String btnSize = "btn-";
         if (size == 0) {
-            menu.getStyleClass().add("menu-s");
+            menu.getStyleClass().add(0,"menu-s");
             btnSize += "s";
         } else {
-            menu.getStyleClass().add("menu-l");
+            menu.getStyleClass().add(0,"menu-l");
             btnSize += "la";
         }
-        home.getStyleClass().add(btnSize);
-        create.getStyleClass().add(btnSize);
-        profile.getStyleClass().add(btnSize);
-        notifications.getStyleClass().add(btnSize);
-        search.getStyleClass().add(btnSize);
-        exit.getStyleClass().add(btnSize);
-        logout.getStyleClass().add(btnSize);
+        home.getStyleClass().add(0,btnSize);
+        create.getStyleClass().add(0,btnSize);
+        profile.getStyleClass().add(0,btnSize);
+        notifications.getStyleClass().add(0,btnSize);
+        search.getStyleClass().add(0,btnSize);
+        exit.getStyleClass().add(0,btnSize);
+        logout.getStyleClass().add(0,btnSize);
     }
 
     /**
@@ -95,38 +110,56 @@ public class MenuController {
      * @param mode .
      */
     public void toggleTheme(String mode) {
+        menu.getStyleClass().remove(1);
+        create.getStyleClass().remove(1);
+        home.getStyleClass().remove(1);
+        copyRight.getStyleClass().remove(1);
+        logout.getStyleClass().remove(1);
+        logo.getStyleClass().remove(1);
+        notifications.getStyleClass().remove(1);
+        profile.getStyleClass().remove(1);
+        search.getStyleClass().remove(1);
+        exit.getStyleClass().remove(1);
         String btnMode = "btn-";
         if (mode.equals("dark")) {
-            menu.getStyleClass().add("dark");
-            logo.getStyleClass().add("dark");
-            copyRight.getStyleClass().add("dark");
-            home.getStyleClass().add("home-d");
-            create.getStyleClass().add("create-d");
-            notifications.getStyleClass().add("notify-d");
-            profile.getStyleClass().add("prof-d");
-            search.getStyleClass().add("search-d");
-            logout.getStyleClass().add("logout-d");
-            exit.getStyleClass().add("exit-d");
+            menu.getStyleClass().add(1,"dark");
+            logo.getStyleClass().add(1,"dark");
+            copyRight.getStyleClass().add(1,"dark");
+            home.getStyleClass().add(1,"home-d");
+            create.getStyleClass().add(1,"create-d");
+            notifications.getStyleClass().add(1,"notify-d");
+            profile.getStyleClass().add(1,"prof-d");
+            search.getStyleClass().add(1,"search-d");
+            logout.getStyleClass().add(1,"logout-d");
+            exit.getStyleClass().add(1,"exit-d");
             btnMode += "d";
         } else {
-            menu.getStyleClass().add("light");
-            logo.getStyleClass().add("light");
-            copyRight.getStyleClass().add("light");
-            home.getStyleClass().add("home-l");
-            create.getStyleClass().add("create-l");
-            notifications.getStyleClass().add("notify-l");
-            profile.getStyleClass().add("prof-l");
-            search.getStyleClass().add("search-l");
-            logout.getStyleClass().add("logout-l");
-            exit.getStyleClass().add("exit-l");
+            menu.getStyleClass().add(1,"light");
+            logo.getStyleClass().add(1,"light");
+            copyRight.getStyleClass().add(1,"light");
+            home.getStyleClass().add(1,"home-l");
+            create.getStyleClass().add(1,"create-l");
+            notifications.getStyleClass().add(1,"notify-l");
+            profile.getStyleClass().add(1,"prof-l");
+            search.getStyleClass().add(1,"search-l");
+            logout.getStyleClass().add(1,"logout-l");
+            exit.getStyleClass().add(1,"exit-l");
             btnMode += "l";
         }
-        home.getStyleClass().add(btnMode);
-        create.getStyleClass().add(btnMode);
-        notifications.getStyleClass().add(btnMode);
-        profile.getStyleClass().add(btnMode);
-        search.getStyleClass().add(btnMode);
-        exit.getStyleClass().add(btnMode);
-        logout.getStyleClass().add(btnMode);
+        home.getStyleClass().remove(2);
+        create.getStyleClass().remove(2);
+        notifications.getStyleClass().remove(2);
+        profile.getStyleClass().remove(2);
+        search.getStyleClass().remove(2);
+        exit.getStyleClass().remove(2);
+        logout.getStyleClass().remove(2);
+
+        home.getStyleClass().add(2,btnMode);
+        create.getStyleClass().add(2,btnMode);
+        notifications.getStyleClass().add(2,btnMode);
+        profile.getStyleClass().add(2,btnMode);
+        search.getStyleClass().add(2,btnMode);
+        exit.getStyleClass().add(2,btnMode);
+        logout.getStyleClass().add(2,btnMode);
     }
 }

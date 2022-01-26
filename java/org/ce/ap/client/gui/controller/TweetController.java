@@ -3,6 +3,7 @@ package org.ce.ap.client.gui.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -24,11 +25,17 @@ import java.util.Properties;
  * @version 1.0
  */
 public class TweetController {
-    public Pane userPanel;
+    @FXML
+    private Pane userPanel;
     private Main main;
+    private String path;
+    private Scene scene;
     private JSONArray jLikes;
     private JSONArray jRetweets;
     private int id;
+    private int size;
+    private String mode;
+    private String style;
     private String owner;
     @FXML
     private Button name;
@@ -112,10 +119,14 @@ public class TweetController {
      * @param mainUser user that wants this tweet.
      * @param main     .
      */
-    public void init(int size, String mode, JSONObject info, String mainUser, Main main) {
+    public void init(int size, String mode, JSONObject info, String mainUser, Main main, String path) {
         this.main = main;
+        this.path = path;
+        style = "tweetLL.css";
+        this.size = size;
+        this.mode = mode;
+        this.scene = main.getScene();
         toggleScreen(size);
-        toggleTheme(mode);
         // initialization:
         name.setText(info.getString("name"));
         username.setText(info.getString("username"));
@@ -142,64 +153,41 @@ public class TweetController {
         id = info.getInt("tweet-id");
     }
 
-    /**
-     * @return address.
-     */
-    public String giveAddress() {
-        try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/client-application.properties")) {
-            Properties config = new Properties();
-            config.load(file);
-            return config.get("client.app").toString();
-        } catch (IOException ioe) {
-            System.out.println(ioe.toString());
-            return null;
-        }
-    }
-
     public void toggleScreen(int size){
-        if (size == 0) {
-            tweet.getStyleClass().add("tweet-s");
-            information.getStyleClass().add("row1-s");
-            userPanel.getStyleClass().add("user-pane-s");
-            textContent.getStyleClass().add("content-s");
-            caption.getStyleClass().add("row4-s");
-            cap1.getStyleClass().add("caption-wrapper-s");
-            cap2.getStyleClass().add("caption-wrapper-s");
-            cap3.getStyleClass().add("caption-wrapper-s");
-        } else {
-            tweet.getStyleClass().add("tweet-l");
-            information.getStyleClass().add("row1-l");
-            userPanel.getStyleClass().add("user-pane-l");
-            textContent.getStyleClass().add("content-l");
-            caption.getStyleClass().add("row4-l");
-            cap1.getStyleClass().add("caption-wrapper-l");
-            cap2.getStyleClass().add("caption-wrapper-l");
-            cap3.getStyleClass().add("caption-wrapper-l");
-
+        String name = "tweet";
+        if (mode.equals("light")){
+            name += "L";
+        }else{
+            name += "D";
         }
+        if (size == 0){
+            name += "S";
+        }else{
+            name += "L";
+        }
+        name+= ".css";
+        scene.getStylesheets().remove(path+style);
+        style = name;
+        scene.getStylesheets().add(path+style);
+        this.size = size;
     }
 
     public void toggleTheme(String mode){
-        String idnMode = "idn-";
-        String icon = "user-icon-";
-        tweet.getStyleClass().add(mode);
-        textContent.getStyleClass().add(mode);
-        date.getStyleClass().add(mode);
-        isRetweet.getStyleClass().add(mode);
-        like.getStyleClass().add(mode);
-        likes.getStyleClass().add(mode);
-        retweet.getStyleClass().add(mode);
-        retweets.getStyleClass().add(mode);
-        delete.getStyleClass().add(mode);
-        if (mode.equals("light")) {
-            idnMode += "l";
-            icon += "l";
-        } else {
-            idnMode += "d";
-            icon += "d";
+        String name = "tweet";
+        if (mode.equals("light")){
+            name += "L";
+        }else{
+            name += "D";
         }
-        name.getStyleClass().add(idnMode);
-        username.getStyleClass().add(idnMode);
-        profile.getStyleClass().add(icon);
+        if (size == 0){
+            name += "S";
+        }else{
+            name += "L";
+        }
+        name+= ".css";
+        scene.getStylesheets().remove(path+style);
+        style = name;
+        scene.getStylesheets().add(path+style);
+        this.mode = mode;
     }
 }
