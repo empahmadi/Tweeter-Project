@@ -1,14 +1,23 @@
+.content-s{
+    -fx-pref-width: 726.5;
+    -fx-min-width: 726.5;
+    -fx-max-width: 726.5;
+    -fx-min-height: 587;
+    -fx-pref-height: 587;
+    -fx-max-height: 587;
+}
+
 .row-s{
-    -fx-max-height: 40;
-    -fx-pref-height: 40;
-    -fx-min-height: 40;
-    -fx-min-width: 706.5;
-    -fx-max-width: 706.5;
-    -fx-pref-width: 706.5;
-    -fx-padding: 0 0 0 20;
+    -fx-pref-width: 709.3;
+    -fx-min-width: 709.3;
+    -fx-max-width: 709.3;
+    -fx-min-height: 587;
+    -fx-man-height: 587;
+    -fx-pref-height: 587;
+    -fx-padding: 40 0 0 20;
     -fx-spacing: 6.5;
 }
-.field-s{
+.field{
     -fx-max-height: 40;
     -fx-pref-height: 40;
     -fx-min-height: 40;
@@ -18,7 +27,7 @@
     -fx-font-size: 15;
 }
 
-.search-s{
+.search{
     -fx-fit-to-height: 40;
     -fx-max-height: 40;
     -fx-pref-height: 40;
@@ -27,4 +36,66 @@
     -fx-max-width: 80;
     -fx-pref-width: 80;
     -fx-font-size: 15;
+}
+
+.content-l{
+    -fx-pref-width: 1032;
+    -fx-min-width: 1032;
+    -fx-max-width: 1032;
+    -fx-min-height: 630.3;
+    -fx-pref-height: 630.3;
+    -fx-max-height: 630.3;
+}
+
+.row-l{
+    -fx-pref-width: 1015;
+    -fx-min-width: 1015;
+    -fx-max-width: 1015;
+    -fx-min-height: 630.3;
+    -fx-padding: 40 0 0 140;
+    -fx-spacing: 6.5;
+}
+
+.dark{
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+Button.dark{
+    -fx-background-color: #3f3f3f;
+    -fx-text-fill: white;
+}
+Button.dark:hover{
+    -fx-background-color: #919191;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+TextField.dark{
+    -fx-background-color: #919191;
+}
+TextField.dark:focused{
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-color: #6cbdf8;
+}
+.light{
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+Button.light{
+    -fx-background-color: #c7c6c6;
+    -fx-text-fill: black;
+}
+Button.light:hover{
+    -fx-background-color: #7c7c7c;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+}
+TextField.light{
+    -fx-background-color: #c7c6c6;
+    -fx-text-fill: black;
+}
+TextField.light:focused{
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-color: #6cbdf8;
 }

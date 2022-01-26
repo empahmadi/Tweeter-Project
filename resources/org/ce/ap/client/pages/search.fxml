@@ -5,13 +5,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<ScrollPane fx:id="content" styleClass="scroll-bar" stylesheets="@style/search.css, @style/general.css"
-            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.controller.SearchController">
+<ScrollPane fx:id="content" styleClass="scroll-bar" stylesheets="@style/search.css"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.ce.ap.client.gui.controller.SearchController">
     <VBox fx:id="list">
         <children>
             <HBox fx:id="row">
-                <TextField fx:id="field"/>
-                <Button fx:id="search" text="Search"/>
+                <TextField fx:id="field" styleClass="field"/>
+                <Button fx:id="search" text="Search" styleClass="search"/>
             </HBox>
         </children>
     </VBox>
