@@ -2,9 +2,9 @@
 
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
-<ScrollPane fx:id="parent" styleClass="scroll-bar" stylesheets="@style/profile.css, @style/general.css" xmlns="http://javafx.com/javafx/17"
+<ScrollPane fx:id="parent" styleClass="scroll-bar, content-s, light" stylesheets="@style/profile.css, @style/general.css" xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.controller.ProfileController">
-    <VBox fx:id="list">
+    <VBox fx:id="list" styleClass="list-s, light">
         <children>
 
         </children>

@@ -62,18 +62,28 @@ public class ProfileController {
         foot.getChildren().add(1, follows);
         foot.getChildren().add(2, follow);
         //styling:
+        head.getStyleClass().add(0,"head");
+        edit.getStyleClass().add(0,"edit");
+        name.getStyleClass().add(0,"label1");
+        username.getStyleClass().add(0,"label2");
+        bio.getStyleClass().add(0,"label1");
+        doj.getStyleClass().add(0,"label2");
+        foot.getStyleClass().add(0,"foot");
+        followers.getStyleClass().add(0,"btn");
+        follows.getStyleClass().add(0,"btn");
+        follow.getStyleClass().add(0,"btn");
+        profileImage.getStyleClass().add(0,"image");
+        head.getStyleClass().add(1,mode);
+        edit.getStyleClass().add(1,mode);
+        name.getStyleClass().add(1,mode);
+        username.getStyleClass().add(1,mode);
+        bio.getStyleClass().add(1,mode);
+        doj.getStyleClass().add(1,mode);
+        foot.getStyleClass().add(1,mode);
+        followers.getStyleClass().add(1,mode);
+        follows.getStyleClass().add(1,mode);
+        follow.getStyleClass().add(1,mode);
         toggleTheme(mode);
-        head.getStyleClass().add("head");
-        edit.getStyleClass().add("edit");
-        name.getStyleClass().add("label1");
-        username.getStyleClass().add("label2");
-        bio.getStyleClass().add("label1");
-        doj.getStyleClass().add("label2");
-        foot.getStyleClass().add("foot");
-        followers.getStyleClass().add("btn");
-        follows.getStyleClass().add("btn");
-        follow.getStyleClass().add("btn");
-        profileImage.getStyleClass().add("image");
         toggleScreen(size);
         list.getChildren().add(0, head);
         list.getChildren().add(1, name);
@@ -110,27 +120,47 @@ public class ProfileController {
     }
 
     public void toggleScreen(int size){
+        parent.getStyleClass().remove(1);
+        list.getStyleClass().remove(0);
+        head.getStyleClass().remove(0);
+
         if (size == 1) {
-            parent.getStyleClass().add("content-l");
-            list.getStyleClass().add("list-l");
+            parent.getStyleClass().add(1,"content-l");
+            list.getStyleClass().add(0,"list-l");
+            head.getStyleClass().add(0,"head-l");
         } else {
-            parent.getStyleClass().add("content-s");
-            list.getStyleClass().add("list-s");
+            parent.getStyleClass().add(1,"content-s");
+            list.getStyleClass().add(0,"list-s");
+            head.getStyleClass().add(0,"head-s");
+
         }
     }
 
     public void toggleTheme(String mode){
-        head.getStyleClass().add(mode);
-        edit.getStyleClass().add(mode);
-        name.getStyleClass().add(mode);
-        username.getStyleClass().add(mode);
-        bio.getStyleClass().add(mode);
-        doj.getStyleClass().add(mode);
-        foot.getStyleClass().add(mode);
-        followers.getStyleClass().add(mode);
-        follows.getStyleClass().add(mode);
-        follow.getStyleClass().add(mode);
-        parent.getStyleClass().add(mode);
-        list.getStyleClass().add(mode);
+        head.getStyleClass().remove(1);
+        edit.getStyleClass().remove(1);
+        name.getStyleClass().remove(1);
+        username.getStyleClass().remove(1);
+        bio.getStyleClass().remove(1);
+        doj.getStyleClass().remove(1);
+        foot.getStyleClass().remove(1);
+        followers.getStyleClass().remove(1);
+        follows.getStyleClass().remove(1);
+        follow.getStyleClass().remove(1);
+        head.getStyleClass().add(1,mode);
+        edit.getStyleClass().add(1,mode);
+        name.getStyleClass().add(1,mode);
+        username.getStyleClass().add(1,mode);
+        bio.getStyleClass().add(1,mode);
+        doj.getStyleClass().add(1,mode);
+        foot.getStyleClass().add(1,mode);
+        followers.getStyleClass().add(1,mode);
+        follows.getStyleClass().add(1,mode);
+        follow.getStyleClass().add(1,mode);
+        // main:
+        parent.getStyleClass().remove(2);
+        list.getStyleClass().remove(1);
+        parent.getStyleClass().add(2,mode);
+        list.getStyleClass().add(1,mode);
     }
 }

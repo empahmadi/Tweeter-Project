@@ -263,9 +263,15 @@ public class Main {
 
     }
 
+    /**
+     * this method logout the user.
+     */
     public void logout() {
-        JSONObject  response = new JSONObject(cps.logout());
-        main.login();
+        JSONObject response = new JSONObject(cps.logout());
+        if (response.getBoolean("has-error")) {
+            error(response);
+        } else
+            main.login();
     }
 
     /**
@@ -277,7 +283,7 @@ public class Main {
             main.saveSetting();
             Platform.exit();
             System.exit(0);
-        }else{
+        } else {
             stage.hide();
         }
     }
@@ -360,7 +366,7 @@ public class Main {
         error(response);
     }
 
-    public void setAccelerators(Scene scene){
+    public void setAccelerators(Scene scene) {
         scene.getAccelerators().put(new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN), new Runnable() {
             @Override
             public void run() {
@@ -483,20 +489,19 @@ public class Main {
         this.mode = main.getMode();
         toggle.toggleTheme(this.mode);
     }
+
     /**
      * toggle theme.
      */
     public void toggleExit() {
-        main.toggleTheme(mode);
-        this.mode = main.getMode();
-        toggle.toggleTheme(this.mode);
+        main.toggleExitMode();
+        this.exitMode = main.getExitMode();
     }
 
     /**
-     *
      * @return main scene.
      */
-    public Scene getScene(){
+    public Scene getScene() {
         return stage.getScene();
     }
 
