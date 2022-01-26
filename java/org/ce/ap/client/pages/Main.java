@@ -260,7 +260,22 @@ public class Main {
     }
 
     public void notifications() {
-
+        JSONObject response = new JSONObject(cps.notifies());
+        if (response.getBoolean("has-error")) {
+            error(response);
+        } else {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("notify.fxml"));
+                Parent root = fxmlLoader.load();
+                NoteController controller = fxmlLoader.getController();
+                controller.init(size, mode, response.getJSONArray("result"));
+                toggle.addController(controller);
+                currentPage.add("NONE_OF_THEM");
+                changeContent((ScrollPane) root);
+            } catch (IOException e) {
+                exceptionError(e.toString());
+            }
+        }
     }
 
     /**
