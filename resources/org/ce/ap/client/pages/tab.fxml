@@ -4,31 +4,31 @@
 <?import javafx.scene.control.TabPane?>
 
 <?import javafx.scene.layout.VBox?>
-<TabPane fx:id="content" stylesheets="@style/tab.css" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.ce.ap.client.gui.controller.TabController">
+<TabPane fx:id="content" styleClass="content-l, light" stylesheets="@style/tab.css" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.ce.ap.client.gui.controller.TabController">
   <tabs>
-    <Tab fx:id="tweets" text="Tweets" >
-      <VBox fx:id="list">
+    <Tab fx:id="tweets" styleClass="tab-l, light" text="Tweets" >
+      <VBox fx:id="list" styleClass="list-l, light">
         <children>
 
         </children>
       </VBox>
     </Tab>
-    <Tab fx:id="likes" text="Likes" >
-      <VBox fx:id="list1">
+    <Tab fx:id="likes" styleClass="tab-l, light" text="Likes" >
+      <VBox fx:id="list1" styleClass="list-l, light">
         <children>
 
         </children>
       </VBox>
     </Tab>
-    <Tab fx:id="retweets" text="retweets" >
-      <VBox fx:id="list2">
+    <Tab fx:id="retweets" styleClass="tab-l, light" text="retweets" >
+      <VBox fx:id="list2" styleClass="list-l, light">
         <children>
 
         </children>
       </VBox>
     </Tab>
-    <Tab fx:id="info" text="More information" >
-      <VBox fx:id="list3">
+    <Tab fx:id="info" styleClass="tab-l, light" text="More information" >
+      <VBox fx:id="list3" styleClass="list-l, light">
         <children>
 
         </children>

@@ -44,8 +44,8 @@ public class TabController {
      * @param user   .
      */
     public void init(int size, String mode, ArrayList<VBox> tweets, ArrayList<VBox> likes, ArrayList<VBox> retweets, JSONObject user) {
-        toggleScreen(size);
         toggleTheme(mode);
+        toggleScreen(size);
         for (VBox i : tweets) {
             this.list.getChildren().add(i);
         }
@@ -57,12 +57,21 @@ public class TabController {
         }
     }
 
-    public void toggleScreen(int size){
+    public void toggleScreen(int size) {
+        content.getStyleClass().remove(0);
+        tweets.getStyleClass().remove(0);
+        retweets.getStyleClass().remove(0);
+        likes.getStyleClass().remove(0);
+        info.getStyleClass().remove(0);
+        list.getStyleClass().remove(0);
+        list1.getStyleClass().remove(0);
+        list2.getStyleClass().remove(0);
+        list3.getStyleClass().remove(0);
         if (size == 1) {
             content.getStyleClass().add("content-l");
-            this.tweets.getStyleClass().add("tab-l");
-            this.retweets.getStyleClass().add("tab-l");
-            this.likes.getStyleClass().add("tab-l");
+            tweets.getStyleClass().add("tab-l");
+            retweets.getStyleClass().add("tab-l");
+            likes.getStyleClass().add("tab-l");
             info.getStyleClass().add("tab-l");
             list.getStyleClass().add("list-l");
             list1.getStyleClass().add("list-l");
@@ -81,15 +90,27 @@ public class TabController {
         }
     }
 
-    public void toggleTheme(String mode){
+    public void toggleTheme(String mode) {
+        content.getStyleClass().remove(1);
+        list.getStyleClass().remove(1);
+        list1.getStyleClass().remove(1);
+        list2.getStyleClass().remove(1);
+        list3.getStyleClass().remove(1);
         content.getStyleClass().add(mode);
-        tweets.getStyleClass().add(mode);
-        likes.getStyleClass().add(mode);
-        retweets.getStyleClass().add(mode);
-        info.getStyleClass().add(mode);
         list.getStyleClass().add(mode);
         list1.getStyleClass().add(mode);
         list2.getStyleClass().add(mode);
         list3.getStyleClass().add(mode);
+
+
+        tweets.getStyleClass().remove(1);
+        likes.getStyleClass().remove(1);
+        retweets.getStyleClass().remove(1);
+        info.getStyleClass().remove(1);
+
+        tweets.getStyleClass().add(1,mode);
+        likes.getStyleClass().add(1,mode);
+        retweets.getStyleClass().add(1,mode);
+        info.getStyleClass().add(1,mode);
     }
 }

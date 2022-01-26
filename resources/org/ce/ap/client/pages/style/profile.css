@@ -60,6 +60,9 @@
     -fx-border-radius: 10;
     -fx-text-fill: #55aced;
 }
+.edit:hover{
+    -fx-cursor: hand;
+}
 
 .label2{
     -fx-pref-height: 25;

@@ -17,7 +17,7 @@
     -fx-padding: 40 0 0 20;
     -fx-spacing: 6.5;
 }
-.field{
+TextField{
     -fx-max-height: 40;
     -fx-pref-height: 40;
     -fx-min-height: 40;
@@ -27,7 +27,7 @@
     -fx-font-size: 15;
 }
 
-.search{
+Button{
     -fx-fit-to-height: 40;
     -fx-max-height: 40;
     -fx-pref-height: 40;

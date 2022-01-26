@@ -7,9 +7,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.ce.ap.client.pages.Main;
 
 public class SearchController {
+    @FXML
+    private VBox list;
     @FXML
     private ScrollPane content;
     @FXML
@@ -42,11 +45,13 @@ public class SearchController {
      */
     public void toggleScreen(int size){
         if (size == 1) {
-            content.getStyleClass().add("content-l");
-            row.getStyleClass().add("row-l");
+            content.getStyleClass().set(1,"content-l");
+            row.getStyleClass().set(0,"row-l");
+            list.getStyleClass().set(0,"list-l");
         } else {
-            content.getStyleClass().add("content-s");
-            row.getStyleClass().add("row-s");
+            content.getStyleClass().set(1,"content-s");
+            row.getStyleClass().set(0,"row-s");
+            list.getStyleClass().set(0,"list-s");
         }
     }
 
@@ -55,9 +60,10 @@ public class SearchController {
      * @param mode .
      */
     public void toggleTheme(String mode){
-        content.getStyleClass().add(mode);
-        row.getStyleClass().add(mode);
-        field.getStyleClass().add(mode);
-        search.getStyleClass().add(mode);
+        content.getStyleClass().set(2,mode);
+        list.getStyleClass().set(1,mode);
+        row.getStyleClass().set(1,mode);
+        field.getStyleClass().set(1,mode);
+        search.getStyleClass().set(1,mode);
     }
 }

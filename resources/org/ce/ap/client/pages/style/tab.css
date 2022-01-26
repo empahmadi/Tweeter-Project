@@ -29,9 +29,31 @@
     -fx-padding: 20 0 0 0;
 }
 
-tab-l{
-    -fx-min-height: 400;
+.tab-l{
+    -fx-pref-width: 120;
+    -fx-min-width: 120;
+    -fx-max-width: 120;
+    -fx-pref-height: 60;
 }
+
+.tab-s{
+    -fx-pref-width: 100;
+    -fx-min-width: 100;
+    -fx-max-width: 100;
+    -fx-min-height: 50;
+}
+
+Tab{
+    -fx-text-alignment: center;
+    -fx-font-size: 20;
+}
+Tab:selected{
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+    -fx-border-color: #10a7e8;
+}
+
+
 
 .light{
     -fx-background-color: white;
@@ -40,5 +62,5 @@ tab-l{
 
 .dark{
     -fx-background-color: black;
-    -fx-text-fill: white !important;
+    -fx-text-fill: white;
 }
