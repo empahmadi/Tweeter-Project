@@ -264,7 +264,8 @@ public class Main {
     }
 
     public void logout() {
-
+        JSONObject  response = new JSONObject(cps.logout());
+        main.login();
     }
 
     /**
@@ -491,6 +492,10 @@ public class Main {
         toggle.toggleTheme(this.mode);
     }
 
+    /**
+     *
+     * @return main scene.
+     */
     public Scene getScene(){
         return stage.getScene();
     }

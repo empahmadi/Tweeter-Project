@@ -90,6 +90,8 @@ public class TweeterSystem {
             case "exit":
                 au.update();
                 return "exit";
+            case "logout":
+                isLogin = false;
             default:
                 return response.error(56, "request not understanding", null);
         }

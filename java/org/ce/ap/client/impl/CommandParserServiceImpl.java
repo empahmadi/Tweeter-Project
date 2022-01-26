@@ -67,6 +67,14 @@ public class CommandParserServiceImpl implements CommandParserService {
     }
 
     /**
+     * @return response of server.
+     */
+    public String logout(){
+        JSONObject parameters = new JSONObject();
+        return makeRequest("logout", parameters);
+    }
+
+    /**
      * try to signup someone to server.
      *
      * @param dof      date of birth.
