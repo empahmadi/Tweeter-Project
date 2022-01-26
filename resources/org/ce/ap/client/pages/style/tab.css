@@ -1,12 +1,44 @@
-.content-s{
-    -fx-pref-width: 706.5;
-    -fx-min-width: 706.5;
-    -fx-max-width: 706.5;
+
+.content-s {
+    -fx-pref-width: 726.5;
+    -fx-min-width: 726.5;
+    -fx-max-width: 726.5;
+    -fx-min-height: 400;
 }
-.list-s{
-    -fx-pref-width: 706.5;
-    -fx-min-width: 706.5;
-    -fx-max-width: 706.5;
+
+.list-s {
+    -fx-pref-width: 709.3;
+    -fx-min-width: 709.3;
+    -fx-max-width: 709.3;
     -fx-min-height: 400;
     -fx-padding: 20 0 0 0;
+}
+
+.content-l {
+    -fx-pref-width: 1032;
+    -fx-min-width: 1032;
+    -fx-max-width: 1032;
+    -fx-pref-height: 500;
+}
+
+.list-l {
+    -fx-pref-width: 1015;
+    -fx-min-width: 1015;
+    -fx-max-width: 1015;
+    -fx-pref-height: 400;
+    -fx-padding: 20 0 0 0;
+}
+
+tab-l{
+    -fx-min-height: 400;
+}
+
+.light{
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.dark{
+    -fx-background-color: black;
+    -fx-text-fill: white !important;
 }

@@ -16,6 +16,8 @@ import java.util.ArrayList;
  */
 public class TabController {
     @FXML
+    private VBox list3;
+    @FXML
     private TabPane content;
     @FXML
     private Tab tweets;
@@ -65,26 +67,29 @@ public class TabController {
             list.getStyleClass().add("list-l");
             list1.getStyleClass().add("list-l");
             list2.getStyleClass().add("list-l");
+            list3.getStyleClass().add("list-l");
         } else {
             content.getStyleClass().add("content-s");
-            this.tweets.getStyleClass().add("tab-s");
-            this.retweets.getStyleClass().add("tab-s");
-            this.likes.getStyleClass().add("tab-s");
+            tweets.getStyleClass().add("tab-s");
+            retweets.getStyleClass().add("tab-s");
+            likes.getStyleClass().add("tab-s");
             info.getStyleClass().add("tab-s");
             list.getStyleClass().add("list-s");
             list1.getStyleClass().add("list-s");
             list2.getStyleClass().add("list-s");
+            list3.getStyleClass().add("list-s");
         }
     }
 
     public void toggleTheme(String mode){
         content.getStyleClass().add(mode);
-        this.tweets.getStyleClass().add(mode);
-        this.likes.getStyleClass().add(mode);
-        this.retweets.getStyleClass().add(mode);
+        tweets.getStyleClass().add(mode);
+        likes.getStyleClass().add(mode);
+        retweets.getStyleClass().add(mode);
         info.getStyleClass().add(mode);
         list.getStyleClass().add(mode);
         list1.getStyleClass().add(mode);
         list2.getStyleClass().add(mode);
+        list3.getStyleClass().add(mode);
     }
 }
