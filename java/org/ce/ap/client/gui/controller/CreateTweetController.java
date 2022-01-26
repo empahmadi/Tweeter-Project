@@ -34,23 +34,23 @@ public class CreateTweetController {
 
 
     public void init(int size, String mode, Main main) {
-        content.getStyleClass().add(0,"content-s");
-        list.getStyleClass().add(0,"list-s");
-        row1.getStyleClass().add(0,"row1-s");
-        row2.getStyleClass().add(0,"row2-s");
-        text.getStyleClass().add(0,"text-s");
-        cancel.getStyleClass().add(0,"btn-s");
-        create.getStyleClass().add(0,"btn-s");
-        error.getStyleClass().add(0,"error-s");
-        content.getStyleClass().add(1,"light");
-        list.getStyleClass().add(1,"light");
-        row1.getStyleClass().add(1,"light");
-        row2.getStyleClass().add(1,"light");
-        text.getStyleClass().add(1,"light");
-        cancel.getStyleClass().add(1,"light");
-        create.getStyleClass().add(1,"light");
-        error.getStyleClass().add(1,"light");
-        info.getStyleClass().add(0,"light");
+        content.getStyleClass().add(0, "content-s");
+        list.getStyleClass().add(0, "list-s");
+        row1.getStyleClass().add(0, "row1-s");
+        row2.getStyleClass().add(0, "row2-s");
+        text.getStyleClass().add(0, "text-s");
+        cancel.getStyleClass().add(0, "btn-s");
+        create.getStyleClass().add(0, "btn-s");
+        error.getStyleClass().add(0, "error-s");
+        content.getStyleClass().add(1, "light");
+        list.getStyleClass().add(1, "light");
+        row1.getStyleClass().add(1, "light");
+        row2.getStyleClass().add(1, "light");
+        text.getStyleClass().add(1, "light");
+        cancel.getStyleClass().add(1, "light");
+        create.getStyleClass().add(1, "light");
+        error.getStyleClass().add(1, "light");
+        info.getStyleClass().add(0, "light");
         this.main = main;
         toggleScreen(size);
         toggleTheme(mode);
@@ -69,43 +69,50 @@ public class CreateTweetController {
                 error.setText("your tweet must include under 256 character!!!");
                 error.setVisible(true);
             } else {
-                main.sendTweet(text.getText(),error);
+                main.sendTweet(text.getText(), error);
             }
         } else {
             main.home();
         }
     }
 
-    public void toggleScreen(int size){
-        if (size == 0){
-            content.getStyleClass().set(0,"content-s");
-            list.getStyleClass().set(0,"list-s");
-            row1.getStyleClass().set(0,"row1-s");
-            row2.getStyleClass().set(0,"row2-s");
-            text.getStyleClass().set(0,"text-s");
-            cancel.getStyleClass().set(0,"btn-s");
-            create.getStyleClass().set(0,"btn-s");
-            error.getStyleClass().set(0,"error-s");
-        }else{
-            content.getStyleClass().set(0,"content-l");
-            list.getStyleClass().set(0,"list-l");
-            row1.getStyleClass().set(0,"row1-l");
-            row2.getStyleClass().set(0,"row2-l");
-            text.getStyleClass().set(0,"text-l");
-            cancel.getStyleClass().set(0,"btn-l");
-            create.getStyleClass().set(0,"btn-l");
-            error.getStyleClass().set(0,"error-l");
+    public void toggleScreen(int size) {
+        if (size == 0) {
+            content.getStyleClass().set(0, "content-s");
+            list.getStyleClass().set(0, "list-s");
+        } else {
+            content.getStyleClass().set(0, "content-l");
+            list.getStyleClass().set(0, "list-l");
         }
+//        if (size == 0){
+//            content.getStyleClass().set(0,"content-s");
+//            list.getStyleClass().set(0,"list-s");
+//            row1.getStyleClass().set(0,"row1-s");
+//            row2.getStyleClass().set(0,"row2-s");
+//            text.getStyleClass().set(0,"text-s");
+//            cancel.getStyleClass().set(0,"btn-s");
+//            create.getStyleClass().set(0,"btn-s");
+//            error.getStyleClass().set(0,"error-s");
+//        }else{
+//            content.getStyleClass().set(0,"content-l");
+//            list.getStyleClass().set(0,"list-l");
+//            row1.getStyleClass().set(0,"row1-l");
+//            row2.getStyleClass().set(0,"row2-l");
+//            text.getStyleClass().set(0,"text-l");
+//            cancel.getStyleClass().set(0,"btn-l");
+//            create.getStyleClass().set(0,"btn-l");
+//            error.getStyleClass().set(0,"error-l");
+//        }
     }
 
-    public void toggleTheme(String mode){
-        content.getStyleClass().set(1,mode);
-        row1.getStyleClass().set(1,mode);
-        row2.getStyleClass().set(1,mode);
-        list.getStyleClass().set(1,mode);
-        cancel.getStyleClass().set(1,mode);
-        create.getStyleClass().set(1,mode);
-        error.getStyleClass().set(1,mode);
-        info.getStyleClass().set(0,mode);
+    public void toggleTheme(String mode) {
+//        content.getStyleClass().set(1,mode);
+//        row1.getStyleClass().set(1,mode);
+//        row2.getStyleClass().set(1,mode);
+//        list.getStyleClass().set(1,mode);
+//        cancel.getStyleClass().set(1,mode);
+//        create.getStyleClass().set(1,mode);
+//        error.getStyleClass().set(1,mode);
+//        info.getStyleClass().set(0,mode);
     }
 }

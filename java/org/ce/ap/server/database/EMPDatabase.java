@@ -369,4 +369,12 @@ public class EMPDatabase {
             return "error";
         }
     }
+
+    public String getImageAddress(String username) {
+        String path = "";
+        path += file.giveAddress("server.users.images");
+        path += username;
+        path += ".png";
+        return path;
+    }
 }

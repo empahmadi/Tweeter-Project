@@ -58,7 +58,6 @@ public class MenuController {
 
     public void btn(ActionEvent evt) {
         Node node = (Node) evt.getSource();
-        System.out.println(node.getId());
         switch (node.getId()) {
             case "create" -> main.creatTweet();
             case "notifications" -> main.notifications();

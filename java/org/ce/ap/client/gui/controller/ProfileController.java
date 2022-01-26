@@ -48,10 +48,16 @@ public class ProfileController {
     public void init(int size, String mode, String main, JSONObject info, Profile mainPage, TabPane tab, Stage stage) {
         this.stage = stage;
         this.main = mainPage;
+        String path;
         JSONObject user;
         user = info.getJSONArray("result").getJSONObject(0);
         head = new HBox();
-        Button prof = new Button();
+        File file = new File(user.getString("profile-image"));
+        profileImage = new ImageView();
+        Image image = new Image(file.toURI().toString(),100,100,false,false);
+        profileImage.setImage(image);
+        profileImage.setFitHeight(100);
+        profileImage.setFitWidth(100);
         edit = new Button("Edit");
         name = new Label(user.getString("name"));
         username = new Label(user.getString("username"));
@@ -62,7 +68,7 @@ public class ProfileController {
         follow = new Button(user.getString("follow-state"));
         follows = new Button("follows(" + user.getJSONArray("follows").length() + ")");
         // initialize:
-        head.getChildren().add(prof);
+        head.getChildren().add(profileImage);
         if (main.equals(user.getString("username"))) {
             head.getChildren().add(edit);
             follow.setVisible(false);
@@ -81,7 +87,7 @@ public class ProfileController {
         followers.getStyleClass().add(0, "btn");
         follows.getStyleClass().add(0, "btn");
         follow.getStyleClass().add(0, "btn");
-        prof.getStyleClass().add(0, "image");
+        profileImage.getStyleClass().add(0, "image");
         head.getStyleClass().add(1, mode);
         edit.getStyleClass().add(1, mode);
         name.getStyleClass().add(1, mode);
@@ -102,13 +108,15 @@ public class ProfileController {
         list.getChildren().add(5, foot);
         list.getChildren().add(6, tab);
         // actions:
-        prof.setOnAction(new EventHandler<ActionEvent>() {
+        profileImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(ActionEvent event) {
-                String path = giveAddress();
-                if (path != null) {
-                    path += user.getString("username") + ".png";
-                    getImage(path);
+            public void handle(MouseEvent event) {
+                if (user.getString("username").equals(main)) {
+                    String path = giveAddress();
+                    if (path != null) {
+                        path += user.getString("username") + ".png";
+                        getImage(path);
+                    }
                 }
             }
         });
@@ -203,7 +211,18 @@ public class ProfileController {
         list.getStyleClass().add(1, mode);
     }
 
+    /**
+     * get the image address.
+     * @return address.
+     */
     public String giveAddress() {
-        return "D:/Project/java/Tweeter/files/model/userImages/";
+        try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/server-application.properties")) {
+            Properties config = new Properties();
+            config.load(file);
+            return config.get("server.users.images").toString();
+        } catch (IOException ioe) {
+            System.out.println(ioe.toString());
+            return null;
+        }
     }
 }

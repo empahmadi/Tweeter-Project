@@ -283,10 +283,7 @@ public class Main {
      */
     public void logout() {
         JSONObject response = new JSONObject(cps.logout());
-        if (response.getBoolean("has-error")) {
-            error(response);
-        } else
-            main.login();
+        main.login();
     }
 
     /**
