@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.ce.ap.client.gui.controller.ProfileController;
 import org.ce.ap.client.gui.controller.TabController;
 import org.ce.ap.client.impl.ToggleImpl;
@@ -32,14 +33,14 @@ public class Profile {
      * @param main     .
      * @param info     .
      */
-    public void show(int size, String mode, String username, Main main, JSONObject info, ToggleImpl toggle) {
+    public void show(int size, String mode, String username, Main main, JSONObject info, ToggleImpl toggle, Stage stage) {
         this.main = main;
         TabPane tab = getTabPane(size, mode, info.getJSONArray("result"),toggle);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile.fxml"));
             Parent root = fxmlLoader.load();
             ProfileController controller = fxmlLoader.getController();
-            controller.init(size, mode, username, info, this,tab);
+            controller.init(size, mode, username, info, this,tab, stage);
             toggle.addController(controller);
             main.changeContent((ScrollPane) root);
         } catch (IOException e) {

@@ -92,6 +92,7 @@ public class TweeterSystem {
                 return "exit";
             case "logout":
                 isLogin = false;
+                return "log outed";
             default:
                 return response.error(56, "request not understanding", null);
         }

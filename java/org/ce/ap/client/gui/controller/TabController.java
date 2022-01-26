@@ -101,16 +101,5 @@ public class TabController {
         list1.getStyleClass().add(mode);
         list2.getStyleClass().add(mode);
         list3.getStyleClass().add(mode);
-
-
-        tweets.getStyleClass().remove(1);
-        likes.getStyleClass().remove(1);
-        retweets.getStyleClass().remove(1);
-        info.getStyleClass().remove(1);
-
-        tweets.getStyleClass().add(1,mode);
-        likes.getStyleClass().add(1,mode);
-        retweets.getStyleClass().add(1,mode);
-        info.getStyleClass().add(1,mode);
     }
 }

@@ -238,7 +238,7 @@ public class Main {
             error(response);
         } else {
             currentPage.add(username);
-            profile.show(size, mode, this.username, this, response, toggle);
+            profile.show(size, mode, this.username, this, response, toggle, stage);
         }
     }
 

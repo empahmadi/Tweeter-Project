@@ -7,11 +7,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.ce.ap.client.pages.Profile;
 import org.json.JSONObject;
+
+import java.io.*;
+import java.util.Properties;
 
 /**
  * this class is a controller for profile page.
@@ -27,6 +34,7 @@ public class ProfileController {
     private VBox list;
     private HBox head;
     private ImageView profileImage;
+    private Stage stage;
     private Button edit;
     private Label name;
     private Label username;
@@ -37,12 +45,13 @@ public class ProfileController {
     private Button follow;
     private Button follows;
 
-    public void init(int size, String mode, String main, JSONObject info, Profile mainPage, TabPane tab) {
+    public void init(int size, String mode, String main, JSONObject info, Profile mainPage, TabPane tab, Stage stage) {
+        this.stage = stage;
         this.main = mainPage;
-        JSONObject user, tweet;
+        JSONObject user;
         user = info.getJSONArray("result").getJSONObject(0);
         head = new HBox();
-        profileImage = new ImageView();
+        Button prof = new Button();
         edit = new Button("Edit");
         name = new Label(user.getString("name"));
         username = new Label(user.getString("username"));
@@ -53,7 +62,7 @@ public class ProfileController {
         follow = new Button(user.getString("follow-state"));
         follows = new Button("follows(" + user.getJSONArray("follows").length() + ")");
         // initialize:
-        head.getChildren().add(profileImage);
+        head.getChildren().add(prof);
         if (main.equals(user.getString("username"))) {
             head.getChildren().add(edit);
             follow.setVisible(false);
@@ -62,27 +71,27 @@ public class ProfileController {
         foot.getChildren().add(1, follows);
         foot.getChildren().add(2, follow);
         //styling:
-        head.getStyleClass().add(0,"head");
-        edit.getStyleClass().add(0,"edit");
-        name.getStyleClass().add(0,"label1");
-        username.getStyleClass().add(0,"label2");
-        bio.getStyleClass().add(0,"label1");
-        doj.getStyleClass().add(0,"label2");
-        foot.getStyleClass().add(0,"foot");
-        followers.getStyleClass().add(0,"btn");
-        follows.getStyleClass().add(0,"btn");
-        follow.getStyleClass().add(0,"btn");
-        profileImage.getStyleClass().add(0,"image");
-        head.getStyleClass().add(1,mode);
-        edit.getStyleClass().add(1,mode);
-        name.getStyleClass().add(1,mode);
-        username.getStyleClass().add(1,mode);
-        bio.getStyleClass().add(1,mode);
-        doj.getStyleClass().add(1,mode);
-        foot.getStyleClass().add(1,mode);
-        followers.getStyleClass().add(1,mode);
-        follows.getStyleClass().add(1,mode);
-        follow.getStyleClass().add(1,mode);
+        head.getStyleClass().add(0, "head");
+        edit.getStyleClass().add(0, "edit");
+        name.getStyleClass().add(0, "label1");
+        username.getStyleClass().add(0, "label2");
+        bio.getStyleClass().add(0, "label1");
+        doj.getStyleClass().add(0, "label2");
+        foot.getStyleClass().add(0, "foot");
+        followers.getStyleClass().add(0, "btn");
+        follows.getStyleClass().add(0, "btn");
+        follow.getStyleClass().add(0, "btn");
+        prof.getStyleClass().add(0, "image");
+        head.getStyleClass().add(1, mode);
+        edit.getStyleClass().add(1, mode);
+        name.getStyleClass().add(1, mode);
+        username.getStyleClass().add(1, mode);
+        bio.getStyleClass().add(1, mode);
+        doj.getStyleClass().add(1, mode);
+        foot.getStyleClass().add(1, mode);
+        followers.getStyleClass().add(1, mode);
+        follows.getStyleClass().add(1, mode);
+        follow.getStyleClass().add(1, mode);
         toggleTheme(mode);
         toggleScreen(size);
         list.getChildren().add(0, head);
@@ -93,6 +102,16 @@ public class ProfileController {
         list.getChildren().add(5, foot);
         list.getChildren().add(6, tab);
         // actions:
+        prof.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String path = giveAddress();
+                if (path != null) {
+                    path += user.getString("username") + ".png";
+                    getImage(path);
+                }
+            }
+        });
         edit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -119,24 +138,44 @@ public class ProfileController {
         });
     }
 
-    public void toggleScreen(int size){
+    public void getImage(String path) {
+        FileChooser chooser = new FileChooser();
+        File file;
+        chooser.setTitle("Uploading profile");
+        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All Files", "*.png"));
+        file = chooser.showSaveDialog(stage);
+        if (file != null) {
+            try (InputStream in = new FileInputStream(file);
+                 OutputStream out = new FileOutputStream(path)) {
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = in.read(buffer)) > 0) {
+                    out.write(buffer, 0, length);
+                }
+            } catch (IOException e) {
+                System.out.println(e.toString());
+            }
+        }
+    }
+
+    public void toggleScreen(int size) {
         parent.getStyleClass().remove(1);
         list.getStyleClass().remove(0);
         head.getStyleClass().remove(0);
 
         if (size == 1) {
-            parent.getStyleClass().add(1,"content-l");
-            list.getStyleClass().add(0,"list-l");
-            head.getStyleClass().add(0,"head-l");
+            parent.getStyleClass().add(1, "content-l");
+            list.getStyleClass().add(0, "list-l");
+            head.getStyleClass().add(0, "head-l");
         } else {
-            parent.getStyleClass().add(1,"content-s");
-            list.getStyleClass().add(0,"list-s");
-            head.getStyleClass().add(0,"head-s");
+            parent.getStyleClass().add(1, "content-s");
+            list.getStyleClass().add(0, "list-s");
+            head.getStyleClass().add(0, "head-s");
 
         }
     }
 
-    public void toggleTheme(String mode){
+    public void toggleTheme(String mode) {
         head.getStyleClass().remove(1);
         edit.getStyleClass().remove(1);
         name.getStyleClass().remove(1);
@@ -147,20 +186,24 @@ public class ProfileController {
         followers.getStyleClass().remove(1);
         follows.getStyleClass().remove(1);
         follow.getStyleClass().remove(1);
-        head.getStyleClass().add(1,mode);
-        edit.getStyleClass().add(1,mode);
-        name.getStyleClass().add(1,mode);
-        username.getStyleClass().add(1,mode);
-        bio.getStyleClass().add(1,mode);
-        doj.getStyleClass().add(1,mode);
-        foot.getStyleClass().add(1,mode);
-        followers.getStyleClass().add(1,mode);
-        follows.getStyleClass().add(1,mode);
-        follow.getStyleClass().add(1,mode);
+        head.getStyleClass().add(1, mode);
+        edit.getStyleClass().add(1, mode);
+        name.getStyleClass().add(1, mode);
+        username.getStyleClass().add(1, mode);
+        bio.getStyleClass().add(1, mode);
+        doj.getStyleClass().add(1, mode);
+        foot.getStyleClass().add(1, mode);
+        followers.getStyleClass().add(1, mode);
+        follows.getStyleClass().add(1, mode);
+        follow.getStyleClass().add(1, mode);
         // main:
         parent.getStyleClass().remove(2);
         list.getStyleClass().remove(1);
-        parent.getStyleClass().add(2,mode);
-        list.getStyleClass().add(1,mode);
+        parent.getStyleClass().add(2, mode);
+        list.getStyleClass().add(1, mode);
+    }
+
+    public String giveAddress() {
+        return "D:/Project/java/Tweeter/files/model/userImages/";
     }
 }
