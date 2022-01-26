@@ -2,15 +2,30 @@
     -fx-pref-width: 726.5;
     -fx-min-width: 726.5;
     -fx-max-width: 726.5;
-    -fx-min-height: 585;
-    -fx-pref-height: 585;
-    -fx-max-height: 585;
+    -fx-min-height: 587;
+    -fx-pref-height: 587;
+    -fx-max-height: 587;
 }
 .list-s{
-    -fx-pref-width: 706.5;
-    -fx-min-width: 706.5;
-    -fx-max-width: 706.5;
-    -fx-min-height: 585;
+    -fx-pref-width: 709.3;
+    -fx-min-width: 709.3;
+    -fx-max-width: 709.3;
+    -fx-min-height: 587;
+}
+
+.content-l{
+    -fx-pref-width: 1032;
+    -fx-min-width: 1032;
+    -fx-max-width: 1032;
+    -fx-min-height: 630.3;
+    -fx-pref-height: 630.3;
+    -fx-max-height: 630.3;
+}
+.list-l{
+    -fx-pref-width: 1015;
+    -fx-min-width: 1015;
+    -fx-max-width: 1015;
+    -fx-min-height: 630.3;
 }
 
 .body-s{
