@@ -1,5 +1,5 @@
 
-.row1-s{
+.row1-s {
     -fx-pref-width: 706.5;
     -fx-pref-height: 50;
     -fx-min-height: 50;
@@ -7,30 +7,62 @@
     -fx-text-alignment: top-center;
     -fx-spacing: 20;
 }
-.error-s{
+
+.error-s {
     -fx-pref-width: 586.5;
     -fx-pref-height: 50;
     -fx-text-alignment: center;
     -fx-background-color: red;
     -fx-font-size: 20;
 }
-.text-s{
+
+.text-s {
     -fx-pref-width: 706.5;
     -fx-pref-height: 400;
     -fx-font-size: 27;
 }
-.row2-s{
+
+.row2-s {
     -fx-pref-width: 706.5;
     -fx-pref-height: 80;
     -fx-padding: 17.5 0 17.5 20;
     -fx-spacing: 330;
 }
-.btn-l{
+
+.btn-s {
     -fx-pref-width: 170;
     -fx-pref-height: 45;
     -fx-font-size: 20;
     -fx-background-color: #6c6c6c;
 }
-.btn-l:hover{
-    -fx-background-color: #bbbbbb;
+
+.dark {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+
+Button.dark {
+    -fx-background-color: #444444;
+    -fx-text-fill: white;
+}
+
+Button.dark:hover {
+    -fx-background-color: #868686;
+    -fx-cursor: hand;
+}
+
+.light {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+Button.light {
+    -fx-background-color: #b6b4b4;
+    -fx-text-fill: black;
+}
+
+Button.light:hover {
+    -fx-background-color: #777474;
+    -fx-cursor: hand;
 }

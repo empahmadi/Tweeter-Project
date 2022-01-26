@@ -44,15 +44,6 @@
     -fx-alignment: center-left;
 }
 
-.light{
-    -fx-background-color: white;
-    -fx-text-fill: black;
-}
-.dark{
-    -fx-background-color: black;
-    -fx-text-fill: white;
-}
-
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track{
     -fx-background-color :transparent;

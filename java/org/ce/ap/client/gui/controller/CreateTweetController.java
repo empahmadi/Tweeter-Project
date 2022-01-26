@@ -13,6 +13,8 @@ import org.ce.ap.client.pages.Main;
 
 public class CreateTweetController {
     @FXML
+    private Label info;
+    @FXML
     private VBox list;
     @FXML
     private TextArea text;
@@ -64,6 +66,8 @@ public class CreateTweetController {
             row1.getStyleClass().add("row1-s");
             row2.getStyleClass().add("row2-s");
             text.getStyleClass().add("text-s");
+            cancel.getStyleClass().add("btn-s");
+            create.getStyleClass().add("btn-s");
             error.getStyleClass().add("error-s");
         }else{
             content.getStyleClass().add("content-l");
@@ -71,6 +75,8 @@ public class CreateTweetController {
             row1.getStyleClass().add("row1-l");
             row2.getStyleClass().add("row2-l");
             text.getStyleClass().add("text-l");
+            cancel.getStyleClass().add("btn-l");
+            create.getStyleClass().add("btn-l");
             error.getStyleClass().add("error-l");
         }
     }
@@ -80,13 +86,9 @@ public class CreateTweetController {
         row1.getStyleClass().add(mode);
         row2.getStyleClass().add(mode);
         list.getStyleClass().add(mode);
-        if (mode.equals("light")){
-            cancel.getStyleClass().add("btn-l");
-            create.getStyleClass().add("btn-l");
-        }else{
-            cancel.getStyleClass().add("btn-d");
-            create.getStyleClass().add("btn-d");
-        }
-        text.getStyleClass().add(mode);
+        cancel.getStyleClass().add(mode);
+        create.getStyleClass().add(mode);
+        error.getStyleClass().add(mode);
+        info.getStyleClass().add(mode);
     }
 }

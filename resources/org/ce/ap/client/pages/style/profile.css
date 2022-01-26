@@ -51,3 +51,12 @@
 .btn{
     -fx-background-color: transparent;
 }
+
+.light{
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+.dark{
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
