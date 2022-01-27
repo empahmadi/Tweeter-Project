@@ -21,6 +21,10 @@ import org.ce.ap.client.pages.Main;
  */
 public class BarController {
     @FXML
+    private ToggleButton EToggle;
+    @FXML
+    private MenuItem exitMode;
+    @FXML
     private MenuBar content;
     @FXML
     private MenuItem exit;
@@ -42,6 +46,13 @@ public class BarController {
     private Menu options;
     @FXML
     private Menu help;
+    @FXML
+    private MenuItem about;
+    @FXML
+    private MenuItem helpM;
+
+
+
     private Main main;
     private Scene scene;
     private String path, style,mode;
@@ -54,7 +65,7 @@ public class BarController {
      * @param mode .
      * @param main .
      */
-    public void init(int size, String mode, Main main, String path) {
+    public void init(int size,int exitMode, String mode, Main main, String path) {
         this.main = main;
         this.path = path;
         this.sizeS = size;
@@ -66,6 +77,19 @@ public class BarController {
         if (size == 1) {
             toggle.setText("Small Screen");
         }
+        if (exitMode == 1){
+            EToggle.setText("System Tray");
+        }
+        EToggle.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                main.toggleExit();
+                if (exitMode == 0){
+                    EToggle.setText("System Tray");
+                }else
+                    EToggle.setText("");
+            }
+        });
         toggle.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -94,6 +118,18 @@ public class BarController {
             @Override
             public void handle(ActionEvent event) {
                 main.logout();
+            }
+        });
+        about.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                main.About();
+            }
+        });
+        helpM.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                main.help();
             }
         });
         setAccelerators();
@@ -164,6 +200,12 @@ public class BarController {
             @Override
             public void run() {
                 main.exit();
+            }
+        });
+        scene.getAccelerators().put(new KeyCodeCombination(KeyCode.F5), new Runnable() {
+            @Override
+            public void run() {
+                main.update();
             }
         });
     }

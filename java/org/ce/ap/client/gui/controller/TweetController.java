@@ -128,6 +128,9 @@ public class TweetController {
         this.scene = main.getScene();
         toggleScreen(size);
         // initialization:
+        if(mainUser.equals(info.getString("username"))){
+            retweet.setVisible(false);
+        }
         name.setText(info.getString("name"));
         username.setText(info.getString("username"));
         like.setText(info.getString("like-state"));

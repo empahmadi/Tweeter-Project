@@ -1,0 +1,13 @@
+.light{
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+.dark{
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+TextField{
+    -fx-fit-to-width: true;
+    -fx-font-size: 15;
+}

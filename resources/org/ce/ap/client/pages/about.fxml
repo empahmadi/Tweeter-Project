@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<ScrollPane fx:id="parent" styleClass="scroll-bar, content-s, light" stylesheets="@style/general.css, @style/about.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ce.ap.client.gui.controller.AboutController">
+    <VBox fx:id="list" styleClass="list-s, light">
+        <children>
+        </children>
+    </VBox>
+</ScrollPane>

@@ -21,6 +21,7 @@ public class ToggleImpl {
     private final ArrayList<TimeLineController> timeLineControllers;
     private final ArrayList<TweetController> tweetControllers;
     private final ArrayList<NoteController> noteControllers;
+    private final ArrayList<AboutController> aboutControllers;
 
     public ToggleImpl() {
         barControllers = new ArrayList<>();
@@ -39,6 +40,7 @@ public class ToggleImpl {
         timeLineControllers = new ArrayList<>();
         tweetControllers = new ArrayList<>();
         noteControllers = new ArrayList<>();
+        aboutControllers = new ArrayList<>();
     }
 
     public void addController(Object controller) {
@@ -74,6 +76,8 @@ public class ToggleImpl {
             tweetControllers.add((TweetController) controller);
         } else if (controller.getClass().equals(NoteController.class)) {
             noteControllers.add((NoteController) controller);
+        } else if (controller.getClass().equals(AboutController.class)) {
+            aboutControllers.add((AboutController) controller);
         }
     }
 
@@ -126,9 +130,12 @@ public class ToggleImpl {
         for (NoteController i : noteControllers) {
             i.toggleScreen(size);
         }
+        for (AboutController i : aboutControllers) {
+            i.toggleScreen(size);
+        }
     }
 
-    public void toggleTheme(String mode){
+    public void toggleTheme(String mode) {
         for (BarController i : barControllers) {
             i.toggleTheme(mode);
         }
@@ -175,6 +182,9 @@ public class ToggleImpl {
             i.toggleTheme(mode);
         }
         for (NoteController i : noteControllers) {
+            i.toggleMode(mode);
+        }
+        for (AboutController i : aboutControllers) {
             i.toggleMode(mode);
         }
     }

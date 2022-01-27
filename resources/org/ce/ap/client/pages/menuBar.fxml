@@ -34,11 +34,19 @@
                 </MenuItem>
             </items>
         </Menu>
-        <Menu fx:id="options" mnemonicParsing="false" text="Options"/>
+        <Menu fx:id="options" mnemonicParsing="false" text="Options">
+            <items>
+                <MenuItem fx:id="exitMode" mnemonicParsing="false" text="Exit Mode">
+                    <graphic>
+                        <ToggleButton fx:id="EToggle" mnemonicParsing="false" text="Exit"/>
+                    </graphic>
+                </MenuItem>
+            </items>
+        </Menu>
         <Menu fx:id="help" mnemonicParsing="false" text="Help">
             <items>
-                <MenuItem mnemonicParsing="false" text="About"/>
-                <MenuItem mnemonicParsing="false" text="Help"/>
+                <MenuItem fx:id="about" mnemonicParsing="false" text="About"/>
+                <MenuItem fx:id="helpM" mnemonicParsing="false" text="Help"/>
             </items>
         </Menu>
     </menus>

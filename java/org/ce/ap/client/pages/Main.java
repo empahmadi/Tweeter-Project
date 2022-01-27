@@ -20,8 +20,12 @@ import org.ce.ap.client.impl.ToggleImpl;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * this class is our main class.
@@ -177,13 +181,94 @@ public class Main {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menuBar.fxml"));
             Parent root = fxmlLoader.load();
             BarController controller = fxmlLoader.getController();
-            controller.init(size, mode, this, getClass().getResource("style/").toExternalForm());
+            controller.init(size, exitMode, mode, this, getClass().getResource("style/").toExternalForm());
             toggle.addController(controller);
             bar = (MenuBar) root;
         } catch (IOException e) {
             e.printStackTrace();
         }
         return bar;
+    }
+
+    public void help(){
+        String path = "";
+        JSONObject about = null;
+        try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/client-application.properties")) {
+            Properties config = new Properties();
+            config.load(file);
+            path = config.get("client.help").toString();
+        } catch (IOException ioe) {
+            exceptionError(ioe.toString());
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(path + "help.json"))) {
+            String line;
+            StringBuilder json = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                json.append(line);
+            }
+            about = new JSONObject(json.toString());
+        } catch (IOException ioe) {
+            exceptionError(ioe.toString());
+        }
+        ArrayList<String> aboutMe = new ArrayList<>();
+        aboutMe.add("control+E: " + about.getString("control+E"));
+        aboutMe.add("control+U: " + about.getString("control+U"));
+        aboutMe.add("control+D: " + about.getString("control+D"));
+        aboutMe.add("control+L: " + about.getString("control+L"));
+        aboutMe.add("control+F: " + about.getString("control+F"));
+        aboutMe.add("alt+A: " + about.getString("alt+A"));
+        aboutMe.add("alt+O: " + about.getString("alt+O"));
+        aboutMe.add("alt+V: " + about.getString("alt+V"));
+        aboutMe.add("alt+H: " + about.getString("alt+H"));
+        aboutMe.add("F5: " + about.getString("F5"));
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("about.fxml"));
+            Parent root = fxmlLoader.load();
+            AboutController controller = fxmlLoader.getController();
+            controller.init(size, mode, aboutMe);
+            currentPage.add("NONE_OF_THEM");
+            toggle.addController(controller);
+            changeContent((ScrollPane) root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void About() {
+        String path = "";
+        JSONObject about = null;
+        try (FileInputStream file = new FileInputStream("D:/Project/java/Tweeter/src/main/resources/client-application.properties")) {
+            Properties config = new Properties();
+            config.load(file);
+            path = config.get("client.help").toString();
+        } catch (IOException ioe) {
+            exceptionError(ioe.toString());
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(path + "about.json"))) {
+            String line;
+            StringBuilder json = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                json.append(line);
+            }
+            about = new JSONObject(json.toString());
+        } catch (IOException ioe) {
+            exceptionError(ioe.toString());
+        }
+        ArrayList<String> aboutMe = new ArrayList<>();
+        aboutMe.add("Name: " + about.getString("name"));
+        aboutMe.add("Email: " + about.getString("email"));
+        aboutMe.add("ID: " + about.getString("id"));
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("about.fxml"));
+            Parent root = fxmlLoader.load();
+            AboutController controller = fxmlLoader.getController();
+            controller.init(size, mode, aboutMe);
+            currentPage.add("NONE_OF_THEM");
+            toggle.addController(controller);
+            changeContent((ScrollPane) root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     // menu options:
 
@@ -296,6 +381,8 @@ public class Main {
             Platform.exit();
             System.exit(0);
         } else {
+            main.saveSetting();
+            System.out.println("hid");
             stage.hide();
         }
     }
@@ -464,7 +551,7 @@ public class Main {
             error(response);
         } else {
             jRetweets.put(this.username);
-            retweets.setText("Likes(" + jRetweets.length() + ")");
+            retweets.setText("Retweets(" + jRetweets.length() + ")");
         }
     }
 
